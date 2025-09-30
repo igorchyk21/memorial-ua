@@ -1,0 +1,15 @@
+{
+  "compilerOptions": {
+    "target": "ES2022",
+    "module": "NodeNext",               // <-- ВИПРАВЛЕНО
+    "moduleResolution": "NodeNext",    // <-- Повинно бути в парі з "module": "NodeNext"
+    "lib": ["ES2022"],
+    "declaration": true,
+    "emitDeclarationOnly": false,
+    "outDir": "./dist",
+    "strict": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true
+  },
+  "include": ["src"]
+}

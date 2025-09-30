@@ -1,0 +1,133 @@
+// Lightbox / gallery component
+// based on https://github.com/biati-digital/glightbox
+
+
+// Fix issue with sticky elements when Glightbox is open
+
+.glightbox-open {
+  overflow: clip !important;
+}
+
+/* stylelint-disable at-rule-no-vendor-prefix */
+@-moz-document url-prefix() {
+  .glightbox-open {
+    overflow: hidden !important;
+  }
+}
+/* stylelint-enable at-rule-no-vendor-prefix */
+
+
+// Remove shadow from Glightbox images
+
+.glightbox-clean .gslide-media {
+  box-shadow: none !important;
+}
+
+
+// Change backdrop (overlay) color
+
+.glightbox-mobile .goverlay,
+.goverlay,
+.glightbox-clean .gdesc-inner {
+  background: var(--#{$prefix}body-bg) !important;
+}
+
+
+// Color mode avare loading spinner
+
+.gloader {
+  border-color: var(--#{$prefix}tertiary-color) !important;
+  border-right-color: transparent !important;
+}
+
+
+// Override Glightbox buttons
+
+.glightbox-clean {
+  .gprev,
+  .gnext,
+  .gclose {
+    width: 2.5rem !important;
+    height: 2.5rem !important;
+    border: var(--#{$prefix}btn-border-width) solid $gray-200 !important;
+    svg {
+      width: 1.25rem !important;
+    }
+    @include media-breakpoint-up(md) {
+      width: 3rem !important;
+      height: 3rem !important;
+      svg {
+        width: 1.5rem !important;
+      }
+    }
+    path {
+      fill: currentcolor !important;
+    }
+
+    &.disabled {
+      opacity: .5 !important;
+    }
+
+    &:hover,
+    &:focus-visible {
+      border-color: $gray-500 !important;
+    }
+  }
+
+  .gdesc-inner {
+    padding: 1.25rem 1rem !important;
+    text-align: center;
+  }
+  .gslide-title {
+    margin-bottom: .5rem !important;
+    font: {
+      family: $font-family-sans-serif !important;
+      weight: $headings-font-weight !important;
+    }
+    color: var(--#{$prefix}heading-color) !important;
+  }
+  .gslide-desc {
+    font: {
+      family: $font-family-sans-serif !important;
+      size: $font-size-sm !important;
+    }
+    color: var(--#{$prefix}body-color) !important;
+  }
+}
+
+.glightbox-mobile .glightbox-container .gslide-description {
+  padding: 0 !important;
+  padding-bottom: .5rem !important;
+  background: none !important;
+}
+
+.glightbox-clean .gclose {
+  opacity: 1 !important;
+}
+
+.glightbox-button-hidden {
+  display: none !important;
+}
+
+.gbtn.focused {
+  outline: none;
+  box-shadow: 0 0 0 .25rem $focus-ring-color-dark !important;
+}
+
+
+// Dark mode
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    .glightbox-clean .gprev,
+    .glightbox-clean .gnext,
+    .glightbox-clean .gclose {
+      border-color: $gray-700 !important;
+
+      &:hover,
+      &:focus-visible {
+        border-color: $gray-400 !important;
+      }
+    }
+  }
+}

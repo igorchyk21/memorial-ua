@@ -1,0 +1,15 @@
+client/aprivate
+client/.env
+client/.next/
+client/node_modules/
+
+server/aprivate
+server/.files
+server/.env
+server/data/
+server/dist/
+server/node_modules/
+
+types/aprivate
+types/dist/
+types/node_modules/

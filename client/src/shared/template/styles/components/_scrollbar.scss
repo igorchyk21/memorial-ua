@@ -1,0 +1,100 @@
+// Custom scrollbar
+// based on https://github.com/grsmto/simplebar
+
+
+[data-simplebar] {
+  --#{$prefix}scrollbar-width: #{$scrollbar-width} !important;
+  --#{$prefix}scrollbar-bg: #{$scrollbar-bg} !important;
+  --#{$prefix}scrollbar-border-radius: #{$scrollbar-border-radius} !important;
+  --#{$prefix}scrollbar-track-width: #{$scrollbar-track-width} !important;
+  --#{$prefix}scrollbar-track-bg: #{$scrollbar-track-bg} !important;
+}
+
+.simplebar-scrollbar {
+  &::before {
+    right: 0 !important;
+    left: 0 !important;
+    background-color: var(--#{$prefix}scrollbar-bg) !important;
+    @include border-radius(var(--#{$prefix}scrollbar-border-radius) !important);
+    opacity: 1 !important;
+    transition: none !important;
+  }
+}
+
+.simplebar-track {
+  overflow: initial !important;
+  background-color: var(--#{$prefix}scrollbar-track-bg) !important;
+  @include border-radius(var(--#{$prefix}scrollbar-border-radius) !important);
+  opacity: 0 !important;
+  transition: opacity .15s ease-in-out !important;
+
+  &.simplebar-vertical {
+    right: calc(var(--#{$prefix}scrollbar-width) * .5) !important;
+    width: var(--#{$prefix}scrollbar-track-width) !important;
+    .simplebar-scrollbar {
+      left: 50% !important;
+      width: var(--#{$prefix}scrollbar-width) !important;
+      margin-left: calc(var(--#{$prefix}scrollbar-width) * -.5) !important;
+      &::before {
+        top: 0 !important;
+        bottom: 0 !important;
+      }
+    }
+  }
+
+  &.simplebar-horizontal {
+    bottom: calc(var(--#{$prefix}scrollbar-width) * .5) !important;
+    height: var(--#{$prefix}scrollbar-track-width) !important;
+    .simplebar-scrollbar {
+      top: 50% !important;
+      bottom: 0 !important;
+      height: var(--#{$prefix}scrollbar-width) !important;
+      margin-top: calc(var(--#{$prefix}scrollbar-width) * -.5) !important;
+      &::before {
+        top: 0 !important;
+        right: 0 !important;
+        bottom: 0 !important;
+        left: 0 !important;
+      }
+    }
+  }
+}
+
+.simplebar-wrapper:hover ~ .simplebar-track,
+[data-simplebar-auto-hide="false"] .simplebar-track {
+  opacity: 1 !important;
+}
+
+[data-simplebar]:not(.simplebar-dragging) .simplebar-content-wrapper {
+  scroll-behavior: smooth;
+}
+
+
+// RTL support
+
+[dir="rtl"] .simplebar-track.simplebar-vertical {
+  /* rtl:begin:ignore */
+  right: auto !important;
+  left: 0 !important;
+
+  /* rtl:end:ignore */
+}
+
+
+// Inside accordion item
+
+.accordion-item .simplebar-track.simplebar-vertical {
+  right: calc(var(--#{$prefix}scrollbar-width) * 2.25) !important;
+}
+
+
+// Dark mode
+
+@if $enable-dark-mode {
+  @include color-mode(dark) {
+    [data-simplebar]:not([data-bs-theme="light"]) {
+      --#{$prefix}scrollbar-bg: #{$scrollbar-bg-dark} !important;
+      --#{$prefix}scrollbar-track-bg: #{$scrollbar-track-bg-dark} !important;
+    }
+  }
+}
