@@ -1,5 +1,7 @@
 import "@shared/template/icons/font/cartzillaIcons.css"
 import "@shared/template/styles/theme.scss"
+import "@shared/style/global.css"
+import "@shared/style/correct.css"
 import { AppLayoutProp } from "@/types/propsPage"
 import localFont from 'next/font/local'
 import { Inter } from 'next/font/google'
@@ -10,6 +12,10 @@ import { ToastProvider } from "@/shared/context/Toast/ToastProvider"
 import { AuthProvider } from "@/shared/context/Auth"
 import { NextIntlClientProvider } from "next-intl"
 import { OffAuth } from "@/features/auth"
+import { FooterWidget, HeaderWidget } from "@/widgets"
+import { ProgressProvider } from "@/shared/context/progress-context"
+import { CommonComponentChildren } from "@/types"
+import "@shared/style/fonts.css"
 
 export const metadata = {
     title: 'Next.js',
@@ -24,18 +30,29 @@ const cartzillaIcons = localFont({
   adjustFontFallback: false,
 })
 
-export default function RootLayout({children}:AppLayoutProp) {
+export default function RootLayout({children}:CommonComponentChildren) {
     return (
         <html lang="en" suppressHydrationWarning>
+            <head>
+            
+            <link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" />
+<link href="https://fonts.googleapis.com/css2?family=Didact+Gothic&family=Prata&display=swap" rel="stylesheet"/>
+
+            </head>
             <body className={`${inter.className}`}>
                 <NextIntlClientProvider>
                 <ModalProvider>
                     <GlobalProvider> 
                         <ToastProvider>
                             <AuthProvider authDef={null}> 
-                                <ThemeProvider attribute="data-bs-theme" defaultTheme="light" disableTransitionOnChange>
+                                <ThemeProvider attribute="data-bs-theme" defaultTheme="system" disableTransitionOnChange>
+                                    <ProgressProvider> 
                                     <OffAuth/>
+                                    <HeaderWidget/>
                                     {children}
+                                    <FooterWidget/>
+                                    </ProgressProvider>
                                 </ThemeProvider>
                             </AuthProvider>
                         </ToastProvider>

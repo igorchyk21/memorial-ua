@@ -13,7 +13,7 @@ const setConn = (_conn:Pool) => { conn = _conn };
 // авторизація - Логін/пароль
 const login = async (email:string|undefined, password:string|null, passwordNotRequired=false)
 	: Promise<UserData|null> =>{
-console.log(email,password)
+
 	if (!email) return null;
 
 	const wherePassword = passwordNotRequired ? ''
@@ -27,7 +27,7 @@ console.log(email,password)
                     AND     user_email like ?
                             ${wherePassword}`;
 
-console.log(sql)
+
 	try {
 		const [r] = await conn.execute<(RowDataPacket & UserData)[]>(sql, passwordNotRequired ?  [email] : [email, password||'']);
 		if (!r?.[0]) return null;
@@ -93,7 +93,7 @@ const createJWT = (user: UserData)
 		};
 		return jwt.sign(payload, conf.secretKey||'');
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		return null;
 	}
 };
@@ -171,7 +171,7 @@ const otpCreate = async (email: string)
 			return await sendOtp(email, otp); 
 		return false;
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		return false;
 	}
 };
@@ -201,7 +201,7 @@ const otpVerify = async (email: string, otp: string)
 		const [rows] = await conn.execute<RowDataPacket[]>(sqlOtp, [email, otp, otpExpiries]);
 		return rows?.[0]?.CNT || false;
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		return false;
 	}
 };
@@ -227,7 +227,7 @@ const setPassword = async (email: string,password: string,otp: string)
 		const [result] = await conn.execute<ResultSetHeader>(sqlPass, [password, email, otp, otpExpiries]);
 		return result.affectedRows === 1;
 	} catch (error) {
-		console.log(error);
+		console.error(error);
 		return false;
 	}
 };

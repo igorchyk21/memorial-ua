@@ -29,7 +29,7 @@ initDataBase();
        
 app.use(cookieParser());  
 app.use(express.static('public')); // Папка статичних ресурсів
-//app.use('/data', middleCorsDataStatic, express.static('data')); // Папка статичних ресурсів
+app.use('/data', express.static('data')); // Папка статичних ресурсів
 app.use('/modules', express.static(path.join(__dirname, 'node_modules'))); // маршрут до папки з модулями
 app.use(express.json({ limit: '100mb' }));
 app.use(express.json({ type: 'application/json', limit: '50mb'}));

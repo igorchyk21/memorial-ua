@@ -58,20 +58,21 @@ router.post('/google',
 
     // авторизовуємо без пароля
     let resUser = await _usersAuth.login(userFromGoogle.email, null, true);
+
     // Проводимо реєстрацію, якщо користувача немає в базі
-    if (!resUser) {
+    //if (!resUser) { 
         const userExist = await _user.getUserFullByEmail(userFromGoogle.email);
         if (userExist?.ban === 1 ) return res.sendStatus(403);
-        const resCreate = await _user.createUser({
+        const resCreate = await _user.createUser({ 
             userName: `${userFromGoogle.given_name||''} ${userFromGoogle.family_name||''}`,
             userEmail: userFromGoogle.email,
             userStatus:USER_STATUS.ENABLE,
-            gPicture: userFromGoogle.picture,
+            userPicture: userFromGoogle.picture,
             ...req.body},false, userExist?.stat === USER_STATUS.ENABLE);  
 
         if (resCreate)
             resUser = await _usersAuth.login(userFromGoogle.email, null, true);
-    }
+    //}
     
     // Якщо отримали користувача - Створюємо токен, записуємо його і повертаємо відповідь
     if (!resUser) return res.sendStatus(500);

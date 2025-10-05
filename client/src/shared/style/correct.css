@@ -1,0 +1,87 @@
+
+section { scroll-margin-top: 100px; }
+.dropdown-menu.show { left: unset; right: 5px; }
+.info-pages h1 { font-size: 22px;}
+.info-pages h2 { font-size: 18px;}
+
+/** ШИРОКИЙ SELECTBOX */
+.select-box-big .choices__list--single { height: 100%; align-items: center;}
+.select-box-big .form-select {
+  height: 50px;
+}
+
+/** КАРТА */
+.state path {transition: all 0.5s ease}
+.state:hover path {filter:brightness(0.5); }
+.map__svg {
+  display: inline-block;
+  height: auto;
+  width: 100%; /* або конкретне значення */
+}
+
+._bigslider-img-container{ 
+  position: relative;
+}
+
+.bigslider-img-container::after{
+  content: " ";
+  position: absolute;
+  left: 0px;
+  top: 0px;
+  height: 100%;
+  width: 100%;
+  background-color: rgba(0,0,0,0.6);
+}
+
+
+/** МЕНЮ СОРТУВАННЯ */
+
+.SortHero .choices[data-type*="select-one"] .form-select { padding-right: 2.25rem !important;}
+.SortHero .choices__list .choices__list--dropdown { width: 250px;}
+.SortHero .choices__list--dropdown, .FilterLang .choices__list[aria-expanded] { width: 250px !important; right: 10px !important; }
+
+
+
+/** MEMORIAL LINE */
+
+.cr {
+  width: 200px;
+  padding: 16px;
+  position: absolute;
+  text-align: center;
+  color: #f0f0f0;
+  z-index: 3;
+  box-shadow: 1px 1px 10px black;
+  border-top: 1px solid #ba9f5a;
+  border-bottom: 1px solid #ba9f5a;
+}
+
+.cr-sticky {
+  position: absolute;
+}
+
+
+.cr-top    { top: 25px; }
+.cr-bottom { bottom: 20px; }
+.cr-left   { left: -50px; }
+.cr-right  { right: -50px; }
+
+.cr-top.cr-left,
+.cr-bottom.cr-right {
+  transform: rotate(-45deg);
+}
+
+.cr-top.cr-right,
+.cr-bottom.cr-left {
+  transform: rotate(45deg);
+}
+
+.cr-black     { background-color: #111; }
+
+.hero .hero-img {
+  transition: all 5s ease;
+}
+
+.hero:hover .hero-img { 
+  transform: scale(1.2);
+}

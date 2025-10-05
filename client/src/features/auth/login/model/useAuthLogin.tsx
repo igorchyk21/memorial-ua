@@ -1,8 +1,8 @@
 import { useAuth } from "@/shared/context/Auth";
 import { useToast } from "@/shared/context/Toast/models/useToast";
-import { AuthData } from "@emeet/types";
+import { AuthData } from "@global/types";
 import { useTranslations } from "next-intl";
-import { FormEvent, useState } from "react"
+import { useState } from "react"
 
 const useAuthLogin = () => {
 

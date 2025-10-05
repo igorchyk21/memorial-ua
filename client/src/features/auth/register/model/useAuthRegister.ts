@@ -1,7 +1,5 @@
-import { delay } from "motion";
 import { useState } from "react"
 import { FormikAuthRegister } from "../../types/auth.types";
-import { AuthRecoveryData } from "@emeet/types";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { useAuth } from "@/shared/context/Auth";
 import { API_USERS } from "@/types/emeetEnums";
@@ -10,6 +8,7 @@ import { useToast } from "@/shared/context/Toast/models/useToast";
 import { FormikHelpers } from "formik";
 import { RecoveryStepType } from "@/shared/context/Auth/model/useAuth";
 import { validateNewPassword } from "../../helper/validateNewPassword";
+import { AuthRecoveryData } from "@global/types";
 
 export const initFormikValue = {
     userName:'',

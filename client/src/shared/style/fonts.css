@@ -1,0 +1,12 @@
+body {
+    font-family: "Didact Gothic", sans-serif !important;
+    font-size: 16px;
+}
+
+a, button,
+h1,h2,h3,h4,h5,h6 {
+  letter-spacing: 1.5px;
+  font-weight: 900 !important; 
+  font-family: "Prata", serif !important;
+  
+}

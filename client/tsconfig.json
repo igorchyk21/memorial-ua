@@ -30,7 +30,7 @@
       "@entities/*": ["./src/entities/*"],
       "@features/*": ["./src/features/*"],
       "@shared/*": ["./src/shared/*"],
-      "@epages/*": ["./src/pages/*"],
+      "@epages/*": ["./src/epages/*"],
       "@public/*": ["./public/*"]
     }
   },

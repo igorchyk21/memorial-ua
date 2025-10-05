@@ -1,0 +1,30 @@
+ 
+html { scrollbar-gutter: stable; }
+main { flex-grow: 1;}
+
+body { overflow-y: scroll; }          /* завжди показує вертикальний скролбар */
+body { padding-right: 0 !important }
+
+.fs-8 { font-size: 8px;}
+.fs-10 { font-size: 10px;}
+.fs-12 { font-size: 12px;}
+.fs-14 { font-size: 14px;}
+.fs-16 { font-size: 16px;}
+.fs-18 { font-size: 18px;}
+.fs-20 { font-size: 20px;}
+.fs-22 { font-size: 22px;}
+
+.no-select {
+  -webkit-user-select: none; /* Safari */
+  -moz-user-select: none;    /* Firefox */
+  -ms-user-select: none;     /* IE/Edge */
+  user-select: none;         /* Стандарт */
+}
+
+.text-truncate {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.underline-none { text-decoration: unset !important;}

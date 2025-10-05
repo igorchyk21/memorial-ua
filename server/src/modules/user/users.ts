@@ -11,7 +11,7 @@ const createUser = async (cUser:UserCreateData, verifyExists = true, updateMode 
 
     if ((!cUser.userName) || (!cUser.userEmail)) return null; 
     const user = verifyExists ? await getUserFullByEmail(cUser.userEmail) : null;
-
+ 
     const today = DT.now().toFormat("yyyy-MM-dd");
     // Якщо користувач існує і статус активний - повертаємо помилку існування користувача
     if (user) return null;
@@ -25,10 +25,10 @@ const createUser = async (cUser:UserCreateData, verifyExists = true, updateMode 
                     user_picture = ?,
 
                     stat = ${safeIntParse(cUser.userStatus)}
-            WHERE   g_email = ?`
+            WHERE   user_email = ?`
         : `
             INSERT  INTO users
-                (google_id, user_email, user_name, usr_picture)
+                (google_id, user_email, user_name, user_picture)
         VALUES  (?,?,?,?)`
 
     const params = [
@@ -36,6 +36,8 @@ const createUser = async (cUser:UserCreateData, verifyExists = true, updateMode 
         cUser.userEmail,
         cUser.userName,
         cUser.userPicture||''];
+
+    if (updateMode) params.push(cUser.userEmail)
     
     try {
         const [r] = await conn.execute<ResultSetHeader>(sql, params);
@@ -52,7 +54,7 @@ const createUser = async (cUser:UserCreateData, verifyExists = true, updateMode 
 const getUserFullByEmail = async (userEmail?:string)
     :Promise<Record<string,any>|null> => {
     if (!userEmail) return null;
-    const sql = `SELECT * from users WHERE g_email = ?`;
+    const sql = `SELECT * from users WHERE user_email = ?`;
     try {
         const [r] = await conn.execute<(RowDataPacket & Record<string,any>)[]>(sql,[userEmail.trim()]);
         return r[0] || null;

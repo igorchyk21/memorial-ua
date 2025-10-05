@@ -28,6 +28,8 @@ const conf = {
 
     captchaSecret: process.env.CAPTCHA_SECRET, 
 
+    heroOnPage : safeIntParse(process.env.HERO_ON_PAGE)||12
+
 }
 
 

@@ -1,4 +1,4 @@
-import { UserGeoData } from "@emeet/types";
+import { UserGeoData } from "@global/types";
 
 const useIpInfo = () => {
 

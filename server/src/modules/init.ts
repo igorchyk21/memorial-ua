@@ -3,14 +3,16 @@ import _cors from "./cors/cors-options.js";
 import _db from "./dbase.js";
 import _user from "./user/users.js";
 import _userAuth from "./user/auth.js";
+import _content from "./content/content.js";
+import _hero from "./hero/heroes.js";
 
 import cors from "cors";
  
-//import { middleLang } from "../middleware/middleLang.js";
-import { wrapAsync } from "./helpers/functions/wrapAsync.js";
 import { middleAuthToken } from "../middleware/middleAuthToken.js";
 
 import routerAuth from "../routers/auth.js";
+import routerContent from "../routers/content.js";
+import routerHero from "../routers/heroes.js"
 
 export const startPoint = (app: Application): void => {
 
@@ -41,6 +43,8 @@ export const initRoutes = (app: Application): void => {
        setTimeout(() => { next() }, 0); }))
 
     app.use('/api/v1/auth', middleAuthToken, routerAuth);
+    app.use('/api/v1/content', routerContent);
+    app.use('/api/v1/hero', routerHero);
 
 };
 
@@ -53,6 +57,9 @@ export const initDataBase = (): void => {
      
     _userAuth.setConn(conn); 
     _user.setConn(conn); 
+    _content.setConn(conn); 
+    _hero.setConn(conn)
+
      
 }
 
