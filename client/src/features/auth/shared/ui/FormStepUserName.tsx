@@ -8,7 +8,7 @@ import CheckLockForm from "@/shared/ui/forms/CheckLockForm";
 interface Props {
     userNameShow?:boolean;
     showPrivacy?:boolean;
-}
+} 
 
 const FormStepUserName = ({userNameShow=true, showPrivacy=true}:Props) => {
     const t = useTranslations();

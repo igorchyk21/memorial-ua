@@ -2,7 +2,7 @@ import conf from "@/shared/config/conf";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import { useTranslations } from "next-intl";
 import { Button } from "react-bootstrap"
-import useAuthGoogle from "../model/useAuthGoogle";
+import useAuthGoogle from "../../login/model/useAuthGoogle";
 
 interface Props {
     disabled?:boolean;
@@ -13,7 +13,7 @@ const AuthLoginServices = ({disabled=false, setSubmitting}:Props) => {
     const t = useTranslations();
     const { handleGoogleClick } = useAuthGoogle(setSubmitting);
     return (<>
-        <div className="d-flex align-items-center my-4">
+        <div className="d-flex align-items-center my-4"> 
             <hr className="w-100 m-0" />
             <span className="text-body-emphasis fw-medium text-nowrap mx-4">{t('auth.continueWith')}</span>
             <hr className="w-100 m-0" />

@@ -14,7 +14,7 @@ const OffFilterLocation = ({show, setShow}:Props) => {
     const t = useTranslations();
     const { handleChangeRegion, regionValue } = useFilter(setShow);
 
-    return (<>
+    return (<> 
         <Offcanvas 
             placement="end"
             scroll

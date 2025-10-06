@@ -11,11 +11,11 @@ import { GlobalProvider } from "@/shared/context/Global/GlobalProvider"
 import { ToastProvider } from "@/shared/context/Toast/ToastProvider"
 import { AuthProvider } from "@/shared/context/Auth"
 import { NextIntlClientProvider } from "next-intl"
-import { OffAuth } from "@/features/auth"
 import { FooterWidget, HeaderWidget } from "@/widgets"
 import { ProgressProvider } from "@/shared/context/progress-context"
 import { CommonComponentChildren } from "@/types"
 import "@shared/style/fonts.css"
+import OffAuthWidget from "@/widgets/auth/ui/OffAuthWidget"
 
 export const metadata = {
     title: 'Next.js',
@@ -48,7 +48,7 @@ export default function RootLayout({children}:CommonComponentChildren) {
                             <AuthProvider authDef={null}> 
                                 <ThemeProvider attribute="data-bs-theme" defaultTheme="system" disableTransitionOnChange>
                                     <ProgressProvider> 
-                                    <OffAuth/>
+                                    <OffAuthWidget/>
                                     <HeaderWidget/>
                                     {children}
                                     <FooterWidget/>

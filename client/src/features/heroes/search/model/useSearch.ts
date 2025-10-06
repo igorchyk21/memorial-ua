@@ -22,7 +22,7 @@ const useSearch = () => {
         if (e.currentTarget.id == 'search') search = refSearchInput.current?.value||'';
         if (e.currentTarget.id == 'collapse') search = refSearchCollapse.current?.value||'';
 
-        
+         
         if (pathname === '/heroes')
             miltipleQuery({
                 search:search,

@@ -2,18 +2,16 @@
 import { AuthOpenType, useAuth } from "@/shared/context/Auth";
 import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Offcanvas } from "react-bootstrap";
-import AuthRegisterForm from "../../register/ui/AuthRegisterForm";
-import AuthLoginForm from "../../login/ui/AuthLoginForm";
-import AuthRecoveryForm from "../../recovery/ui/AuthRecoveryForm";
 import ReCaptcha from "@/shared/context/reCaptcha/ReCaptcha";
+import { AuthLoginForm, AuthRecoveryForm, AuthRegisterForm } from "@/features/auth";
 import { Logo } from "@/entities/header";
-
-interface Props {
+ 
+interface Props { 
     show: AuthOpenType;
     setShow: Dispatch<SetStateAction<AuthOpenType>>;
 }
 
-const OffAuth = () => {
+const OffAuthWidget = () => {
 
     const { showOffAuth, setShowOffAuth } = useAuth();
     const [ showAction, setShowAction ] = useState<AuthOpenType>(null);
@@ -32,7 +30,7 @@ const OffAuth = () => {
             style={{width:500}}>
             <Offcanvas.Header closeButton >
                 <Offcanvas.Title className="align-items-top" >
-                    <Logo/>
+                    <Logo/> 
                 </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
@@ -48,10 +46,10 @@ const OffAuth = () => {
                 </ReCaptcha>                                 
             </Offcanvas.Body>
             <div className="px-3">
-              <p className="fs-xs">&copy; MemorialUA. All rights reserved 2025.</p>
+              <p className="fs-xs">&copy; Growth Meet. All rights reserved 2025.</p>
             </div>
         </Offcanvas>
     )
 }
 
-export default OffAuth;
+export default OffAuthWidget;

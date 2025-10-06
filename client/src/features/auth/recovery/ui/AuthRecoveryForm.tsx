@@ -1,15 +1,15 @@
 import { Formik } from "formik";
 import { useTranslations } from "next-intl";
 import { FormikAuthRegister } from "../../types/auth.types";
-import { Button, Form } from "react-bootstrap";
-import FormStepOtp from "../../register/ui/FormStepOtp";
-import FormStepPassword from "../../register/ui/FormStepPassword";
+import { Button, Form } from "react-bootstrap"; 
+import FormStepOtp from "../../shared/ui/FormStepOtp";
 import useAuthRecovery, { initFormikValue } from "../model/useAuthRecovery";
 import SpinnerTitle from "@/shared/ui/spinners/SpinnerTitle";
 import { useAuth } from "@/shared/context/Auth";
-import FormStepUserName from "../../register/ui/FormStepUserName";
 import FormStepRecFinish from "./FormStepRecFinish";
-import ReCaptcha from "@/shared/context/reCaptcha/ReCaptcha";
+
+import FormStepUserName from "../../shared/ui/FormStepUserName"; 
+import FormStepPassword from "../../shared/ui/FormStepPassword";
 
 const AuthRecoveryForm = () => {
     const t = useTranslations();

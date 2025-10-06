@@ -1,14 +1,14 @@
 import { useTranslations } from "next-intl";
 import { FormEvent, useState } from "react";
 import { Button, Form, Nav, NavLink } from "react-bootstrap";
-import AuthLoginServices from "./AuthLoginServices";
+import AuthLoginServices from "../../shared/ui/AuthLoginServices";
 import { useAuth } from "@/shared/context/Auth";
 import useAuthLogin from "../model/useAuthLogin";
 import { Field, Formik } from "formik";
+import { AuthData } from "@emeet/types";
 import SpinnerTitle from "@/shared/ui/spinners/SpinnerTitle";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import conf from "@/shared/config/conf";
-import { AuthData } from "@global/types";
 
 const AuthLoginForm = () => {
 

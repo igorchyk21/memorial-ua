@@ -1,6 +1,7 @@
 import { useQueryState } from "@/shared/hooks/query/useQueryState";
 import { useSetMultipleQuery } from "@/shared/hooks/query/useSetMultipleQuery";
 
+
 const useFilterResult = () => {
     
     const [ search, setSearch ] = useQueryState<string>('search');
@@ -12,7 +13,7 @@ const useFilterResult = () => {
             search:'',
             page:'1'
         })
-    }
+    } 
 
     const handleClearCandle = () => {
         setOnlyCandle('');

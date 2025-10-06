@@ -1,21 +1,23 @@
 "use client"
-import { ButtonAccount, ButtonMenu, ButtonNewHero, ButtonSearch, ButtonTheme, Location, Logo, OffMenu } from "@/entities/header";
+import { ButtonAccount, ButtonLocation, ButtonMenu, ButtonNewHero, ButtonSearch, ButtonTheme, Location, Logo, OffMenu } from "@/entities/header";
 import { AccountMenu } from "@/features/account";
-import { SearchCollapse, SearchInput } from "@/features/heroes";
+import { OffFilterLocation, SearchCollapse, SearchInput } from "@/features/heroes";
 import { useAuth } from "@/shared/context/Auth";
+import { useQueryState } from "@/shared/hooks/query/useQueryState";
 import { useStickyElement } from "@/shared/hooks/ui/use-sticky-element";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { Container, Navbar } from "react-bootstrap";
 
 const HeaderWidget = () => {
 
-    //const  t = useTranslations('map');
+    const  t = useTranslations('map');
     const { auth } = useAuth();
     const { stickyElementRef, isStuck } = useStickyElement<HTMLDivElement>()
     const [ searchOpen, setSearchOpen ] = useState(false)
     const [ menuShow, setMenuShow ] = useState(false);
-    //const [ filterShow, setFilterShow ] = useState(false);
-    //const [ region ] = useQueryState<string>('region');
+    const [ filterShow, setFilterShow ] = useState(false);
+    const [ region ] = useQueryState<string>('region');
     
     return (<>
         <Navbar 
@@ -38,9 +40,9 @@ const HeaderWidget = () => {
 
                 <SearchInput/>
 
-                {/**
+                 
                 <Location onClick={()=>setFilterShow(true)} value={region ? t(region) : ''}/>
-                */}
+                 
                 
                 </div>
 
@@ -49,9 +51,9 @@ const HeaderWidget = () => {
                     <ButtonSearch 
                         searchOpen={searchOpen}
                         setSearchOpen={setSearchOpen}/>
-                    {/**
+                    
                     <ButtonLocation onClick={()=>setFilterShow(true)}/>
-                    */}
+                    
                     {auth?.isLogin 
                     ?(<AccountMenu/>)
                     :(<ButtonAccount/>)}
@@ -66,11 +68,11 @@ const HeaderWidget = () => {
             show={menuShow}
             setShow={setMenuShow}/>
         
-        {/**
-        (<OffFilterLocation
+        
+        <OffFilterLocation
             show={filterShow}
             setShow={setFilterShow}/>
-        */}
+        
     </>)
 }
 

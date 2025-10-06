@@ -1,3 +1,5 @@
+build/
+
 client/aprivate
 client/.env
 client/.next/
