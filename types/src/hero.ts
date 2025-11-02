@@ -42,6 +42,7 @@ export interface HeroShortType {
     url:string;
     status:HERO_STAT
     candleExpiries:number;
+    slides?:string[];
 }
 
 export interface HeroType extends HeroShortType { 

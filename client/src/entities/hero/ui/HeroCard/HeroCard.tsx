@@ -7,9 +7,10 @@ import { DateTime as DT } from "luxon";
 
 interface Props {
     hero:HeroShortType;
+    showName?:boolean;
 }
 
-const HeroCard = ({hero}:Props) => {
+const HeroCard = ({hero, showName=true}:Props) => {
 
     return ( 
         <article className="hero" style={{maxWidth:350, marginInline:'auto'}}>
@@ -26,7 +27,7 @@ const HeroCard = ({hero}:Props) => {
                     </Button>
                 <div className="cr cr-bottom cr-left cr-sticky cr-black fs-12">
                     {DT.fromMillis(hero.death||0).setLocale("uk").toLocaleString(DT.DATE_MED)}
-                </div>
+                </div> 
                 <Link
                     href={`/hero/${hero.url ? `${hero.url}-` : ''}${hero.ID}`}
                     className={`d-flex rounded p-0 underline-none`}>
@@ -38,11 +39,12 @@ const HeroCard = ({hero}:Props) => {
                             height={0}/> 
                 </Link>
                 </div>
-                <div className="nav mb-4">
+                {showName &&
+                (<div className="nav mb-4">
                 <Link href="/" className="nav-link animate-target min-w-0 text-dark-emphasis p-0">
                     <span className="text-truncate mt-2 fs-18">{hero.lName} {hero.fName}</span>
                 </Link>
-                </div>
+                </div>)}
                 
             </div>
         </article>        

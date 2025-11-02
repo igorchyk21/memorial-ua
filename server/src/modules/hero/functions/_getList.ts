@@ -4,6 +4,8 @@ import conf from "../../../config/conf.js";
 import { sanitizeForSQL } from "../../helpers/functions/sanitizeForSQL.js";
 import { safeIntParse } from "../../helpers/gim-beckend-helpers.js";
 import { sortMethod } from "./sortMethod.js";
+import { rowHeroShortType } from "../types/hero.types.js";
+import _content from "../../content/content.js";
 
 export const _getList = async ({
         search='',
@@ -12,9 +14,9 @@ export const _getList = async ({
         sort='',
         onlyCandle=false,
         status=[HERO_STAT.ENABLE]
-    }:HeroListRequestParams, conn:Pool)
+    }:HeroListRequestParams, heroId:number|undefined, conn:Pool)
     : Promise<HeroListResponse|null> => {
-    
+     
     const dt = Date.now();
 
     const cntOnPage = onPage ? onPage : conf.heroOnPage;
@@ -29,10 +31,17 @@ export const _getList = async ({
         WHERE   deleted = 0
                 ${whereSearch}
                 ${whereStatus}
-                ${whereCandle}`;
+                ${whereCandle}
+                ${heroId ? ` AND ID = ${safeIntParse(heroId)}` : ''} `;
     const order = sortMethod?.[sort] || 'ORDER BY ID DESC';
+
+    const heroAddFields = heroId 
+        ? `hero_slides,`
+        : '';
+
     const sql = `
-        SELECT  ID,
+        SELECT  ${heroAddFields}
+                ID,
                 hero_fname              as fName,
                 hero_lname              as lName,
                 hero_mname              as mName,
@@ -54,9 +63,27 @@ export const _getList = async ({
         FROM    heroes
                 ${where}`;
 
+
+    // Отримуємо слайди головного слайдера, якщо індивідуальний запит героя
+    let bigSlides:string[] = [];
+    if (heroId) {
+        const bigSlider = await _content.getBigSlider();
+        console.log(bigSlider)
+        bigSlides = bigSlider?.map(slide=>slide.image).filter(image=>image!==undefined) || [];
+    }
+            console.log(bigSlides)
+
     try {
-        const [r] = await conn.execute<(RowDataPacket & HeroShortType)[]>(sql);
+        const [r] = await conn.execute<(RowDataPacket & rowHeroShortType)[]>(sql);
         const [rP] = await conn.execute<(RowDataPacket & {CNT:number})[]>(sqlPaginator);
+
+
+        const heroes = heroId 
+            ? r.map(row=>({
+                ...row,
+                slides:row.hero_slides?.split('|')||bigSlides
+            }))
+            : r;
 
         const paginator = {
             countRows       : rP[0].CNT,
@@ -66,7 +93,7 @@ export const _getList = async ({
         } 
 
         return {
-            heroes:r,
+            heroes:heroes,
             paginator
         }
 

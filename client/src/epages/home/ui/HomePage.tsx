@@ -9,13 +9,13 @@ interface Props {
     pageContent:ContentPageMain|null;
     heroes:HeroShortType[]|null|undefined;
 } 
-
+ 
 const HomePage = async ({pageContent, heroes}:Props) => {
     const t = await getTranslations();
     return (<>
          
         {pageContent?.slides &&
-        (<BigSlider 
+        (<BigSlider  
             href="/heroes"
             buttonTitle={t('buttons.heroes')}
             slides={pageContent.slides}/>)}

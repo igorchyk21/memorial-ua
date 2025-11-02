@@ -1,5 +1,6 @@
 "use client"
 import { HeroList, HeroPaginator } from "@/features/heroes";
+import { _cnMain } from "@/shared/const";
 import { HeroesListHeadWidget } from "@/widgets";
 import { HeroShortType, PaginatorType } from "@global/types";
 import { Container } from "react-bootstrap";
@@ -11,16 +12,18 @@ interface Props {
 
 const HeroesPage = ({heroes, paginator}:Props) => {
     return (
-        <Container> 
-            <HeroesListHeadWidget
-                countAllHeroes={paginator.countRows} /> 
+        <main className={_cnMain}> 
+            <Container> 
+                <HeroesListHeadWidget
+                    countAllHeroes={paginator.countRows} /> 
 
-            <HeroList 
-                className="mb-5"
-                heroes={heroes}/>
- 
-            <HeroPaginator paginator={paginator}/> 
-        </Container> 
+                <HeroList 
+                    className="mb-5"
+                    heroes={heroes}/>
+    
+                <HeroPaginator paginator={paginator}/> 
+            </Container> 
+        </main>
     )
 } 
 

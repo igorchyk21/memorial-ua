@@ -61,11 +61,13 @@ const BigSlider = ({slides, href, buttonTitle}:Props) => {
         ))}
         <div className="swiper-pagination pb-sm-2"></div>
       </Swiper>
+      
       <div className="d-md-none" style={{ height: 380 }} />
       <div className="d-none d-md-block d-lg-none" style={{ height: 420 }} />
       <div className="d-none d-lg-block d-xl-none" style={{ height: 500 }} />
       <div className="d-none d-xl-block d-xxl-none" style={{ height: 560 }} />
       <div className="d-none d-xxl-block" style={{ height: 624 }} />
+       
     </section>
   )
 }

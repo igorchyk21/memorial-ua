@@ -1,0 +1,23 @@
+import { CandleLight } from "@/features/hero";
+import { CommonComponentChildren } from "@/types"
+import { HeroShortType } from "@global/types"
+import { Col, Row } from "react-bootstrap"
+
+interface Props extends CommonComponentChildren {
+    hero:HeroShortType;
+}
+
+const HeroLayoutWidget = ({children, hero}:Props) => { 
+    return (
+        <Row>
+            <Col md={8}   >
+                {children}
+            </Col>
+            <Col md={4}   >
+                <CandleLight heroId={hero.ID}/> 
+            </Col>
+        </Row>
+    )
+}
+
+export default HeroLayoutWidget;

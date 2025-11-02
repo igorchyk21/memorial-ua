@@ -2,9 +2,10 @@ import axios from 'axios';
 import conf from '../config/conf';
 
  
+const apiBaseURL = typeof window !== 'undefined' ? conf.apiUrl : conf.apiLocal;
 
 // Встановлюємо базовий шлях до АРІ
-const iAxios = axios.create({ baseURL: conf.apiUrl});
+const iAxios = axios.create({ baseURL: apiBaseURL});
 iAxios.defaults.headers.common['Content-Type'] = 'application/json'
 iAxios.defaults.timeout                          = 10000;   
 iAxios.defaults.headers.common[`X-Custom-Header`]= `econtent`;  

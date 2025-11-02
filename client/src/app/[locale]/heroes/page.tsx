@@ -25,13 +25,12 @@ const Page = async ({params, searchParams}:Props) => {
 
     const resHero = await heroList(heroParams);
 
-    return ( 
-        <main className={_cnMain}> 
-            {resHero?.heroes && 
-            (<HeroesPage
+    return (<>
+        {resHero?.heroes && 
+            (<HeroesPage 
                 heroes={resHero.heroes}
                 paginator={resHero.paginator}/> )}
-        </main>)   
+        </>)   
 }
 
 export default Page;

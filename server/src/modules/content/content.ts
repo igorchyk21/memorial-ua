@@ -34,7 +34,7 @@ const getBigSlider = async ()
 
 const getContent = async (contentName:string)
     : Promise<ContentBaseType[]|null> => {
-    console.log(JSON.stringify(cache).length)
+        
     const sql = `
         SELECT  *
         FROM    content_${sanitizeForSQL(contentName)}

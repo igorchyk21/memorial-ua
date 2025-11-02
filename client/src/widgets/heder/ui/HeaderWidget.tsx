@@ -21,14 +21,14 @@ const HeaderWidget = () => {
     
     return (<>
         <Navbar 
-            ref={stickyElementRef}
+            
             as="header"
             expand={true} 
             bg="body"
             
             className={`navbar-sticky border-bottom sticky-top d-block z-fixed py-1 py-lg-0 py-xl-1 px-0 ${isStuck ? ' is-stuck' : ''}`}>
 
-            <Container className="justify-content-start py-0 py-lg-0">
+            <Container className="justify-content-start py-0 py-lg-0 gap-1 gap-lg-2 ">
                 {/* Offcanvas menu toggler (Hamburger) */}
                 <ButtonMenu onClick={()=>setMenuShow(true)}/>
 
