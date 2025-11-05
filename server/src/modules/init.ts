@@ -12,7 +12,10 @@ import { middleAuthToken } from "../middleware/middleAuthToken.js";
 
 import routerAuth from "../routers/auth.js";
 import routerContent from "../routers/content.js";
-import routerHero from "../routers/heroes.js"
+import routerGetHero from "../routers/heroes/get-heroes.js"
+import routerPostHero from "../routers/heroes/post-heroes.js"
+import routerDeleteHero from "../routers/heroes/del-heroes.js"
+import { wrapAsync } from "./helpers/functions/wrapAsync.js";
 
 export const startPoint = (app: Application): void => {
 
@@ -34,17 +37,15 @@ export const startPoint = (app: Application): void => {
 
 export const initRoutes = (app: Application): void => {
       
-   app.get(/.*/, ( (req:Request,res:Response,next:NextFunction)=>{
-       console.log('GET', req.path);
-       setTimeout(() => { next() }, 0); }))
+   app.get(/.*/, ( (req:Request,res:Response,next:NextFunction)=>{ console.log('\x1b[32m GET    \x1b[0m', req.path); setTimeout(() => { next() }, 0); }))
+   app.post(/.*/, ( (req:Request,res:Response,next:NextFunction)=>{ console.log('\x1b[33m POST   \x1b[0m', req.path); setTimeout(() => { next() }, 2000); }))
+   app.delete(/.*/, ( (req:Request,res:Response,next:NextFunction)=>{ console.log('\x1b[31m DELETE \x1b[0m', req.path); setTimeout(() => { next() }, 2000); }))
 
-   app.post(/.*/, ( (req:Request,res:Response,next:NextFunction)=>{
-       console.log('POST', req.path);
-       setTimeout(() => { next() }, 0); }))
-
-    app.use('/api/v1/auth', middleAuthToken, routerAuth);
-    app.use('/api/v1/content', routerContent);
-    app.use('/api/v1/hero', routerHero);
+    app.use('/api/v1/auth',  wrapAsync(middleAuthToken), routerAuth);
+    app.use('/api/v1/content', wrapAsync(middleAuthToken), routerContent);
+    app.use('/api/v1/hero', wrapAsync(middleAuthToken), routerGetHero);
+    app.use('/api/v1/hero', wrapAsync(middleAuthToken), routerPostHero);
+    app.use('/api/v1/hero', wrapAsync(middleAuthToken), routerDeleteHero);
 
 };
 

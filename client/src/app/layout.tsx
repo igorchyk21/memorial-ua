@@ -2,8 +2,15 @@ import "@shared/template/icons/font/cartzillaIcons.css"
 import "@shared/template/styles/theme.scss"
 import "@shared/style/global.css"
 import "@shared/style/correct.css"
-import { AppLayoutProp } from "@/types/propsPage"
-import localFont from 'next/font/local'
+import "@shared/style/fonts.css"
+import 'primereact/resources/themes/lara-light-blue/theme.css'; // тема (будь-яку)
+import "@shared/style/primereact.css"
+import 'primereact/resources/primereact.min.css';               // базові стилі
+import 'react-datepicker/dist/react-datepicker.css';
+import "react-quill-new/dist/quill.snow.css";
+ 
+
+import localFont from 'next/font/local' 
 import { Inter } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'
 import ModalProvider from "@/shared/context/Modal/provider/ModalProvider"
@@ -14,7 +21,6 @@ import { NextIntlClientProvider } from "next-intl"
 import { FooterWidget, HeaderWidget, OffAuthWidget } from "@/widgets"
 import { ProgressProvider } from "@/shared/context/progress-context"
 import { CommonComponentChildren } from "@/types"
-import "@shared/style/fonts.css"
  
 export const metadata = {
     title: 'Next.js',

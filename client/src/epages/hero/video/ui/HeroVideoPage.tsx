@@ -1,4 +1,4 @@
-import { HeroSlider } from "@/entities/hero/intex";
+import { HeroSlider } from "@/entities/hero";
 import { HeroNavigate } from "@/features/hero";
 import { HeroLayoutWidget } from "@/widgets";
 import { HeroShortType } from "@global/types"

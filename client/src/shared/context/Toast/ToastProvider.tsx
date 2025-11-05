@@ -11,7 +11,7 @@ export const ToastProvider = ({ children }:CommonComponentChildren) => {
     return (
         <ToastContext.Provider value={{ showToast }}>
             {children}
-            <ToastContainer position="bottom-center" className="p-3" style={{position:'fixed'}}>
+            <ToastContainer position="bottom-center" className="p-3" style={{position:'fixed', zIndex:99999}}>
                 <TransitionGroup>
                     {toasts.map((toast) => (
                         <CSSTransition
@@ -26,7 +26,7 @@ export const ToastProvider = ({ children }:CommonComponentChildren) => {
                                 onClose={() => closeToast(toast.id)}
                                 show={true}
                                 autohide
-                                delay={5000}>
+                                delay={7000}>
 
                                 <Toast.Body className="d-flex justify-content-between">
                                     <div>

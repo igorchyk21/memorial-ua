@@ -1,4 +1,15 @@
  
+:root,
+[data-bs-theme="light"] {
+  --fade-bg: #fff;
+  --fade-bg-rgb: 255 255 255;
+}
+[data-bs-theme="dark"] {
+  --fade-bg: #181d25;
+  --fade-bg-rgb: 24 29 37;
+}
+
+
 html { scrollbar-gutter: stable; }
 main { flex-grow: 1;}
 

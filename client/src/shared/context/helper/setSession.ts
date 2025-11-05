@@ -1,7 +1,7 @@
 import iAxios from "@shared/api/iAxios";
 import Cookies from "js-cookie";
 
-
+ 
 const setSessionToken = (authToken:string|null) => {
     if (authToken) {
         localStorage.setItem('authToken', authToken);

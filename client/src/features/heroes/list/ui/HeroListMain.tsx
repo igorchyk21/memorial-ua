@@ -1,4 +1,4 @@
-import { HeroCard } from "@/entities/hero/intex";
+import { HeroCard } from "@/entities/hero";
 import CandleBlack from "@/shared/svg/CandleBlack";
 import TitleBlock from "@/shared/ui/other/TitleBlock";
 import { HeroShortType } from "@global/types";

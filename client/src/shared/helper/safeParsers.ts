@@ -32,16 +32,4 @@ export function safeIntParse(input: unknown, def: number | null = null): number 
   }
 }
 
-/**
- * Повертає кількість слів у рядку
- * @param text - вхідний рядок
- * @returns number - кількість слів
- */
-export function lengthWords(text: string): number {
-  if (!text) return 0;
-  return text
-    .trim()
-    .split(/\s+/)        // розбиваємо по пробілах/табах/переносах
-    .filter(Boolean)     // прибираємо порожні
-    .length;
-}
+ 

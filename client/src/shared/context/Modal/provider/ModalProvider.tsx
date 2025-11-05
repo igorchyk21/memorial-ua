@@ -4,23 +4,29 @@ import { ModalContext, useModalModel } from "../model/useModal";
 import { Dialog } from "primereact/dialog";
 import { Button } from "react-bootstrap";
 import { EModalButton } from "../types/modal.type";
-import SpinnerTitle from "@/shared/ui/spinners/SpinnerTitle";
+import SpinnerTitle from "@/shared/ui/spinners/SpinnerTitle"; 
+import { useEffect, useState } from "react";
 
+
+ 
 export const ModalProvider = ({children}:CommonComponentChildren) => {
 
-    const { showDialog, handleClose, dialogParams, isDisabled, setIsDisabled } = useModalModel();
-
+    const { showDialog, hideDialog, handleClose, dialogParams, isDisabled, setIsDisabled } = useModalModel();
+ 
+    
     return (
         <ModalContext.Provider
             value={{
-                showDialog
+                showDialog,
+                hideDialog
             }}>
-            {children}
+            {children} 
             <div>
             {Boolean(dialogParams) &&
             (<Dialog  
                 style={{width:dialogParams?.width||600}}
-                className="modal-booking"
+                className={dialogParams?.className}
+                appendTo={document.body} 
                 header={dialogParams?.title}
                 draggable={false}
                 visible={dialogParams?.open} 
@@ -31,6 +37,7 @@ export const ModalProvider = ({children}:CommonComponentChildren) => {
                             <Button
                                 disabled={isDisabled}
                                 key={i}
+                                
                                 className="ms-1"
                                 {...btn.buttonProps}
                                 onClick={async ()=>{

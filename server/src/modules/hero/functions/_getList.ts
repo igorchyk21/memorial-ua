@@ -13,11 +13,11 @@ export const _getList = async ({
         onPage,
         sort='',
         onlyCandle=false,
-        status=[HERO_STAT.ENABLE]
+        status=[HERO_STAT.ACTIVE]
     }:HeroListRequestParams, heroId:number|undefined, conn:Pool)
     : Promise<HeroListResponse|null> => {
      
-    const dt = Date.now();
+    const dt = Date.now(); 
 
     const cntOnPage = onPage ? onPage : conf.heroOnPage;
     const from = page > 0 ? (page - 1) * cntOnPage : 0;
@@ -36,7 +36,8 @@ export const _getList = async ({
     const order = sortMethod?.[sort] || 'ORDER BY ID DESC';
 
     const heroAddFields = heroId 
-        ? `hero_slides,`
+        ? ` hero_slides,
+            hero_about as about,`
         : '';
 
     const sql = `
@@ -52,6 +53,7 @@ export const _getList = async ({
                 hero_mobilization       as mobilization,
                 hero_callsign           as callSign,
                 hero_photo              as photo,
+                hero_army_name          as armyName,
                 hero_status             as status
         FROM    heroes
                 ${where}
@@ -66,12 +68,10 @@ export const _getList = async ({
 
     // Отримуємо слайди головного слайдера, якщо індивідуальний запит героя
     let bigSlides:string[] = [];
-    if (heroId) {
+    if (heroId) { 
         const bigSlider = await _content.getBigSlider();
-        console.log(bigSlider)
         bigSlides = bigSlider?.map(slide=>slide.image).filter(image=>image!==undefined) || [];
     }
-            console.log(bigSlides)
 
     try {
         const [r] = await conn.execute<(RowDataPacket & rowHeroShortType)[]>(sql);

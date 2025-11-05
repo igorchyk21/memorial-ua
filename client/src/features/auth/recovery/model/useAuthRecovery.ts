@@ -4,10 +4,10 @@ import { useAuth } from "@/shared/context/Auth";
 import { RecoveryStepType } from "@/shared/context/Auth/model/useAuth";
 import { useToast } from "@/shared/context/Toast/models/useToast";
 import { useTranslations } from "next-intl";
-import { AuthRecoveryData } from "@emeet/types";
 import { FormikHelpers } from "formik";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { validateNewPassword } from "../../helper/validateNewPassword";
+import { AuthRecoveryData } from "@global/types";
 
 export const initFormikValue = {
     userEmail:'',

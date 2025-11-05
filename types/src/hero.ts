@@ -1,9 +1,17 @@
 import { PaginatorType } from "./bsae.js";
 
-export enum HERO_STAT {
-    ENABLE = 1,
-    DISABLE = 0,
+export enum HERO_POST_STAT {
+    PENDING = 0,
+    ACTIVE = 1,
+    REJECT = -1
 }
+
+export enum HERO_STAT {
+    PENDING = 0,
+    ACTIVE = 1,
+    REJECT = -1
+}
+
 
 export type HeroListSortType = 
     | 'name'
@@ -36,13 +44,15 @@ export interface HeroShortType {
     mName:string;
     birth:number;
     death:number;
-    photo:string;
+    photo?:string;
     mobilization:number;
-    callSign:string;
+    armyName:string|null;
+    callSign?:string;
     url:string;
     status:HERO_STAT
-    candleExpiries:number;
+    candleExpiries?:number;
     slides?:string[];
+    about?:string|null;
 }
 
 export interface HeroType extends HeroShortType { 
@@ -52,4 +62,18 @@ export interface HeroType extends HeroShortType {
 export interface HeroListResponse {
     heroes:HeroShortType[];
     paginator:PaginatorType;
+}
+
+
+
+export interface HeroPostType {
+    ID:number;
+    heroId:number;
+    userId:number;
+    dt:number;
+    body:string;
+    userName?:string;
+    author?:string|null;
+    userPicture?:string;
+    status:HERO_POST_STAT;
 }

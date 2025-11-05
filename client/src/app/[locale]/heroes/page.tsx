@@ -1,4 +1,4 @@
-import { heroList } from "@/entities/hero/intex";
+import { heroList } from "@/entities/hero";
 import { HeroesPage, HomePage } from "@/epages";
 import { _cnMain, _cnMainContainer } from "@/shared/const";
 import { safeIntParse } from "@/shared/helper/safeParsers";

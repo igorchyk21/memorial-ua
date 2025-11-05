@@ -1,0 +1,24 @@
+/****************** ДІАЛОГИ *******************************/
+
+/* Бронювання зустрічі */
+.p-dialog.modal-booking {  width: 900px; background-color: red;}
+@media (max-width:991px) { .p-dialog.modal-booking {  width: calc(100% - 20px);}}
+ 
+
+
+
+/* Загальна корекція стилів */
+.p-dialog {     border: 3px solid var(--cz-primary); border-radius: 10px; overflow: hidden;
+box-shadow: 1px 1px 30px rgba(0, 0, 0, 0.3);
+margin: 0px 10px;
+}
+.p-dialog .p-dialog-header { font-weight: 600; font-size: 24px; background-color: var(--cz-body-bg); color: var(--cz-body-color);}
+.p-dialog .p-dialog-title { color: var(--cz-heading-color);}
+.p-dialog .p-dialog-content { background-color: var(--cz-body-bg); color: var(--cz-body-color);}
+.p-dialog .p-dialog-footer {background-color: var(--cz-body-bg);}
+
+/* Змінити колір і розмір іконки */
+.p-dialog .p-dialog-header .p-dialog-header-icon.p-dialog-header-close { color: var(--bs-primary); font-size: 1.25rem; border-radius: 50%; 
+    transition: all 0.2s; background: var(--cz-btn-hover-bg); /* ховер */}
+.p-dialog .p-dialog-header .p-dialog-header-icon.p-dialog-header-close:hover {background:  var(--cz-border-color, #dee2e6);color: var(--bs-primary);}
+

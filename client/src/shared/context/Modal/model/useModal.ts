@@ -5,11 +5,14 @@ import useButtonsCollections from "./useButtonsCollections";
 
 interface ModalContextType {
     showDialog:(modalParams:EModalDialogProps)=>void;
+    hideDialog:()=>void;
 }
 
 const ModalContextDef = {
-    showDialog:()=>{}
-}
+    showDialog:()=>{},
+    hideDialog:()=>{}
+
+}  
 
 export const ModalContext = createContext<ModalContextType>(ModalContextDef);
 export const useModal = () => useContext(ModalContext);
@@ -22,7 +25,7 @@ export const useModalModel = () => {
     const handleClose = () => {
         setDialogParams(prev=>prev ? ({
             ...prev,
-            open:false
+            open:false 
         }) : null);
     }
 
@@ -38,6 +41,10 @@ export const useModalModel = () => {
         })
     }   
 
+    const hideDialog = () => {
+        setDialogParams(prev=>(prev ? {...prev, open:false} : prev))
+    }
+
     // затримка для анімації
     useEffect(()=>{
         if (dialogParams?.open === false) 
@@ -52,6 +59,7 @@ export const useModalModel = () => {
         handleClose,
         dialogParams,
         isDisabled, 
-        setIsDisabled
+        setIsDisabled,
+        hideDialog
     }
 }

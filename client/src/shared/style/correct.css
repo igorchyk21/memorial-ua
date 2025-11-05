@@ -3,7 +3,7 @@ section { scroll-margin-top: 100px; }
 .dropdown-menu.show { left: unset; right: 5px; }
 .info-pages h1 { font-size: 22px;}
 .info-pages h2 { font-size: 18px;}
-
+.react-datepicker-popper { z-index: 10;}
 /** ШИРОКИЙ SELECTBOX */
 .select-box-big .choices__list--single { height: 100%; align-items: center;}
 .select-box-big .form-select {

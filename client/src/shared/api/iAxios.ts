@@ -26,7 +26,7 @@ iAxios.interceptors.request.use(
         return Promise.reject(error);
     }
 );
- 
+  
  
 // Встановлюэмо заголовок - локаль АРІ запитів - викликається на самому верзньому рівні у макеті app/layout.js
 export function setLocaleHeader(locale:string) { 

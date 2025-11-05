@@ -1,0 +1,95 @@
+.ql-snow .ql-tooltip { left: 0px !important;}
+.ql-editor { min-height: 200px; border: unset;}
+.ql-snow .ql-editor p { margin-bottom: 10px;}
+.ql-container {
+  position: relative; /* щоб overlay позиціонувався */
+}
+
+.ql-container.ql-snow {
+  border:none;
+  
+}
+
+.quill-sticky .ql-toolbar.ql-snow {
+    position: sticky !important; 
+    top: 10px !important;
+    z-index: 1 !important;
+     
+
+}
+
+.ql-toolbar.ql-snow {
+    background-color: white;    
+    border:none;
+    border-radius: 8px !important;
+    padding: 15px 5px 15px 5px;
+    box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.1);
+}
+
+html :focus-visible { 
+  outline: none;
+}
+
+[data-bs-theme="dark"] .ql-toolbar.ql-snow {
+  background-color: #181d25;
+  box-shadow: 1px 1px 10px rgba(0, 0, 0, 0.3);
+}
+
+[data-bs-theme="dark"] .ql-toolbar.ql-snow .ql-picker-label {
+  color: white;
+}
+
+.quill-busy-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.15); /* прозорий білий */
+  backdrop-filter: blur(2px);
+  cursor: progress;
+  z-index: 999; /* поверх тулбара і редактора */
+}
+
+.ql-toolbar.ql-snow {
+  border-radius: 8px 8px 0px 0px;
+}
+
+/*
+.ql-toolbar.ql-snow + .ql-container.ql-snow{ 
+  border-radius: 0px 0px 8px 8px;
+  margin: 10px 3px 0px 3px;
+}*/
+ 
+[data-bs-theme="dark"] .ql-snow .ql-stroke {
+  stroke: #ddd;
+}
+
+
+[data-bs-theme="dark"] .ql-pasteImage:before {
+    filter: invert(1);
+}
+
+
+.ql-snow .ql-editor h1,
+.ql-snow .ql-editor h2 { margin-bottom: 7px !important;}
+.ql-snow .ql-editor h3,
+.ql-snow .ql-editor h4,
+.ql-snow .ql-editor h5,
+.ql-snow .ql-editor h6 { margin-bottom: 5px !important;}
+.ql-snow .ql-editor p { margin-bottom: 10px !important; }
+.ql-snow .ql-editor ol,
+.ql-snow .ql-editor ul { margin-bottom: 10px !important; }
+
+
+
+/* Іконка для нашої кнопки */
+.ql-pasteImage::before {
+  content: "";
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background: url("data:image/svg+xml;utf8,\
+  <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'>\
+    <rect x='4' y='3' width='10' height='12' fill='none' stroke='currentColor' stroke-width='1'/>\
+    <rect x='6' y='1' width='6' height='2' fill='none' stroke='currentColor' stroke-width='1'/>\
+  </svg>") center/contain no-repeat;
+}
+

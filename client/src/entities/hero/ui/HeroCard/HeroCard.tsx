@@ -41,7 +41,8 @@ const HeroCard = ({hero, showName=true}:Props) => {
                 </div>
                 {showName &&
                 (<div className="nav mb-4">
-                <Link href="/" className="nav-link animate-target min-w-0 text-dark-emphasis p-0">
+                <Link className="nav-link animate-target min-w-0 text-dark-emphasis p-0"
+                    href={`/hero/${hero.url ? `${hero.url}-` : ''}${hero.ID}`}>
                     <span className="text-truncate mt-2 fs-18">{hero.lName} {hero.fName}</span>
                 </Link>
                 </div>)}

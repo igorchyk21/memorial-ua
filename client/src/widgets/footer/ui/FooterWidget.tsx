@@ -1,6 +1,6 @@
 "use client"
 import { FooterInfo, FooterLinks } from "@/entities/footer";
-import { FooterAddHeroForm } from "@/entities/hero/intex";
+import { FooterAddHeroForm } from "@/entities/hero";
 import { Container, Row } from "react-bootstrap";
 
 const FooterWidget = () => {

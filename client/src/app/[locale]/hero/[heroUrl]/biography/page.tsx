@@ -1,4 +1,4 @@
-import { heroGet } from "@/entities/hero/intex";
+import { heroGet } from "@/entities/hero";
 import { HeroBiograohyPage } from "@/epages";
 import { _cnMain, _cnMainContainer } from "@/shared/const";
 import { stringUrlIdCortage } from "@/shared/helper/string/stringUrlIdCortage";

@@ -7,7 +7,7 @@ export type EModalButtonsCollection =
 
 export interface EModalButton {
     title:string|ReactNode;
-    buttonProps:ButtonProps;
+    buttonProps?:ButtonProps;
     onClick?:()=>void;
 }
 
@@ -17,6 +17,7 @@ export interface EModalDialogProps {
     content:string | ReactNode;
     width?:number;
     buttons:EModalButton[]  | EModalButtonsCollection;
-    onClickConfirmButton?:()=>{}
+    onClickConfirmButton?:()=>{};
+    className?:string;
 }
 

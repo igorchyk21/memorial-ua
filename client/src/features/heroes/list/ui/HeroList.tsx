@@ -1,4 +1,4 @@
-import { HeroCard } from "@/entities/hero/intex";
+import { HeroCard } from "@/entities/hero";
 import { HeroShortType } from "@global/types";
 import { Col, Row } from "react-bootstrap";
 

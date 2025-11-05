@@ -1,6 +1,6 @@
 import { contentBigSlider } from "@/entities/content";
 import { contentPageMain } from "@/entities/content/model/contentMode";
-import { heroList } from "@/entities/hero/intex";
+import { heroList } from "@/entities/hero";
 import { HomePage } from "@/epages";
 import { _cnMain, _cnMainContainer } from "@/shared/const";
 import { HeroListRequestParams } from "@global/types";

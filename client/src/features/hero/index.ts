@@ -1,3 +1,8 @@
 export { default as HeroNavigate } from "./navigate/ui/HeroNavigate";
 export { default as HeroAbout } from "./about/show/ui/HeroAbout";
+export { default as HeroPosts } from "./posts/list/ui/HeroPosts";
 export { default as CandleLight } from "./candleLight/ui/CandleLight";
+export * from "./posts/edit/model/useHeroPostEdit";
+export * from "./posts/delete/model/useHeroPostDelete";
+export * from "./about/edit/model/useHeroEdit";
+export * from "./about/delete/model/useHeroDelete";

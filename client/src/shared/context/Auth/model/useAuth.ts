@@ -80,7 +80,7 @@ export const useAuthModel = (authDef?:AuthResultType | null) => {
         setSessionToken(resUser.token); 
         setAuth(resUser);
         return true;
-    }
+    } 
 
     // вилогінення
     const logout = async () =>{
