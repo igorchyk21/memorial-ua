@@ -1,4 +1,4 @@
-import { heroGet } from "@/entities/hero";
+import { heroGet, heroGetBiography } from "@/entities/hero";
 import { HeroBiograohyPage } from "@/epages";
 import { _cnMain, _cnMainContainer } from "@/shared/const";
 import { stringUrlIdCortage } from "@/shared/helper/string/stringUrlIdCortage";
@@ -11,7 +11,10 @@ const Page = async ({params}:{params:any}) => {
     const [id, url] = stringUrlIdCortage(heroUrl);
     const resHero = await heroGet(id,url);
     if (!resHero) notFound(); 
-    return (<HeroBiograohyPage hero={resHero}/>)   
+    const resBio = await heroGetBiography(id, resHero);
+    return (<HeroBiograohyPage  
+                biography={resBio}
+                hero={resHero}/>)   
 }
 
 export default Page;

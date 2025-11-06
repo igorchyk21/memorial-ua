@@ -1,10 +1,12 @@
 import express, { Request, Response } from "express";
 import _hero from "../../modules/hero/heroes.js";
+import _heroBio from "../../modules/hero/biography.js";
 import { middleIsAdmin } from "../../middleware/middleIdAdmin.js";
 import { safeIntParse, safeJSONParse } from "../../modules/helpers/gim-beckend-helpers.js";
 import { zHeroShortSchema } from "../../modules/hero/schema/hero.js";
 import { zHeroPostSchema } from "../../modules/hero/schema/post.js";
 import { lengthWords } from "../../modules/helpers/stringHelper.js";
+import { zHeroBiographyItemSchema } from "../../modules/hero/schema/biography.js";
 const router = express.Router();
 
 // Зміна статусу Героя
@@ -16,19 +18,6 @@ router.post('/status/:heroId', middleIsAdmin, async (req:Request, res:Response) 
     const resStat = await _hero.setStatus(heroId, heroStatus);
     res.json({stat:resStat}); 
 }) 
-
-// Збереження Героя
-router.post('/:heroId', middleIsAdmin, async (req:Request, res:Response)=>{
-    const heroId = safeIntParse(req.params.heroId, null);
-    if (!heroId) return res.status(400).send('Incorrect parameter "heroId"');
-    const body = zHeroShortSchema.safeParse(req.body.hero);
-    if (!body.success) {
-        console.log(body)
-        return res.status(400).send(safeJSONParse(body.error.message));
-    }
-    const resSave = _hero.save(body.data); 
-    res.json({id:resSave});
-})
 
 // Збереження допису
 router.post('/post/:postId', async (req:Request, res:Response)=>{
@@ -57,7 +46,7 @@ router.post('/post/:postId', async (req:Request, res:Response)=>{
     res.json({stat:resSave});
 })
 
-// Зміна статусу
+// Зміна статусу допису
 router.post('/post/status/:postId', middleIsAdmin, async (req:Request, res:Response) =>{
     const postId = safeIntParse(req.params.postId, null);
     if (!postId) return res.status(400).send('Incorrect parameter "postId"');
@@ -67,5 +56,40 @@ router.post('/post/status/:postId', middleIsAdmin, async (req:Request, res:Respo
     res.json({stat:resStat});
 
 })
+
+// Збереження або додавання пункту біографії
+router.post('/biography/:biographyId', middleIsAdmin, async (req:Request, res:Response) => {
+    const biographyId = safeIntParse(req.params.biographyId, null);
+    if (biographyId === null) return res.status(400).send('Incorrect parameter "biographyId"');
+
+    const body = zHeroBiographyItemSchema.safeParse(req.body.biographyItem);
+    console.log(body)
+    if (!body.success) {
+        console.log(body)
+        return res.status(400).send(safeJSONParse(body.error.message));
+    }
+
+    // Створення
+    if (biographyId === 0) 
+        res.json({stat: await _heroBio.create(body.data)})
+
+    // Збереження
+    else res.json({stat: await _heroBio.save(biographyId, body.data)})
+})
+
+
+// Збереження Героя
+router.post('/:heroId', middleIsAdmin, async (req:Request, res:Response)=>{
+    const heroId = safeIntParse(req.params.heroId, null);
+    if (!heroId) return res.status(400).send('Incorrect parameter "heroId"');
+    const body = zHeroShortSchema.safeParse(req.body.hero);
+    if (!body.success) {
+        console.log(body)
+        return res.status(400).send(safeJSONParse(body.error.message));
+    }
+    const resSave = _hero.save(body.data); 
+    res.json({id:resSave});
+})
+
 
 export default router;  

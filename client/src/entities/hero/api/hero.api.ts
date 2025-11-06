@@ -1,5 +1,6 @@
 import iAxios from "@/shared/api/iAxios";
-import { HERO_POST_STAT, HERO_STAT, HeroDateType, HeroListRequestParams, HeroListResponse, HeroPostType, HeroShortType } from "@global/types";
+import { HERO_POST_STAT, HERO_STAT, HeroBiographyItem, HeroBiographyType, HeroListRequestParams, HeroListResponse, HeroPostType, HeroShortType } from "@global/types";
+import { isAbsolute } from "path";
 
 // Повертає список Героїв
 export const apiHeroList = async (params:HeroListRequestParams): Promise<HeroListResponse|null> => {
@@ -93,7 +94,7 @@ export const apiHeroSetStatusPost = async (postId:number, postStatus:HERO_POST_S
         console.error(e);
         return false;
     }
-}
+} 
 
 // Видалення допису
 export const apiHeroDeletePost = async (postId:number): Promise<boolean> => {
@@ -105,4 +106,41 @@ export const apiHeroDeletePost = async (postId:number): Promise<boolean> => {
         return false;
     }
 }
+
+
+/**
+ * БІОГРАФІЯ ГЕРОЯ
+ */
+
+export const apiGetHeroBiography = async (heroId:number): Promise<HeroBiographyType|null> => {
+    try {
+        const r = await iAxios(`/hero/biography/${heroId}`);
+        return r.data;
+    } catch(e){ 
+        console.error(e);
+        return null;
+    }
+} 
+ 
+// Видалення дати з біографії
+export const apiHeroDeleteBio = async (biographyId:number): Promise<boolean> => {
+    try {
+        const r = await iAxios.delete(`/hero/biography/${biographyId}`);
+        return r.data.stat || false;
+    } catch(e){
+        console.error(e);
+        return false;
+    }
+}
+
+// Збереження події-дати
+export const apiHeroSaveBio = async (biographyId:number, biographyItem:HeroBiographyItem): Promise<boolean> => {
+    try {
+        const r = await iAxios.post(`/hero/biography/${biographyId}`, {biographyItem});
+        return r.data.stat || false;
+    } catch(e){
+        console.error(e);
+        return false;
+    }
+} 
 

@@ -10,11 +10,12 @@ interface Props extends CommonComponentChildren {
 const HeroLayoutWidget = ({children, hero}:Props) => { 
     return (
         <Row>
-            <Col md={8}   >
+            <Col lg={8}>
                 {children}
             </Col>
-            <Col md={4}   >
-                <CandleLight heroId={hero.ID}/> 
+            <Col lg={4} className="pt-4 pt-lg-0" >
+                <CandleLight 
+                    heroId={hero.ID}/> 
             </Col>
         </Row>
     )

@@ -1,18 +1,28 @@
+"use client"
 import { HeroSlider } from "@/entities/hero";
-import { HeroNavigate } from "@/features/hero";
+import { HeroBiography, HeroNavigate, useHeroBioDelete, useHeroBioEdit } from "@/features/hero";
 import { HeroLayoutWidget } from "@/widgets";
-import { HeroShortType } from "@global/types"
+import { HeroBiographyType, HeroShortType } from "@global/types"
 
 interface Props {
     hero:HeroShortType;
+    biography:HeroBiographyType;
 }
-const HeroBiographyPage = ({hero}:Props) => { 
+const HeroBiographyPage = ({hero,biography}:Props) => { 
+    
+    const { handleEdit } = useHeroBioEdit(hero.ID);
+    const { handleDelete } = useHeroBioDelete();
+    
     return (<>
-        <HeroNavigate/>
-        <main className="container mx-auto p-5">
+        <HeroNavigate/> 
+        <main className="container mx-auto p-4">
             <HeroLayoutWidget 
                 hero={hero}>
-                <h1>Biography</h1>
+                <HeroBiography   
+                    onClicEdit={handleEdit}
+                    onClickDelete={handleDelete}
+                    hero={hero}
+                    biography={biography}/>
             </HeroLayoutWidget>
         </main>
     </>)

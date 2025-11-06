@@ -16,7 +16,7 @@ const HeroAboutPage = ({hero,posts}:Props) => {
     return (<>
         <HeroSlider hero={hero}/>
         <HeroNavigate/>
-        <main className="container mx-auto p-5">
+        <main className="container mx-auto p-4">
             <HeroLayoutWidget 
                 hero={hero}>
                 <HeroAbout 

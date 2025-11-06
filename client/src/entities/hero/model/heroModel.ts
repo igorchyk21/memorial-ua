@@ -1,5 +1,6 @@
-import { HERO_POST_STAT, HERO_STAT, HeroListRequestParams, HeroListResponse, HeroPostType, HeroShortType } from "@global/types";
-import { apiHeroDelete, apiHeroDeletePost, apiHeroGet, apiHeroGetPosts, apiHeroList, apiHeroSaveAbout, apiHeroSavePost, apiHeroSetStatus, apiHeroSetStatusPost } from "../api/hero.api";
+import { HERO_POST_STAT, HERO_STAT, HeroBiographyItem, HeroBiographyType, HeroListRequestParams, HeroListResponse, HeroPostType, HeroShortType } from "@global/types";
+import { apiGetHeroBiography, apiHeroDelete, apiHeroDeleteBio, apiHeroDeletePost, apiHeroGet, apiHeroGetPosts, apiHeroList, apiHeroSaveAbout, apiHeroSaveBio, apiHeroSavePost, apiHeroSetStatus, apiHeroSetStatusPost } from "../api/hero.api";
+import { insertHeroBiographyItem } from "../helper/insertHeroBiographyItem";
 
 export const heroList = async (params:HeroListRequestParams): Promise<HeroListResponse|null> => {
     return await apiHeroList(params);
@@ -38,4 +39,31 @@ export const heroSetStatusPost = async (postId:number, postStatus:HERO_POST_STAT
 
 export const heroDeletePost = async (postId:number): Promise<boolean> => {
     return await apiHeroDeletePost(postId);
+}
+
+
+/**
+ * BIOGRAPHY 
+ */
+
+export const heroGetBiography = async (heroId:number, hero:HeroShortType): Promise<HeroBiographyType> => {
+    const resBio = (await apiGetHeroBiography(heroId)) || [];
+    const addDates = [
+            {dt:hero.birth, title:'t_birth'}, 
+            {dt:hero.mobilization, title:'t_mobilization'}, 
+            {dt: hero.death, title:'t_death'}
+    ]
+    let newBio = [...resBio];
+    addDates.forEach(dt => {
+        newBio = insertHeroBiographyItem(newBio, {ID:0, heroId:hero.ID, ...dt, body:''})
+    });
+    return newBio;
+}
+
+export const heroSaveBio = async (biographyId:number, biographyItem:HeroBiographyItem): Promise<boolean> => {
+    return await apiHeroSaveBio(biographyId, biographyItem);
+}
+
+export const heroDeleteBio = async (biographyId:number): Promise<boolean> => {
+    return await apiHeroDeleteBio(biographyId);
 }

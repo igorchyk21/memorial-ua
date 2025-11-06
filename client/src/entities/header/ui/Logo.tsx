@@ -11,7 +11,6 @@ const Logo = () => {
     const [ logoSmall, setLogoSmall ] = useState(`/memorial/img/logo/small-light.png`);
 
     useEffect(()=>{
-        console.log(resolvedTheme)
         setLogo(`/memorial/img/logo/big-${resolvedTheme}.png`);
         setLogoSmall(`/memorial/img/logo/small-${resolvedTheme}.png`)
 

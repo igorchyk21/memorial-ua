@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import _hero from "../../modules/hero/heroes.js";
+import _heroBio from "../../modules/hero/biography.js";
 import { zHeroListRequestParamsSchema } from "../../modules/hero/schema/list.js";
 import { safeIntParse, safeJSONParse } from "../../modules/helpers/gim-beckend-helpers.js";
 const router = express.Router();
@@ -22,7 +23,15 @@ router.get('/posts/:heroId', async (req:Request, res:Response)=>{
     const resPosts = await _hero.getPosts(heroId);
     return res.json(resPosts);
 }) 
- 
+
+// Повертає біографію Героя
+router.get('/biography/:heroId', async (req:Request, res:Response)=> {
+    const heroId = safeIntParse(req.params.heroId, null);
+    if (!heroId) return res.status(400).send('Incorrect parameter "heroId"');
+    const resBio = await _heroBio.get(heroId);
+    res.json(resBio)
+})
+  
 // Повертає Героя
 router.get('/:heroId', async (req:Request, res:Response) => { 
     const status = req.user?.admin ? [-1,0,1] : undefined;

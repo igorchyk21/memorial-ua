@@ -5,6 +5,7 @@ import _user from "./user/users.js";
 import _userAuth from "./user/auth.js";
 import _content from "./content/content.js";
 import _hero from "./hero/heroes.js";
+import _heroBio from "./hero/biography.js";
 
 import cors from "cors";
  
@@ -59,7 +60,8 @@ export const initDataBase = (): void => {
     _userAuth.setConn(conn); 
     _user.setConn(conn); 
     _content.setConn(conn); 
-    _hero.setConn(conn)
+    _hero.setConn(conn);
+    _heroBio.setConn(conn);
 
      
 }

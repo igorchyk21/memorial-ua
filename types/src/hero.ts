@@ -64,7 +64,14 @@ export interface HeroListResponse {
     paginator:PaginatorType;
 }
 
-
+export type HeroBiographyType = HeroBiographyItem[];
+export interface HeroBiographyItem {
+    ID:number;
+    heroId:number;
+    dt:number;
+    title:string;
+    body?:string|null;
+}
 
 export interface HeroPostType {
     ID:number;

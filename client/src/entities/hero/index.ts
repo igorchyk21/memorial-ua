@@ -5,3 +5,4 @@ export { default as HeroSlider } from "./ui/HeroSlider/HeroSlider";
 export { default as HeroPostCard } from "./ui/HeroPostCard/HeroPostCard"
 export { default as HeroStatus } from "./ui/HeroCard/HeroStatus";
 export { default as HeroAboutDropdown } from "./ui/HeroAboutDropdown/HeroAboutDropdown";
+export { default as HeroBioItem } from "./ui/Biography/HeroBioItem";

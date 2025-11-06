@@ -13,7 +13,9 @@ const CandleLight = ({heroId}:Props) => {
     const t = useTranslations();
     const [modelValue, setModelValue] = useState(100)
 
-    return (<div className="border rounded-4 py-4 px-4 mb-4">
+    return (
+        <div className="border rounded-4 py-4 px-4 mb-4"
+            style={{position:'sticky', top:200}}>
         <h5>{t('hero.candle.title')}</h5>
  
         {/* Text input */}

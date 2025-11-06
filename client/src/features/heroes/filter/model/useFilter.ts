@@ -33,7 +33,6 @@ const useFilter = (setShow:Dispatch<SetStateAction<boolean>>) => {
     },[region])
 
     useEffect(()=>{
-        console.log(region)
         setREgionValue(prev => (prev === region ? prev : region||''));
     }, [pathname])    
 

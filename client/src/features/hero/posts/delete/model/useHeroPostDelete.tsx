@@ -13,6 +13,7 @@ export const useHeroPostDelete = () => {
     const _postDelete = async (postId:number) => {
         const resDel = await heroDeletePost(postId);
         if (!resDel) showToast(t('error'), 'danger');
+            else showToast(t('hero.messDeletePost'), 'success');
         setUpdate(Date.now().toString());
     }
 
@@ -22,7 +23,7 @@ export const useHeroPostDelete = () => {
             title:t('hero.post.titleDelete'),
             content:(<>
                 <h4>{author}</h4><hr/>
-                <span className="fs-9">{postBody}</span>
+                <span className="fs-12">{postBody}</span>
                 </>),
             buttons:[
                 {title:t('buttons.delete'), buttonProps:{variant:'danger'}, onClick:async()=>await _postDelete(postId)},

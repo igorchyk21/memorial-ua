@@ -44,8 +44,7 @@ export const useHeroPostEdit = (heroId:number) => {
         hideDialog();
     }
 
-    const handleClickEdit = (post:HeroPostType|null) => {
-        
+    const handleClickEdit = (post:HeroPostType|null) => { 
         const p = post ? post : emptyPost;
         if (post?.userName) p.author = post?.userName;
         showDialog({
@@ -62,7 +61,6 @@ export const useHeroPostEdit = (heroId:number) => {
     }
 
     const handleClickStatus = async (postId:number, newStatus:HERO_POST_STAT) => {
-        console.log('POST STATUES')
         const resStat = await heroSetStatusPost(postId, newStatus);
         if (!resStat) showToast(t('error'), 'danger');
         setUpdate(Date.now().toString());   

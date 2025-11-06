@@ -1,0 +1,69 @@
+.bio-container {
+  position: relative;
+}
+
+.bio-container::after {
+    content: "";
+    position: absolute;
+    left: calc(50% - 2px);
+    width: 4px;
+    top: 0px;
+    height: 100%;
+    background-color: var(--cz-primary)
+}
+
+.bio-container > .show-date-icon { position: relative;}
+
+.bio-container > .show-date-icon:before {
+    color: #ffffff;
+    display: block;
+    font-family: cartzillaIcons !important;
+    content: "\f132";      /* код символу з іконного шрифту */
+    position: absolute;
+    line-height: 40px;
+    -webkit-border-radius: 1000px;
+    -moz-border-radius: 1000px;
+    border-radius: 1000px;
+    right: -20px;
+    text-align: center;
+    top: 15px;
+    width: 40px;
+    background: #ba9f5a;
+    z-index: 2;
+}
+
+.bio-container > .show-date-icon:nth-child(even)::before {
+  justify-content: flex-end;
+  right: unset;
+  left:-20px;
+}
+
+.bio-container .show-date-icon article {
+    margin-right:20px;
+}
+
+.bio-container .show-date-icon:nth-child(even) article {
+    margin-right: unset;
+    margin-left: 20px;
+}
+
+@media  (max-width:991px) {
+    .bio-container::after { 
+        left: unset;
+        right: 20px;
+    }
+
+    .bio-container .show-date-icon article,
+    .bio-container .show-date-icon:nth-child(even) article {
+        margin-right: 40px;
+        margin-left: unset;
+    }
+
+    .bio-container > .show-date-icon::before,
+    .bio-container > .show-date-icon:nth-child(even)::before {
+        justify-content: flex-end;
+        right: 3px;
+        left:unset;
+    }
+
+}

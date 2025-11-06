@@ -32,7 +32,7 @@ const PostEditForm = ({handleSubmit, handleCancel, authorDisabled, post}:Props) 
         
     },[])
 
-    return (
+    return ( 
         <Formik<HeroPostType> 
             initialValues={post}
             onSubmit={handleSubmit}>
