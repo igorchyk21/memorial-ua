@@ -1,4 +1,4 @@
-import { heroGet } from "@/entities/hero";
+import { heroGet, heroGetPhotos } from "@/entities/hero";
 import { HeroPhotoPage } from "@/epages";
 import { _cnMain, _cnMainContainer } from "@/shared/const";
 import { stringUrlIdCortage } from "@/shared/helper/string/stringUrlIdCortage";
@@ -11,7 +11,11 @@ const Page = async ({params}:{params:any}) => {
     const [id, url] = stringUrlIdCortage(heroUrl);
     const resHero = await heroGet(id,url);
     if (!resHero) notFound(); 
-    return (<HeroPhotoPage hero={resHero}/>)   
+    const resPhoto = await heroGetPhotos(resHero.ID)
+    console.log(resPhoto)
+    return (<HeroPhotoPage 
+                photos={resPhoto||[]}
+                hero={resHero}/>)   
 }
 
 export default Page;

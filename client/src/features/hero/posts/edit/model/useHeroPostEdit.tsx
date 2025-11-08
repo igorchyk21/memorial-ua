@@ -11,6 +11,7 @@ import { useQueryState } from "@/shared/hooks/query/useQueryState";
 import { heroSavePost, heroSetStatusPost } from "@/entities/hero";
 import { useToast } from "@/shared/context/Toast/models/useToast";
 import { lengthWords } from "@/shared/helper/string/stringHelper";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
   
 
 
@@ -22,6 +23,7 @@ export const useHeroPostEdit = (heroId:number) => {
     const { showDialog, hideDialog } = useModal();
     const { auth } = useAuth();
     const [ update, setUpdate ] = useQueryState<string>('update');
+    const { executeRecaptcha } = useGoogleReCaptcha();
 
     const emptyPost:HeroPostType = {
         ID: 0,
@@ -30,14 +32,14 @@ export const useHeroPostEdit = (heroId:number) => {
         author: auth?.user.userName || '',
         body:'',
         dt: Date.now(),
-        status: HERO_POST_STAT.PENDING,
+        status: HERO_POST_STAT.PENDING, 
     }
 
     const handleSubmit = async (values:HeroPostType) => {
-        
+        const reToken  = executeRecaptcha ? await executeRecaptcha('form') : null;
         const l = lengthWords(values.body);
         if (!((l>=10) && (l<=200))) return showToast(t('hero.post.wordsInfo'),'danger');
-        const resSave = await heroSavePost(values.ID, values);
+        const resSave = await heroSavePost(values.ID, values, reToken);
         if (resSave) showToast(values.ID ? t('hero.messPostSaved') : t('hero.messPostCreated'), 'success') 
             else showToast(t('error'), 'danger')
         setUpdate(Date.now().toString());

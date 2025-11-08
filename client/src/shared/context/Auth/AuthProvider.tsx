@@ -2,7 +2,7 @@
 import { CommonComponentChildren } from "@/types";
 import { AuthContext, useAuthModel } from "./model/useAuth"
 import { AuthResultType } from "@global/types"; 
-
+ 
 interface AuthProviderProps extends CommonComponentChildren{ 
     authDef?:AuthResultType | null;
 }

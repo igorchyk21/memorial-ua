@@ -4,14 +4,11 @@ import { CommonComponentChildren } from "@/types";
 
 export const GlobalProvider = ({children}:CommonComponentChildren) => {
 
-    const {loading, setLoading} = useGlobalModel();
+    const values = useGlobalModel();
  
     return (
         <GlobalContext.Provider 
-            value={{
-                loading,
-                setLoading 
-            }}>
+            value={values}>
             {children}
         </GlobalContext.Provider>
     )

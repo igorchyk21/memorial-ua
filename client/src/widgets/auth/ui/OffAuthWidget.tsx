@@ -34,7 +34,7 @@ const OffAuthWidget = () => {
                 </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>
-                <ReCaptcha>
+                 
                     {showAction === 'login' &&
                         (<AuthLoginForm/>)}                
 
@@ -43,7 +43,7 @@ const OffAuthWidget = () => {
 
                     {showAction === 'recovery' &&
                         (<AuthRecoveryForm />)}  
-                </ReCaptcha>                                 
+                                              
             </Offcanvas.Body>
             <div className="px-3">
               <p className="fs-xs">&copy; Growth Meet. All rights reserved 2025.</p>

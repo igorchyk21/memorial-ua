@@ -1,19 +1,26 @@
-import { HeroSlider } from "@/entities/hero";
-import { HeroNavigate } from "@/features/hero";
-import { HeroLayoutWidget } from "@/widgets";
-import { HeroShortType } from "@global/types"
+import { HeroNavigate, HeroUploadPhoto } from "@/features/hero";
+import { HeroLayoutWidget, HeroPhotosWidget } from "@/widgets";
+import { HeroPhotoItem, HeroShortType } from "@global/types"
 
 interface Props {
     hero:HeroShortType;
+    photos:HeroPhotoItem[]
 }
-const HeroPhotoPage = ({hero}:Props) => { 
+const HeroPhotoPage = ({hero, photos}:Props) => { 
     return (<>
         <HeroNavigate/>
-        <main className="container mx-auto p-5">
-            <HeroLayoutWidget 
+        <main className="container mx-auto p-4"> 
+            <HeroLayoutWidget  
                 hero={hero}>
-                <h1>Photo</h1>
-            </HeroLayoutWidget>
+                <div className="d-flex justify-content-between">
+                    <h3 className="text-start">{`${hero.fName} ${hero.lName}`}</h3>
+                    <HeroUploadPhoto heroId={hero.ID}/> 
+                </div>
+                <HeroPhotosWidget
+                    heroId={hero.ID}
+                    photos={photos}
+                    heroName={`${hero.fName} ${hero.lName}`}/>
+            </HeroLayoutWidget> 
         </main>
     </>)
 }

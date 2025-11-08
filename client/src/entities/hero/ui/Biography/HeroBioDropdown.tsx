@@ -18,7 +18,7 @@ const HeroBioDropdown = ({onClickEdit,onClickDelete,delDisabled}:Props) => {
                 className={`btn-icon border-0 animate-slide-end  rounded-pill`}
                 variant="secondary"
                 size="sm">
-                    <i className="_ci-settings ci-more-horizontal animate-target fs-sm" style={{width:14}} />
+                    <i className="ci-tool animate-target fs-sm" style={{width:14}} />
             </Dropdown.Toggle>
             <Dropdown.Menu>
                 <Dropdown.Item onClick={onClickEdit}><i className="ci-edit me-2"/>{t('hero.biography.edit')}</Dropdown.Item>

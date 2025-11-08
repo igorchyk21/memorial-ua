@@ -11,15 +11,20 @@ interface Props  {
     onClickEdit:()=>void;
     onClickDelete:()=>void;
     onClickStatus:(newStatus:HERO_POST_STAT)=>void;
-    hideBorder?:boolean;
-
+ 
 }
-const HeroPostCard = ({post, onClickEdit, onClickDelete, onClickStatus, hideBorder}:Props) => {
+const HeroPostCard = ({post, onClickEdit, onClickDelete, onClickStatus}:Props) => {
 
     const { auth } = useAuth();
 
+    if (        
+        (post.status !== HERO_POST_STAT.ACTIVE) && 
+        (!auth?.user.admin) &&
+        ((!auth) || ( auth && (auth.user.ID !== post.userId)))
+    ) return null;
+
     return (
-        <div>
+        <div className="posy-item-container">
             <div className="d-flex align-items-center justify-content-between gap-3 mb-3">
                 <div className="d-flex align-items-top">
                 <div
@@ -47,7 +52,7 @@ const HeroPostCard = ({post, onClickEdit, onClickDelete, onClickStatus, hideBord
                         onClickStatus={onClickStatus}
                         postStatus={post.status}/>)}
 
-                    {!auth?.user.admin && auth?.user &&
+                    {!auth?.user.admin && auth?.user && auth?.user.ID === post.userId &&
                     (<Button
                         className={`btn-icon border-0 animate-slide-end bg-body rounded-pill`}
                         variant="secondary"
@@ -57,8 +62,8 @@ const HeroPostCard = ({post, onClickEdit, onClickDelete, onClickStatus, hideBord
                     </Button>)}
                     
                 </div>
-            </div>
-            <div className={`pb-3 ${hideBorder ? '' : 'border-bottom '}`}>{post.body}</div>
+            </div> 
+            <div className="post-body pb-3 border-bottom">{post.body}</div>
         </div>        
     )
 }

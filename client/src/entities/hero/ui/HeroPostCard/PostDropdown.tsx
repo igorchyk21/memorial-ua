@@ -30,7 +30,7 @@ const PostDropdown = ({onClickEdit,onClickDelete,onClickStatus,postStatus}:Props
                 size="sm">
                     {spinner
                     ?(<Spinner style={{height:16, width:16}}/>)
-                    :(<i className="_ci-settings ci-more-horizontal animate-target fs-sm" style={{width:14}} />)}
+                    :(<i className="ci-tool animate-target fs-sm" style={{width:14}} />)}
             </Dropdown.Toggle>
             <Dropdown.Menu>
                 <Dropdown.Item onClick={onClickEdit}><i className="ci-edit me-2"/>{t('hero.post.edit')}</Dropdown.Item>

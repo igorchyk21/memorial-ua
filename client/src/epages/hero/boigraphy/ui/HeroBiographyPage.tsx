@@ -13,7 +13,7 @@ const HeroBiographyPage = ({hero,biography}:Props) => {
     const { handleEdit } = useHeroBioEdit(hero.ID);
     const { handleDelete } = useHeroBioDelete();
     
-    return (<>
+    return (<> 
         <HeroNavigate/> 
         <main className="container mx-auto p-4">
             <HeroLayoutWidget 

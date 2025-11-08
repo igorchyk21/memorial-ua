@@ -14,7 +14,7 @@ router.delete('/post/:postId', async (req:Request, res:Response) => {
     const resDel = await _hero.deletePost(postId, !req.user.admin ? req.user.ID : undefined);
     res.json({stat:resDel})
 })
-
+ 
 // Збереження або додавання пункту біографії
 router.delete('/biography/:biographyId', middleIsAdmin, async (req:Request, res:Response) => {
     const biographyId = safeIntParse(req.params.biographyId, null);

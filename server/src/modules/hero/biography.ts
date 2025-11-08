@@ -34,7 +34,7 @@ const create = async (biography:HeroBiographyItem)
 
     if ((!biography.heroId) || (!Boolean(biography.title.trim()))) return false;
 
-    const sql = `
+    const sql = ` 
         INSERT  INTO heroes_biography
                 (hero_id, biography_dt, biography_title, biography_body)
         VALUES  (?,?,?,?)`;

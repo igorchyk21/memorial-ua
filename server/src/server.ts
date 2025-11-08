@@ -29,6 +29,16 @@ initDataBase();
        
 app.use(cookieParser());  
 app.use(express.static('public')); // Папка статичних ресурсів
+
+
+// Імітація затримки для всіх запитів до /data
+app.use("/data", async (req, res, next) => {
+  const delay = 3500; // мілісекунди
+  await new Promise(resolve => setTimeout(resolve, delay));
+  console.log(req.path)
+  next(); // передаємо далі до static
+});
+
 app.use('/data', express.static('data')); // Папка статичних ресурсів
 app.use('/modules', express.static(path.join(__dirname, 'node_modules'))); // маршрут до папки з модулями
 app.use(express.json({ limit: '100mb' }));
@@ -36,7 +46,7 @@ app.use(express.json({ type: 'application/json', limit: '50mb'}));
 app.use(express.urlencoded({ limit: '100mb', extended: true }));
 app.options(/.*/, cors(_cors.corsOptions)); // АРІ сайту
   
-startPoint(app);
+startPoint(app); 
 initRoutes(app);
 
 

@@ -7,6 +7,9 @@ import { zHeroShortSchema } from "../../modules/hero/schema/hero.js";
 import { zHeroPostSchema } from "../../modules/hero/schema/post.js";
 import { lengthWords } from "../../modules/helpers/stringHelper.js";
 import { zHeroBiographyItemSchema } from "../../modules/hero/schema/biography.js";
+import { wrapAsync } from "../../modules/helpers/functions/wrapAsync.js";
+import { middleRecaptcha } from "../../middleware/middleRecaptcha.js";
+import { HERO_POST_STAT } from "@global/types";
 const router = express.Router();
 
 // Зміна статусу Героя
@@ -20,7 +23,7 @@ router.post('/status/:heroId', middleIsAdmin, async (req:Request, res:Response) 
 }) 
 
 // Збереження допису
-router.post('/post/:postId', async (req:Request, res:Response)=>{
+router.post('/post/:postId',  wrapAsync(middleRecaptcha),  async (req:Request, res:Response)=>{
     const postId = safeIntParse(req.params.postId, null);
     if (postId === null) return res.status(400).send('Incorrect parameter "postId"');
     let resSave = null;
@@ -32,7 +35,8 @@ router.post('/post/:postId', async (req:Request, res:Response)=>{
     if (postId === 0) {
         const body = zHeroPostSchema.safeParse(req.body.post);
         if (!body.success) { console.log(body); return res.status(400).send(safeJSONParse(body.error.message));}
-        resSave = await _hero.createPost(body.data);
+        const postStatus = req.user?.admin ? HERO_POST_STAT.ACTIVE : HERO_POST_STAT.PENDING;
+        resSave = await _hero.createPost(body.data, postStatus); 
     } 
     
     // Збереження
@@ -77,6 +81,16 @@ router.post('/biography/:biographyId', middleIsAdmin, async (req:Request, res:Re
     else res.json({stat: await _heroBio.save(biographyId, body.data)})
 })
 
+
+// Сортує фотографії
+router.post('/photos/sorted/:heroId', middleIsAdmin, async(req:Request, res:Response) => {
+    const heroId = safeIntParse(req.params.heroId, null);
+    if (!heroId) return res.status(400).send('Incorrect parameter "heroId"');
+    const sortedIds = req.body.sortedIds;
+    if (!Array.isArray(sortedIds)) res.status(400).send('Incorrect body parameter "sortedIds"');
+    console.log(sortedIds);
+    res.json({stat:true});
+})
 
 // Збереження Героя
 router.post('/:heroId', middleIsAdmin, async (req:Request, res:Response)=>{

@@ -8,6 +8,7 @@ import "@shared/style/primereact.css"
 import 'primereact/resources/primereact.min.css';               // базові стилі
 import 'react-datepicker/dist/react-datepicker.css';
 import "react-quill-new/dist/quill.snow.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
  
 
 import localFont from 'next/font/local' 
@@ -21,6 +22,7 @@ import { NextIntlClientProvider } from "next-intl"
 import { FooterWidget, HeaderWidget, OffAuthWidget } from "@/widgets"
 import { ProgressProvider } from "@/shared/context/progress-context"
 import { CommonComponentChildren } from "@/types"
+import ReCaptcha from "@/shared/context/reCaptcha/ReCaptcha"
  
 export const metadata = {
     title: 'Next.js',
@@ -49,6 +51,7 @@ export default function RootLayout({children}:CommonComponentChildren) {
                     <GlobalProvider> 
                         <ToastProvider>
                             <AuthProvider authDef={null}> 
+                                <ReCaptcha>
                                 <ThemeProvider attribute="data-bs-theme" defaultTheme="system" disableTransitionOnChange>
                                     <ProgressProvider> 
                                     <OffAuthWidget/>
@@ -57,6 +60,7 @@ export default function RootLayout({children}:CommonComponentChildren) {
                                     <FooterWidget/>
                                     </ProgressProvider>
                                 </ThemeProvider>
+                                </ReCaptcha>
                             </AuthProvider>
                         </ToastProvider>
                     </GlobalProvider>

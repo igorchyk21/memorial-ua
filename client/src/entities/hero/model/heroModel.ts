@@ -1,5 +1,5 @@
-import { HERO_POST_STAT, HERO_STAT, HeroBiographyItem, HeroBiographyType, HeroListRequestParams, HeroListResponse, HeroPostType, HeroShortType } from "@global/types";
-import { apiGetHeroBiography, apiHeroDelete, apiHeroDeleteBio, apiHeroDeletePost, apiHeroGet, apiHeroGetPosts, apiHeroList, apiHeroSaveAbout, apiHeroSaveBio, apiHeroSavePost, apiHeroSetStatus, apiHeroSetStatusPost } from "../api/hero.api";
+import { HERO_POST_STAT, HERO_STAT, HeroBiographyItem, HeroBiographyType, HeroListRequestParams, HeroListResponse, HeroPhotoItem, HeroPostType, HeroShortType } from "@global/types";
+import { apiGetHeroBiography, apiHeroDelete, apiHeroDeleteBio, apiHeroDeletePost, apiHeroGet, apiHeroGetPhotos, apiHeroGetPosts, apiHeroList, apiHeroSaveAbout, apiHeroSaveBio, apiHeroSavePost, apiHeroSetStatus, apiHeroSetStatusPost, apiHeroSortedPhotos } from "../api/hero.api";
 import { insertHeroBiographyItem } from "../helper/insertHeroBiographyItem";
 
 export const heroList = async (params:HeroListRequestParams): Promise<HeroListResponse|null> => {
@@ -23,14 +23,15 @@ export const heroDelete = async (heroId:number): Promise<boolean> => {
 }
 
 /**
- * HERO POST
+ * ДОПИСИ ГЕРОЯ
  */
+
 export const heroGetPosts = async (heroId:number): Promise<HeroPostType[]|null> => {
     return await apiHeroGetPosts(heroId);
 }
 
-export const heroSavePost = async (postId:number, post:HeroPostType): Promise<boolean> => {
-    return await apiHeroSavePost(postId, post);
+export const heroSavePost = async (postId:number, post:HeroPostType, reToken?:string|null): Promise<boolean> => {
+    return await apiHeroSavePost(postId, post, reToken);
 }
 
 export const heroSetStatusPost = async (postId:number, postStatus:HERO_POST_STAT): Promise<boolean> => {
@@ -43,7 +44,7 @@ export const heroDeletePost = async (postId:number): Promise<boolean> => {
 
 
 /**
- * BIOGRAPHY 
+ * БІОГРАФІЯ ГЕРОЯ
  */
 
 export const heroGetBiography = async (heroId:number, hero:HeroShortType): Promise<HeroBiographyType> => {
@@ -66,4 +67,17 @@ export const heroSaveBio = async (biographyId:number, biographyItem:HeroBiograph
 
 export const heroDeleteBio = async (biographyId:number): Promise<boolean> => {
     return await apiHeroDeleteBio(biographyId);
+}
+
+
+/**
+ * ФОТОГАЛЕРЕЯ ГЕРОЯ
+ */
+
+export const heroGetPhotos = async (heroId:number): Promise<HeroPhotoItem[]|null> => {
+    return await apiHeroGetPhotos(heroId);
+}
+
+export const heroSorterPhotos = async (heroId:number, sortedIds:number[]): Promise<boolean> => {
+    return await apiHeroSortedPhotos(heroId, sortedIds);
 }

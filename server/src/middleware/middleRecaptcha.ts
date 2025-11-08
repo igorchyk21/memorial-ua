@@ -6,7 +6,6 @@ import axios from "axios";
  
 
 export const middleRecaptcha = async (req: Request, res: Response, next: NextFunction) => {
-
     const RECAPTCHA_SECRET_KEY = conf.captchaSecret || '';
     const token = req?.body?.reToken||'';
 
@@ -18,6 +17,7 @@ export const middleRecaptcha = async (req: Request, res: Response, next: NextFun
         const params = new URLSearchParams();
         params.append('secret', RECAPTCHA_SECRET_KEY);
         params.append('response', token);
+        params.append('action', 'form');
 
         const response = await axios.post(verifyUrl, params);
         const data = response.data;

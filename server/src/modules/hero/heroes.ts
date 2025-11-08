@@ -152,7 +152,7 @@ const setStatusPost = async (postId:number, postStatus:HERO_POST_STAT)
 }
 
 // Свторення допису
-const createPost = async (post:HeroPostType) 
+const createPost = async (post:HeroPostType, postStatus=HERO_POST_STAT.PENDING) 
     : Promise<boolean> => {
 
     const sql = `
@@ -166,7 +166,7 @@ const createPost = async (post:HeroPostType)
         Date.now(),
         post.author,
         cleanHTML(post.body),
-        HERO_POST_STAT.PENDING]
+        postStatus]
 
     try { 
         const [r] = await conn.execute<ResultSetHeader>(sql, params);
@@ -175,7 +175,7 @@ const createPost = async (post:HeroPostType)
         console.error(e);
         return false;
     }
-}
+} 
 
 const deletePost = async (postId:number, userId?:number)
     : Promise<boolean> => {

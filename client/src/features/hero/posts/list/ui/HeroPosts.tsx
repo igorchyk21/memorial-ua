@@ -20,7 +20,6 @@ const HeroPosts = ({posts, onClickEdit,onClickDelete,onClickStatus}:Props) => {
                 {posts.map((post,i)=>(
                     <HeroPostCard  
                         key={post.ID} post={post}
-                        hideBorder={i===posts.length-1}
                         onClickEdit={()=>onClickEdit(post)}
                         onClickDelete={()=>onClickDelete(post.ID, post.body, post.author||post.userName||'-')}
                         onClickStatus={(newStatus)=>onClickStatus(post.ID, newStatus)}/>
