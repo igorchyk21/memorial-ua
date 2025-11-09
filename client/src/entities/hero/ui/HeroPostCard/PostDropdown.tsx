@@ -9,7 +9,7 @@ interface Props {
     onClickDelete:()=>void;
     onClickStatus:(newStatus:HERO_POST_STAT)=>void;
     postStatus:HERO_POST_STAT
-}
+} 
   
 const PostDropdown = ({onClickEdit,onClickDelete,onClickStatus,postStatus}:Props) => {
 

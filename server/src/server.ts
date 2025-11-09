@@ -33,7 +33,7 @@ app.use(express.static('public')); // Папка статичних ресурс
 
 // Імітація затримки для всіх запитів до /data
 app.use("/data", async (req, res, next) => {
-  const delay = 3500; // мілісекунди
+  const delay = 0; // мілісекунди
   await new Promise(resolve => setTimeout(resolve, delay));
   console.log(req.path)
   next(); // передаємо далі до static

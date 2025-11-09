@@ -17,7 +17,7 @@ const HeroPosts = ({posts, onClickEdit,onClickDelete,onClickStatus}:Props) => {
     return (<>
         <div className="bg-body-tertiary rounded-4 p-4 p-sm-5 mb-4">
             <div className="vstack gap-3 gap-md-4 mt-n3">
-                {posts.map((post,i)=>(
+                {posts.map((post,i)=>( 
                     <HeroPostCard  
                         key={post.ID} post={post}
                         onClickEdit={()=>onClickEdit(post)}

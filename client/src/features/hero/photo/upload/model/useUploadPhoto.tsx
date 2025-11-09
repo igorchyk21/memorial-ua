@@ -32,7 +32,7 @@ const useUploadPhoto = (heroId:number) => {
                 const _file = (file.type.startsWith('image/')) ? await fileToWebpFile(file) : file; 
                 uFiles.push(_file || file);
             }
-
+ 
             const resUpload = await uploadFiles(uFiles, handleUploadProgress, `hero/photo/${heroId}`)
             if (resUpload?.stat) showToast(t('hero.messPhotoUpload'), 'success')
                 else showToast(t('hero.photo.errorUpload'), 'danger')

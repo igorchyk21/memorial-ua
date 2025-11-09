@@ -7,10 +7,12 @@ import { Button, Dropdown, Spinner } from "react-bootstrap"
 interface Props {
     onClickDelete:()=>void;
     onClickStatus:(newStatus:HERO_PHOTO_STAT)=>void;
-    photoStatus:HERO_PHOTO_STAT
+    onClickSetMain:()=>void;
+    photoStatus:HERO_PHOTO_STAT;
+    disabled?:boolean;
 }
   
-const HeroPhotoDropdown = ({onClickDelete,onClickStatus,photoStatus}:Props) => {
+const HeroPhotoDropdown = ({onClickDelete,onClickStatus,onClickSetMain,photoStatus,disabled}:Props) => {
 
     const t = useTranslations();
     const [ spinner, setSpinner ] = useState(false)
@@ -20,25 +22,37 @@ const HeroPhotoDropdown = ({onClickDelete,onClickStatus,photoStatus}:Props) => {
         await onClickStatus(status)
         setSpinner(false);
     }
-    return (<>
+    return (<> 
+
+        {HERO_PHOTO_STAT.ACTIVE === photoStatus &&
+        (<Button className="btn-icon ms-1 rounded-circle p-0" 
+            variant="primary"
+            disabled={disabled}
+            style={{width:24, height:24}}
+            onClick={async ()=>onClickSetMain()}>
+                <i className="ci-image"/></Button>)}
+
         {[HERO_PHOTO_STAT.PENDING, HERO_PHOTO_STAT.REJECT].includes(photoStatus) &&
         (<Button className="btn-icon ms-1 rounded-circle p-0" 
             variant="success"
+            disabled={disabled}
             style={{width:24, height:24}}
             onClick={async ()=>clickStatus(HERO_PHOTO_STAT.ACTIVE)}>
                 <i className="ci-check-circle"/></Button>)}
 
         {[HERO_PHOTO_STAT.PENDING, HERO_PHOTO_STAT.ACTIVE].includes(photoStatus) &&
         (<Button className="btn-icon ms-1 rounded-circle" 
-            variant="warning"                    
+            variant="warning"  
+            disabled={disabled}                  
             style={{width:24, height:24}}
             onClick={async ()=>clickStatus(HERO_PHOTO_STAT.REJECT)}>
                 <i className="ci-close-circle"/></Button>)}
 
         <Button className="btn-icon ms-1 rounded-circle" 
             variant="danger"
+            disabled={disabled}
             style={{width:24, height:24}}
-            onClick={onClickDelete}><i className="ci-trash-empty"/></Button>
+            onClick={async () => onClickDelete()}><i className="ci-trash-empty"/></Button>
     </>)
 }
 

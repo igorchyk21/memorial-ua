@@ -4,7 +4,7 @@ import { apiUploadFiles } from "../api/apiFiles";
 export const uploadFiles = async (files:File[], onUploadProgress:((progressEvent: AxiosProgressEvent) => void)|null, path?:string) => {
 
     if (!files?.length) return;
-     
+      
     // Формуємо форму файлів з масиву файлів для відвантаження
     const formData = new FormData();
     for (let i = 0; i < files.length; i++) {

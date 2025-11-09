@@ -1,5 +1,5 @@
-import { HERO_POST_STAT, HERO_STAT, HeroBiographyItem, HeroBiographyType, HeroListRequestParams, HeroListResponse, HeroPhotoItem, HeroPostType, HeroShortType } from "@global/types";
-import { apiGetHeroBiography, apiHeroDelete, apiHeroDeleteBio, apiHeroDeletePost, apiHeroGet, apiHeroGetPhotos, apiHeroGetPosts, apiHeroList, apiHeroSaveAbout, apiHeroSaveBio, apiHeroSavePost, apiHeroSetStatus, apiHeroSetStatusPost, apiHeroSortedPhotos } from "../api/hero.api";
+import { HERO_PHOTO_STAT, HERO_POST_STAT, HERO_STAT, HeroBiographyItem, HeroBiographyType, HeroListRequestParams, HeroListResponse, HeroPhotoItem, HeroPostType, HeroShortType } from "@global/types";
+import { apiGetHeroBiography, apiHeroDelete, apiHeroDeleteBio, apiHeroDeletePhoto, apiHeroDeletePost, apiHeroGet, apiHeroGetPhotos, apiHeroGetPosts, apiHeroList, apiHeroSaveAbout, apiHeroSaveBio, apiHeroSavePost, apiHeroSetStatus, apiHeroSetStatusPhoto, apiHeroSetStatusPost, apiHeroSortedPhotos } from "../api/hero.api";
 import { insertHeroBiographyItem } from "../helper/insertHeroBiographyItem";
 
 export const heroList = async (params:HeroListRequestParams): Promise<HeroListResponse|null> => {
@@ -80,4 +80,12 @@ export const heroGetPhotos = async (heroId:number): Promise<HeroPhotoItem[]|null
 
 export const heroSorterPhotos = async (heroId:number, sortedIds:number[]): Promise<boolean> => {
     return await apiHeroSortedPhotos(heroId, sortedIds);
+}
+
+export const heroSetStatusPhoto = async (photoId:number, photoStatus:HERO_PHOTO_STAT): Promise<boolean> => {
+    return await apiHeroSetStatusPhoto(photoId, photoStatus);
+}
+
+export const heroDeletePhoto = async (photoId:number): Promise<boolean> => {
+    return await apiHeroDeletePhoto(photoId);
 }

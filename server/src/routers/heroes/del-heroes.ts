@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import _hero from "../../modules/hero/heroes.js";
 import _heroBio from "../../modules/hero/biography.js";
+import _heroPhoto from "../../modules/hero/photo.js";
 import { middleIsAdmin } from "../../middleware/middleIdAdmin.js";
 import { safeIntParse } from "../../modules/helpers/gim-beckend-helpers.js";
 const router = express.Router();
@@ -20,7 +21,19 @@ router.delete('/biography/:biographyId', middleIsAdmin, async (req:Request, res:
     const biographyId = safeIntParse(req.params.biographyId, null);
     if (!biographyId) return res.status(400).send('Incorrect parameter "biographyId"');
     res.json({stat: await _heroBio.deleteBio(biographyId)});
+}) 
+
+
+// Видалення фото Героя
+router.delete('/photo/:photoId', async (req:Request, res:Response) => {
+    if (!req.user) return res.sendStatus(403);
+    const photoId = safeIntParse(req.params.photoId, null);
+    if (!photoId) return res.status(400).send('Incorrect parameter "photoId"');
+    // Якщо адмін - не передаємо ІД користувача, якщо ні - передаємо ІД користувача для ідентифікації
+    const resDel = await _heroPhoto.deletePhoto(photoId, !req.user.admin ? req.user.ID : undefined);
+    res.json({stat:resDel})
 })
+ 
 
 // Видалення Героя
 router.delete('/:heroId', middleIsAdmin, async (req:Request, res:Response) =>{ 

@@ -1,6 +1,7 @@
 import express, { Request, Response } from "express";
 import _hero from "../../modules/hero/heroes.js";
 import _heroBio from "../../modules/hero/biography.js";
+import _heroPhoto from "../../modules/hero/photo.js";
 import { middleIsAdmin } from "../../middleware/middleIdAdmin.js";
 import { safeIntParse, safeJSONParse } from "../../modules/helpers/gim-beckend-helpers.js";
 import { zHeroShortSchema } from "../../modules/hero/schema/hero.js";
@@ -83,13 +84,23 @@ router.post('/biography/:biographyId', middleIsAdmin, async (req:Request, res:Re
 
 
 // Сортує фотографії
-router.post('/photos/sorted/:heroId', middleIsAdmin, async(req:Request, res:Response) => {
+router.post('/photo/sorted/:heroId', middleIsAdmin, async(req:Request, res:Response) => {
     const heroId = safeIntParse(req.params.heroId, null);
     if (!heroId) return res.status(400).send('Incorrect parameter "heroId"');
     const sortedIds = req.body.sortedIds;
     if (!Array.isArray(sortedIds)) res.status(400).send('Incorrect body parameter "sortedIds"');
-    console.log(sortedIds);
-    res.json({stat:true});
+    const resSort = await _heroPhoto.sorted(heroId, sortedIds);
+    res.json({stat:resSort});
+})
+
+// Зміна статусу фотографії
+router.post('/photo/status/:photoId', async (req:Request, res:Response)=>{
+    const photoId = safeIntParse(req.params.photoId, null);
+    if (!photoId) return res.status(400).send('Incorrect parameter "photoId"');
+    const photoStatus = safeIntParse(req.body.photoStatus, null);
+    if (photoStatus === null) return res.status(400).send('Incorrect body parameter "photoStatus"');
+    const resStat = await _heroPhoto.setStatus(photoId, photoStatus); 
+    res.json({stat:resStat});
 })
 
 // Збереження Героя

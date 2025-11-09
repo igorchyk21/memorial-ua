@@ -12,3 +12,4 @@ export * from "./about/edit/model/useHeroEdit";
 export * from "./about/delete/model/useHeroDelete";
 export * from "./biography/edit/model/useHeroBioEdit";
 export * from "./biography/delete/model/useHeroBioDelete";
+export * from "./photo/actions/model/useHeroPhotoActions";

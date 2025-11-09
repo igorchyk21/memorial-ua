@@ -1,5 +1,5 @@
 import iAxios from "@/shared/api/iAxios";
-import { HERO_POST_STAT, HERO_STAT, HeroBiographyItem, HeroBiographyType, HeroListRequestParams, HeroListResponse, HeroPhotoItem, HeroPostType, HeroShortType } from "@global/types";
+import { HERO_PHOTO_STAT, HERO_POST_STAT, HERO_STAT, HeroBiographyItem, HeroBiographyType, HeroListRequestParams, HeroListResponse, HeroPhotoItem, HeroPostType, HeroShortType } from "@global/types";
 import { isAbsolute } from "path";
 
 // Повертає список Героїв
@@ -144,12 +144,13 @@ export const apiHeroSaveBio = async (biographyId:number, biographyItem:HeroBiogr
     }
 } 
 
-
+ 
 
 /**
  * ФОТОГАЛЕРЕЯ ГЕРОЯ
  */
 
+// Повертає фото Героя
 export const apiHeroGetPhotos = async (heroId:number): Promise<HeroPhotoItem[]|null> => {
     try {
         const r = await iAxios(`/hero/photos/${heroId}`);
@@ -160,10 +161,33 @@ export const apiHeroGetPhotos = async (heroId:number): Promise<HeroPhotoItem[]|n
     }
 }
 
+// Зміна сортування
 export const apiHeroSortedPhotos = async (heroId:number, sortedIds:number[]): Promise<boolean> => {
     try {
-        const r = await iAxios.post(`/hero/photos/sorted/${heroId}`, {sortedIds});
+        const r = await iAxios.post(`/hero/photo/sorted/${heroId}`, {sortedIds});
         return r.data.stat;
+    } catch(e){
+        console.error(e);
+        return false;
+    }
+}
+
+// Зміна статусу
+export const apiHeroSetStatusPhoto= async (photoId:number, photoStatus:HERO_PHOTO_STAT): Promise<boolean> => {
+    try {
+        const r = await iAxios.post(`/hero/photo/status/${photoId}`, {photoStatus});
+        return r.data.stat || false;
+    } catch(e){
+        console.error(e);
+        return false;
+    }
+} 
+
+// Видалення фото
+export const apiHeroDeletePhoto = async (photoId:number): Promise<boolean> => {
+    try {
+        const r = await iAxios.delete(`/hero/photo/${photoId}`);
+        return r.data.stat || false;
     } catch(e){
         console.error(e);
         return false;

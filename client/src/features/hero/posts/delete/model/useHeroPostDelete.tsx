@@ -9,7 +9,7 @@ export const useHeroPostDelete = () => {
     const { showToast } = useToast();
     const { hideDialog, showDialog } = useModal();
     const [ update, setUpdate ] = useQueryState<string>('update');
-
+ 
     const _postDelete = async (postId:number) => {
         const resDel = await heroDeletePost(postId);
         if (!resDel) showToast(t('error'), 'danger');

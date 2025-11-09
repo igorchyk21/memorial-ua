@@ -27,10 +27,10 @@ const HeroPostsListWidget = ({posts, heroId}:Props) => {
                     {t('hero.post.leavePost')}
             </Button>
         </div> 
-        {posts &&
+        {posts && 
             (<HeroPosts  
                 onClickEdit={handleClickEdit}
-                onClickDelete={handleClickDelete}
+                onClickDelete={handleClickDelete} 
                 onClickStatus={handleClickStatus}
                 posts={posts}/>)}
     </>)

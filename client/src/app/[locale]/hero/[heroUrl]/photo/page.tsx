@@ -11,8 +11,7 @@ const Page = async ({params}:{params:any}) => {
     const [id, url] = stringUrlIdCortage(heroUrl);
     const resHero = await heroGet(id,url);
     if (!resHero) notFound(); 
-    const resPhoto = await heroGetPhotos(resHero.ID)
-    console.log(resPhoto)
+    const resPhoto = await heroGetPhotos(resHero.ID);
     return (<HeroPhotoPage 
                 photos={resPhoto||[]}
                 hero={resHero}/>)   

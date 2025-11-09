@@ -1,7 +1,7 @@
 "use client";
 import { HeroPhotoDropdown } from "@/entities/hero";
 import { useGlobal } from "@/shared/context/Global/model/useGlobal";
-import { HeroPhotoItem } from "@global/types";
+import { HERO_PHOTO_STAT, HeroPhotoItem } from "@global/types";
 import { useTranslations } from "next-intl";
 import { Col, Row } from "react-bootstrap";
 import HeroPhoto from "./HeroPhoto";
@@ -15,12 +15,17 @@ interface Props {
     heroName?:string;
     photos:HeroPhotoItem[];
     onSort?: (newOrder: HeroPhotoItem[]) => void;
+
+    onClickStatus:(photoId:number, newStatus:HERO_PHOTO_STAT)=>void;
+    onClickDelete:(photoId:number)=>void;
+    onClickSetMain:(photoId:number)=>void;
 }
 
-const HeroPhotos = ({ heroId, heroName, photos, onSort }:Props) => {
+const HeroPhotos = ({ heroId, heroName, photos, onSort, onClickStatus, onClickDelete, onClickSetMain}:Props) => {
     const t = useTranslations();
     const { smallPhotos } = useGlobal();
     const { list, setList, changeSort} = useHeroPhotos(heroId, photos);
+    const [ showSpinner, setShowSpinner ] = useState<number[]>([]);
     if (smallPhotos === null) return null;
 
     return (
@@ -56,17 +61,25 @@ const HeroPhotos = ({ heroId, heroName, photos, onSort }:Props) => {
                             <i className="ci-move"/>
                         </div>
 
-                        <HeroPhoto photo={photo} heroName={heroName} />
+                        <HeroPhoto 
+                            photo={photo} 
+                            heroName={heroName}
+                            showSpinner={showSpinner.includes(photo.ID)} />
 
                         <div
                             className="position-absolute pe-4 w-100 text-end"
                             style={{ bottom: 5 }}
-                        >
-                            <HeroPhotoDropdown
-                                onClickDelete={() => null}
-                                onClickStatus={() => null}
-                                photoStatus={photo.status}
-                            />
+                        > 
+                            <HeroPhotoDropdown  
+                                disabled={showSpinner.includes(photo.ID)}
+                                onClickDelete={async () => {onClickDelete(photo.ID)}}
+                                onClickStatus={async (newstatus) => {
+                                    setShowSpinner(prev=>[...prev,photo.ID]);
+                                    await onClickStatus(photo.ID, newstatus)
+                                    setShowSpinner(prev=>prev.filter(id=>id!==photo.ID));
+                                }}
+                                onClickSetMain={async ()=>onClickSetMain(photo.ID)}
+                                photoStatus={photo.status}/>
                         </div>
                     </Col>
                 ))}

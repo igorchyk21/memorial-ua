@@ -1,10 +1,12 @@
 import { HERO_PHOTO_STAT, HeroPhotoItem } from "@global/types";
 import { Pool, ResultSetHeader, RowDataPacket } from "mysql2/promise";
+import { safeIntParse } from "../helpers/gim-beckend-helpers.js";
+import fs from "fs";
 
 let conn:Pool;
 const setConn = (_conn:Pool) => { conn = _conn };
 
-const get = async (heroId:number)
+const get = async (heroId:number|null, photoId?:number)
     : Promise<HeroPhotoItem[]|null> => {
 
     const sql = `
@@ -19,11 +21,12 @@ const get = async (heroId:number)
                 users.user_picture                  as userPicture 
         FROM    heroes_photos
         LEFT    JOIN users ON users.ID = heroes_photos.user_id
-        WHERE   heroes_photos.hero_id = ?
-        AND     heroes_photos.deleted = 0`;
+        WHERE   ${photoId ? 'heroes_photos.ID = ?' : 'heroes_photos.hero_id = ?'}
+        AND     heroes_photos.deleted = 0
+        ORDER   BY photo_ord, ID DESC`;
 
     try { 
-        const [r] = await conn.execute<(RowDataPacket & HeroPhotoItem)[]>(sql, [heroId])
+        const [r] = await conn.execute<(RowDataPacket & HeroPhotoItem)[]>(sql, [photoId ? photoId : heroId])
         return r;
     } catch(e){
         console.error(e);
@@ -31,6 +34,7 @@ const get = async (heroId:number)
     }
 
 }
+
 
 // Додаємємо фото Героя
 const add = async (heroId: number, userId:number, photos:string[], photoStatus=HERO_PHOTO_STAT.PENDING) 
@@ -72,12 +76,53 @@ const sorted = async (heroId:number, sortedIds:number[]) => {
 }
 
 
+const setStatus = async (photoId:number, photoStatus:HERO_PHOTO_STAT)
+    : Promise<boolean> => {
 
+    const sql = `
+        UPDATE  heroes_photos
+        SET     photo_status = ?
+        WHERE   ID = ?
+    `;
+
+    try {
+        const [r] = await conn.execute<ResultSetHeader>(sql,[photoStatus, photoId]);
+        return r.affectedRows === 1;
+    }  catch(e) {
+        console.error(e);
+        return false;
+    }
+}
+
+export const deletePhoto = async (photoId:number, userId:number)
+    : Promise<boolean> => {
+    
+
+    const photo = await get(null, photoId);
+    if (!photo?.[0]) return false;
+    console.log(photo)
+    const where = ` 
+        WHERE   ID = ${safeIntParse(photoId)} 
+                ${typeof userId !== 'undefined' ? `AND user_id = ${safeIntParse(userId)}` : '' }`;
+
+    const sql = `DELETE FROM heroes_photos ${where}`;
+
+    try {
+        const [r] = await conn.execute<ResultSetHeader>(sql);
+        fs.unlinkSync(photo?.[0].url);
+        return r.affectedRows  === 1;
+    } catch(e){
+        console.error(e);
+        return false;
+    }
+}
 
 
 export default {
     setConn,
     get,
     add,
-    sorted
+    sorted,
+    setStatus,
+    deletePhoto
 }
