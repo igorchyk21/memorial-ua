@@ -5,7 +5,7 @@ import { HERO_PHOTO_STAT, HeroPhotoItem } from "@global/types";
 import { useTranslations } from "next-intl";
 import { Button } from "react-bootstrap";
 
-interface Props {
+interface Props { 
     heroId:number;
     photos:HeroPhotoItem[];
     heroName?:string;

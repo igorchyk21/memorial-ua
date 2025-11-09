@@ -6,6 +6,8 @@ export { default as HeroBiography } from "./biography/show/ui/HeroBiography";
 export { default as HeroUploadPhoto } from "./photo/upload/ui/HeroUploadPhoto";
 export { default as HeroPhotos } from "./photo/list/ui/HeroPhotos";
 export { default as HeroPhotosHeader } from "./photo/list/ui/HeroPhotosHeader";
+export { default as HeroPhotoSetMain } from "./photo/setMain/ui/HeroPhotoSetMain"
+export { default as HeroEditForm } from "./about/edit/ui/HeroEditForm";
 export * from "./posts/edit/model/useHeroPostEdit";
 export * from "./posts/delete/model/useHeroPostDelete";
 export * from "./about/edit/model/useHeroEdit";

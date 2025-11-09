@@ -10,7 +10,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import "react-quill-new/dist/quill.snow.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
  
-
+ 
 import localFont from 'next/font/local' 
 import { Inter } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'

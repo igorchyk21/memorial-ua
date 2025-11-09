@@ -10,13 +10,13 @@ import ReactQuillSimple from "@/shared/ui/editors/ReactQuill";
 import { useEffect, useRef } from "react";
 import { uk }  from "date-fns/locale/uk";
 
-interface Props {
+interface Props { 
     hero:HeroShortType;
     handleSubmit:(values:HeroShortType)=>void;
     handleCancel:()=>void;
     darkTheme?:boolean;
 }
-
+ 
 const HeroEditForm = ({hero, handleSubmit, handleCancel, darkTheme}:Props) => {
 
     const refInputLName = useRef<HTMLInputElement>(null);

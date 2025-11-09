@@ -1,10 +1,19 @@
 import { HERO_PHOTO_STAT, HeroPhotoItem } from "@global/types";
 import { Pool, ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { safeIntParse } from "../helpers/gim-beckend-helpers.js";
-import fs from "fs";
+import fs from "fs/promises";
+import path from "path";
+import conf from "../../config/conf.js";
+import { v4 as uuidv4 } from "uuid";
+import sharp from "sharp";
+import { deleteFile } from "../helpers/files/files.js";
+
+const PROGILEPHOTOWIDTH     = 600;
 
 let conn:Pool;
 const setConn = (_conn:Pool) => { conn = _conn };
+
+sharp.cache(false);
 
 const get = async (heroId:number|null, photoId?:number)
     : Promise<HeroPhotoItem[]|null> => {
@@ -35,6 +44,18 @@ const get = async (heroId:number|null, photoId?:number)
 
 }
 
+const getAboutPhoto = async (heroId:number)
+    : Promise<string|null> => {
+
+    const sql = `SELECT hero_photo FROM heroes WHERE ID = ?`;
+    try {
+        const [r]:any = await conn.execute(sql,[heroId]);
+        return r?.[0]?.hero_photo || null;
+    } catch(e){
+        console.error(e);
+        return null;
+    }
+}
 
 // Додаємємо фото Героя
 const add = async (heroId: number, userId:number, photos:string[], photoStatus=HERO_PHOTO_STAT.PENDING) 
@@ -109,13 +130,56 @@ export const deletePhoto = async (photoId:number, userId:number)
 
     try {
         const [r] = await conn.execute<ResultSetHeader>(sql);
-        fs.unlinkSync(photo?.[0].url);
+        await deleteFile(photo?.[0].url);
         return r.affectedRows  === 1;
     } catch(e){
         console.error(e);
         return false;
     }
 }
+
+// зміна фотографії профіля
+const setMainPhoto = async (heroId:number, imgData:string): Promise<boolean> => {
+    try {
+        const fileName  = `${uuidv4()}.webp`;
+        const path4file = path.join(conf.dataFolder, 'heroes', heroId.toString(), fileName);
+        const dir4file = path.join(conf.dataFolder, 'heroes', heroId.toString());
+        await fs.mkdir(dir4file, { recursive: true });
+        /**
+         * Видаляємо префікс `data:image/png;base64,` К
+         * Конвертуємо Base64 у Buffer
+         * Обробляємо зображення через sharp
+         **/ 
+        imgData = imgData.replace(/^data:image\/\w+;base64,/, "");
+        const imageBuffer = Buffer.from(imgData, "base64");
+        await sharp(imageBuffer)
+            .resize({ width: PROGILEPHOTOWIDTH }) 
+            .toFormat("webp")
+            .toFile(path4file); 
+
+        // видаляємо старе фото 
+        const oldPhoto = await getAboutPhoto(heroId);
+        if (oldPhoto) 
+            deleteFile(oldPhoto);
+ 
+        
+        // Зберыгаэмо назву файлу в таблиці
+        const sql = `UPDATE heroes SET hero_photo = ? WHERE ID = ?`;
+        const params = [path4file, heroId];
+        await conn.execute(sql, params);
+
+        return true;
+        // Видалємо старі файли
+
+    } catch(e) {
+        console.error(e);
+        return false;
+    }
+
+}
+
+
+
 
 
 export default {
@@ -124,5 +188,6 @@ export default {
     add,
     sorted,
     setStatus,
-    deletePhoto
+    deletePhoto,
+    setMainPhoto
 }

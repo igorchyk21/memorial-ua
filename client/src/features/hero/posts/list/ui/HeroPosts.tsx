@@ -10,7 +10,7 @@ interface Props {
     onClickEdit:(post:HeroPostType)=>void;
     onClickDelete:(postId:number, postBody:string, author:string)=>void;
     onClickStatus:(postId:number, newStatus:HERO_POST_STAT)=>void;    
-}
+} 
 
 const HeroPosts = ({posts, onClickEdit,onClickDelete,onClickStatus}:Props) => {
     const t = useTranslations();
@@ -18,7 +18,7 @@ const HeroPosts = ({posts, onClickEdit,onClickDelete,onClickStatus}:Props) => {
         <div className="bg-body-tertiary rounded-4 p-4 p-sm-5 mb-4">
             <div className="vstack gap-3 gap-md-4 mt-n3">
                 {posts.map((post,i)=>( 
-                    <HeroPostCard  
+                    <HeroPostCard   
                         key={post.ID} post={post}
                         onClickEdit={()=>onClickEdit(post)}
                         onClickDelete={()=>onClickDelete(post.ID, post.body, post.author||post.userName||'-')}

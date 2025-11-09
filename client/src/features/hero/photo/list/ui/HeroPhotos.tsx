@@ -9,6 +9,7 @@ import { ReactSortable } from "react-sortablejs";
 import { useState } from "react";
 import { isSameOrderByID } from "../../helper/isSameOrderByID";
 import useHeroPhotos from "../model/useHeroPhotos";
+import { useAuth } from "@/shared/context/Auth";
 
 interface Props {
     heroId:number;
@@ -24,6 +25,7 @@ interface Props {
 const HeroPhotos = ({ heroId, heroName, photos, onSort, onClickStatus, onClickDelete, onClickSetMain}:Props) => {
     const t = useTranslations();
     const { smallPhotos } = useGlobal();
+    const { auth } = useAuth();
     const { list, setList, changeSort} = useHeroPhotos(heroId, photos);
     const [ showSpinner, setShowSpinner ] = useState<number[]>([]);
     if (smallPhotos === null) return null;
@@ -45,32 +47,40 @@ const HeroPhotos = ({ heroId, heroName, photos, onSort, onClickStatus, onClickDe
             animation={150}
             handle=".sortable-handle">
             
-                {list.map((photo) => (
-                    <Col
+                {list
+                    .filter(photo=>{
+                        return !((photo.status !== HERO_PHOTO_STAT.ACTIVE) && 
+                                (!auth?.user.admin) &&
+                                ((!auth) || ( auth && (auth.user.ID !== photo.userId))));
+                    })
+                    .map((photo) => {
+                    return (<Col 
                         key={photo.ID}
                         data-id={photo.ID}
                         xs={smallPhotos ? 6 : 12}
                         sm={smallPhotos ? 4 : 6}
                         md={smallPhotos ? 3 : 6}
                         xxl={smallPhotos ? 2 : 6}
-                        className="position-relative"
-                    >
-                        {/* handle для перетягування */}
-                        <div className="sortable-handle position-absolute text-dark  p-2 btn-icon"
+                        className="position-relative">
+
+
+                        {Boolean(auth?.user.admin) &&
+                        (<div className="sortable-handle position-absolute text-dark  p-2 btn-icon"
                             style={{left:5, bottom:-5, zIndex:99, textShadow:'1px 1px 1px white', cursor:'grab'}}>
                             <i className="ci-move"/>
-                        </div>
+                        </div>)}
 
                         <HeroPhoto 
                             photo={photo} 
                             heroName={heroName}
                             showSpinner={showSpinner.includes(photo.ID)} />
 
-                        <div
+                        <div 
                             className="position-absolute pe-4 w-100 text-end"
-                            style={{ bottom: 5 }}
-                        > 
+                            style={{ bottom: 5 }}> 
                             <HeroPhotoDropdown  
+                                showDelete={Boolean(auth?.user.admin) || auth?.user.ID === photo.userId}
+                                showActions={Boolean(auth?.user.admin)}
                                 disabled={showSpinner.includes(photo.ID)}
                                 onClickDelete={async () => {onClickDelete(photo.ID)}}
                                 onClickStatus={async (newstatus) => {
@@ -81,8 +91,9 @@ const HeroPhotos = ({ heroId, heroName, photos, onSort, onClickStatus, onClickDe
                                 onClickSetMain={async ()=>onClickSetMain(photo.ID)}
                                 photoStatus={photo.status}/>
                         </div>
-                    </Col>
-                ))}
+                    </Col>)
+                })}
+                
             
         </ReactSortable>
         

@@ -1,9 +1,9 @@
 import { HERO_PHOTO_STAT, HERO_POST_STAT, HERO_STAT, HeroBiographyItem, HeroBiographyType, HeroListRequestParams, HeroListResponse, HeroPhotoItem, HeroPostType, HeroShortType } from "@global/types";
-import { apiGetHeroBiography, apiHeroDelete, apiHeroDeleteBio, apiHeroDeletePhoto, apiHeroDeletePost, apiHeroGet, apiHeroGetPhotos, apiHeroGetPosts, apiHeroList, apiHeroSaveAbout, apiHeroSaveBio, apiHeroSavePost, apiHeroSetStatus, apiHeroSetStatusPhoto, apiHeroSetStatusPost, apiHeroSortedPhotos } from "../api/hero.api";
+import { apiGetHeroBiography, apiHeroDelete, apiHeroDeleteBio, apiHeroDeletePhoto, apiHeroDeletePost, apiHeroGet, apiHeroGetPhotoById, apiHeroGetPhotos, apiHeroGetPosts, apiHeroList, apiHeroSaveAbout, apiHeroSaveBio, apiHeroSavePost, apiHeroSetMainPhoto, apiHeroSetStatus, apiHeroSetStatusPhoto, apiHeroSetStatusPost, apiHeroSortedPhotos } from "../api/hero.api";
 import { insertHeroBiographyItem } from "../helper/insertHeroBiographyItem";
 
-export const heroList = async (params:HeroListRequestParams): Promise<HeroListResponse|null> => {
-    return await apiHeroList(params);
+export const heroList = async (params:HeroListRequestParams,  authToken?:string): Promise<HeroListResponse|null> => {
+    return await apiHeroList(params, authToken);
 }
 
 export const heroGet = async (heroId:number, heroUrl:string, authToken?:string): Promise<HeroShortType|null> => {
@@ -78,6 +78,11 @@ export const heroGetPhotos = async (heroId:number): Promise<HeroPhotoItem[]|null
     return await apiHeroGetPhotos(heroId);
 }
 
+export const heroGetPhotoById = async (photoId:number): Promise<HeroPhotoItem|null> => {
+    return await apiHeroGetPhotoById(photoId);
+}
+
+
 export const heroSorterPhotos = async (heroId:number, sortedIds:number[]): Promise<boolean> => {
     return await apiHeroSortedPhotos(heroId, sortedIds);
 }
@@ -88,4 +93,9 @@ export const heroSetStatusPhoto = async (photoId:number, photoStatus:HERO_PHOTO_
 
 export const heroDeletePhoto = async (photoId:number): Promise<boolean> => {
     return await apiHeroDeletePhoto(photoId);
+}
+
+
+export const heroSetMainPhoto = async (photoId:number, imgData:string): Promise<boolean> => {
+    return await apiHeroSetMainPhoto(photoId, imgData);
 }

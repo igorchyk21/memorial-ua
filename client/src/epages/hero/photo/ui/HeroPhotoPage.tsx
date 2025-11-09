@@ -8,7 +8,7 @@ interface Props {
 }
 const HeroPhotoPage = ({hero, photos}:Props) => { 
     return (<>
-        <HeroNavigate/>
+        <HeroNavigate/> 
         <main className="container mx-auto p-4"> 
             <HeroLayoutWidget  
                 hero={hero}>

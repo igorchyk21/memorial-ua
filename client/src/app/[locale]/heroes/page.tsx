@@ -5,6 +5,7 @@ import { safeIntParse } from "@/shared/helper/safeParsers";
 import { AppPageSearchProps } from "@/types";
 import { HeroListRequestParams, HeroListSortType, HeroShortType } from "@global/types";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { cookies } from "next/headers";
 
 interface Props extends AppPageSearchProps{
     params: Promise<{ 
@@ -13,6 +14,8 @@ interface Props extends AppPageSearchProps{
 }  
 
 const Page = async ({params, searchParams}:Props) => {
+    const authToken = (await cookies()).get('authToken')?.value;
+    
     const {locale} = await params;
     setRequestLocale(locale);
     const sp = await searchParams;
@@ -22,8 +25,8 @@ const Page = async ({params, searchParams}:Props) => {
         search: sp.search ? sp.search as string : undefined,
         sort: typeof sp.sort === 'string' ? sp.sort as HeroListSortType : undefined
     }
-
-    const resHero = await heroList(heroParams);
+ 
+    const resHero = await heroList(heroParams,authToken); 
 
     return (<>
         {resHero?.heroes && 

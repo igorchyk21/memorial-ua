@@ -17,7 +17,7 @@ const _cors = {
             callback: (err: Error | null, allow?: boolean) => void
         ) => {
             callback(null, true); // Дозволяємо всі домени
-        },
+        }, 
 
         // Інші опції CORS, наприклад, методи або заголовки
         methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',

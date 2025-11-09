@@ -4,6 +4,7 @@ import _heroBio from "../../modules/hero/biography.js";
 import _heroPhoto from "../../modules/hero/photo.js";
 import { zHeroListRequestParamsSchema } from "../../modules/hero/schema/list.js";
 import { safeIntParse, safeJSONParse } from "../../modules/helpers/gim-beckend-helpers.js";
+import { HERO_STAT } from "@global/types";
 const router = express.Router();
 
 
@@ -14,7 +15,8 @@ router.get('/list', async (req:Request, res:Response) => {
         console.log(query)
         return res.status(400).send(safeJSONParse(query.error.message));
     }
-    res.json({... await _hero.getList(query.data||{})}) 
+    const status = req.user?.admin ? [HERO_STAT.ACTIVE, HERO_STAT.PENDING, HERO_STAT.REJECT] : [HERO_STAT.ACTIVE];
+    res.json({... await _hero.getList( { ...query.data||{}, status} )})  
 }) 
  
 // Повертає дописи Героя
@@ -40,7 +42,16 @@ router.get('/photos/:heroId', async (req:Request, res:Response) => {
     const resPhoto = await _heroPhoto.get(heroId);
     res.json(resPhoto) 
 })
-  
+
+// Повертає фотографію героя по її ID
+router.get('/photo/:photoId', async (req:Request, res:Response) => {
+    const photoId = safeIntParse(req.params.photoId, null);
+    if (!photoId) return res.status(400).send('Incorrect parameter "photoId"');
+    const resPhoto = await _heroPhoto.get(null,photoId);
+    res.json(resPhoto?.[0]||null) 
+})
+
+
 // Повертає Героя
 router.get('/:heroId', async (req:Request, res:Response) => { 
     const status = req.user?.admin ? [-1,0,1] : undefined;

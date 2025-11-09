@@ -93,8 +93,19 @@ router.post('/photo/sorted/:heroId', middleIsAdmin, async(req:Request, res:Respo
     res.json({stat:resSort});
 })
 
+// Завантаження фото профіля фахівця
+router.post('/photo/base64/:heroId', middleIsAdmin, async (req:Request, res:Response)=>{ 
+    const heroId = safeIntParse(req.params.heroId, null);
+    if (!heroId) return res.status(400).send('Incorrect parameter "heroId"');
+    const imgData = req.body.imgData||'';
+    if (!imgData.startsWith('data:image')) return res.sendStatus(400);
+    const resSetMain = await _heroPhoto.setMainPhoto(heroId, imgData);
+    res.json({stat:resSetMain})
+})
+
+
 // Зміна статусу фотографії
-router.post('/photo/status/:photoId', async (req:Request, res:Response)=>{
+router.post('/photo/status/:photoId', middleIsAdmin, async (req:Request, res:Response)=>{
     const photoId = safeIntParse(req.params.photoId, null);
     if (!photoId) return res.status(400).send('Incorrect parameter "photoId"');
     const photoStatus = safeIntParse(req.body.photoStatus, null);
