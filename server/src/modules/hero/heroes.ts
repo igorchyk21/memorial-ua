@@ -4,6 +4,8 @@ import { _getList } from "./functions/_getList.js";
 import { sanitizeForSQL } from "../helpers/functions/sanitizeForSQL.js";
 import { safeIntParse } from "../helpers/gim-beckend-helpers.js";
 import { cleanHTML } from "../helpers/functions/cleanHTML.js";
+import { he } from "zod/v4/locales";
+import { transliterateAndSanitize } from "../helpers/stringHelper.js";
 
 let conn:Pool;
 const setConn = (_conn:Pool) => { conn = _conn };
@@ -12,6 +14,31 @@ const setConn = (_conn:Pool) => { conn = _conn };
 const getList = async (params:HeroListRequestParams, heroId?:number)
     : Promise<HeroListResponse|null> => {
     return await _getList(params, heroId, conn)
+}
+
+const create = async (hero:HeroShortType)
+    : Promise<number|false> => {
+
+    const sql = `
+        INSERT  INTO heroes 
+                (hero_fname, hero_lname, hero_mname, hero_url, public_phone)
+        VALUES  (?,?,?,?,?)`;
+
+    const params = [
+        hero.fName || '',
+        hero.lName || '',
+        hero.mName || '',
+        transliterateAndSanitize(`${hero.fName}-${hero.lName}`),
+        hero.publicPhone || ''
+    ]
+ 
+    try { 
+        const [r] = await conn.execute<ResultSetHeader>(sql, params);
+        return r.insertId;
+    } catch(e){
+        console.error(e);
+        return false;
+    }
 }
 
 // Зберігає Героя
@@ -30,23 +57,25 @@ const save = async(hero:HeroShortType)
                 hero_death = ?,
                 hero_army_name = ?,
                 hero_callsign = ?,
-                hero_about = ?
+                hero_about = ?,
+                hero_region = ?
         WHERE   ID = ?
         AND     deleted = 0`;
 
     const params = [
-        hero.fName,
-        hero.lName,
-        hero.mName,
-        hero.birth,
-        hero.mobilization,
-        hero.death,
-        hero.armyName,
-        hero.callSign,
+        hero.fName ?? '',
+        hero.lName ?? '',
+        hero.mName ?? '',
+        hero.birth ?? 0,
+        hero.mobilization ?? 0,
+        hero.death ?? '',
+        hero.armyName ?? '',
+        hero.callSign ?? '',
         cleanHTML(hero.about||''),
+        hero.region ?? '',////....a...aaaa...,,,aa....,.,.,.,l.,m,.m.,m.,m.,m,.m.,,.m,m.m,./><mn./><mn ./><m,.,./,.,.,.,.....xzxzxzxzxwqwq[p[p,.,,.,.,.,.mnmnm,n,m////,.,m.,m,m,mmmm,mmnm,n,m,......,,..,,,,..,,,,,]]
         hero.ID
     ];
-
+ 
     try {
         const [r] = await conn.execute<ResultSetHeader>(sql, params);
         return r.affectedRows === 1 ? hero.ID : false;
@@ -198,6 +227,7 @@ export default {
     setConn,
     getList,
     save,
+    create,
     setStatus,
     deleteMark,
 

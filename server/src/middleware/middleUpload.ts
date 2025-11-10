@@ -38,7 +38,7 @@ const getPAth4File = (req:UploadRequest) => {
 // Налаштування збереження файлів
 const storage: StorageEngine = multer.diskStorage({
     destination: (req: UploadRequest, file:any, cb:any) => {
-        if (!req.user?.ID) return cb('Not Authorization');
+        //if (!req.user?.ID) return cb('Not Authorization');
         try {
             const path4file = getPAth4File(req);
             mkdirpSync(path4file);
@@ -49,7 +49,7 @@ const storage: StorageEngine = multer.diskStorage({
         }
     },
     filename: (req: UploadRequest, file:any, cb:any) => {
-        if (!req.user?.ID) return cb('Not Authorization');
+        //if (!req.user?.ID) return cb('Not Authorization');
         try {
             
             const path4file = getPAth4File(req);

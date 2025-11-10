@@ -4,11 +4,12 @@ import _heroPhoto from "../modules/hero/photo.js";
 import { middleIdIsAuth } from "../middleware/middleIdIsAuth.js";
 import { safeIntParse } from "../modules/helpers/gim-beckend-helpers.js";
 import { HERO_PHOTO_STAT } from "@global/types";
+import { middleRecaptcha } from "../middleware/middleRecaptcha.js";
 
 const router = express.Router();
-
+ 
 // Завантаження фотографій Героя
-router.post(`/hero/photo/:heroId`, middleIdIsAuth, middleUpload, async (req, res) => {
+router.post(`/hero/photo/:heroId`, middleRecaptcha, middleUpload, async (req, res) => {
     const heroId = safeIntParse(req.params.heroId, null);
     if (!heroId) return res.status(400).send('Incorrect parameter "heroId"');
 

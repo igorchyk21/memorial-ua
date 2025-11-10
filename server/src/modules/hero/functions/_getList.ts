@@ -11,8 +11,9 @@ export const _getList = async ({
         search='',
         page=1,
         onPage,
-        sort='',
+        sort='', 
         onlyCandle=false,
+        region='',
         status=[HERO_STAT.ACTIVE]
     }:HeroListRequestParams, heroId:number|undefined, conn:Pool)
     : Promise<HeroListResponse|null> => {
@@ -26,12 +27,13 @@ export const _getList = async ({
         CONCAT(hero_fname,hero_lname,hero_mname,hero_callsign) like '%${sanitizeForSQL(search.trim())}%'` : '';
     const whereStatus = status.length>0 ? ` AND hero_status in (${status.map(stat=>safeIntParse(stat)).join(',')}) ` : ''
     const whereCandle = onlyCandle ? ` AND hero_candle_expiries >= ${dt}` : '';
-
+    const whereRegion = region ? ` AND hero_region = '${sanitizeForSQL(region)}'` : '';
     const where = `
         WHERE   deleted = 0
                 ${whereSearch}
                 ${whereStatus}
                 ${whereCandle}
+                ${whereRegion}
                 ${heroId ? ` AND ID = ${safeIntParse(heroId)}` : ''} `;
     const order = sortMethod?.[sort] || 'ORDER BY ID DESC';
 
@@ -47,6 +49,7 @@ export const _getList = async ({
                 hero_lname              as lName,
                 hero_mname              as mName,
                 hero_url                as url,
+                hero_region             as region,
                 hero_birth              as birth,
                 hero_death              as death,
                 hero_death              as heroDeath,
@@ -55,6 +58,7 @@ export const _getList = async ({
                 hero_photo              as photo,
                 hero_army_name          as armyName,
                 hero_status             as status
+                
         FROM    heroes
                 ${where}
                 ${order}

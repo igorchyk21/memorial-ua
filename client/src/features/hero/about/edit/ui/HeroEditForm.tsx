@@ -7,17 +7,20 @@ import { Button, Col, FloatingLabel, FormControl, FormLabel, Row } from "react-b
 import DatePicker, { registerLocale } from 'react-datepicker';
 import { DateTime as DT } from "luxon";
 import ReactQuillSimple from "@/shared/ui/editors/ReactQuill";
-import { useEffect, useRef } from "react";
+import { ReactNode, useEffect, useRef } from "react";
 import { uk }  from "date-fns/locale/uk";
+import SelectRegions from "@/shared/ui/forms/SelectRegions";
 
 interface Props { 
     hero:HeroShortType;
     handleSubmit:(values:HeroShortType)=>void;
     handleCancel:()=>void;
     darkTheme?:boolean;
+    additionalFields?:ReactNode;
+    stickyButtons?:boolean;
 }
  
-const HeroEditForm = ({hero, handleSubmit, handleCancel, darkTheme}:Props) => {
+const HeroEditForm = ({hero, handleSubmit, handleCancel, darkTheme, additionalFields, stickyButtons}:Props) => {
 
     const refInputLName = useRef<HTMLInputElement>(null);
     const t = useTranslations();
@@ -43,6 +46,7 @@ const HeroEditForm = ({hero, handleSubmit, handleCancel, darkTheme}:Props) => {
                             <FormControl type="text" 
                                 ref={refInputLName}
                                 autoFocus
+                                required
                                 placeholder={t('hero.about.lname')}
                                 value={formik.values.lName}
                                 onChange={(e)=>formik.setFieldValue('lName', e.target.value)}
@@ -55,6 +59,7 @@ const HeroEditForm = ({hero, handleSubmit, handleCancel, darkTheme}:Props) => {
                             <FloatingLabel controlId="fl-text" label={t('hero.about.fname')} className="mb-3">
                             <FormControl type="text" 
                                 autoFocus
+                                required
                                 placeholder={t('hero.about.fname')}
                                 value={formik.values.fName}
                                 onChange={(e)=>formik.setFieldValue('fName', e.target.value)} 
@@ -76,7 +81,7 @@ const HeroEditForm = ({hero, handleSubmit, handleCancel, darkTheme}:Props) => {
 
                         {/** Дата народження */}
                         <Col md={4}>
-                            <FormLabel htmlFor="clearableInput">{t('hero.about.dtBirth')}</FormLabel>
+                            <FormLabel className="fw-bold">{t('hero.about.dtBirth')}</FormLabel>
                             <div className="position-relative mb-2">
                                 <i className="ci-calendar position-absolute top-50 start-0 translate-middle-y z-1 ms-3"/>
                                 <DatePicker
@@ -95,7 +100,7 @@ const HeroEditForm = ({hero, handleSubmit, handleCancel, darkTheme}:Props) => {
 
                         {/** Дата мобілізації */}
                         <Col md={4}>
-                            <FormLabel htmlFor="clearableInput">{t('hero.about.dtMobilization')}</FormLabel>
+                            <FormLabel className="fw-bold">{t('hero.about.dtMobilization')}</FormLabel>
                             <div className="position-relative mb-2">
                                 <i className="ci-calendar position-absolute top-50 start-0 translate-middle-y z-1 ms-3"/>
                                 <DatePicker
@@ -114,7 +119,7 @@ const HeroEditForm = ({hero, handleSubmit, handleCancel, darkTheme}:Props) => {
 
                         {/** Дата смерті */}
                         <Col md={4}>
-                            <FormLabel htmlFor="clearableInput">{t('hero.about.dtDeath')}</FormLabel>
+                            <FormLabel className="fw-bold">{t('hero.about.dtDeath')}</FormLabel>
                             <div className="position-relative mb-2">
                                 <i className="ci-calendar position-absolute top-50 start-0 translate-middle-y z-1 ms-3"/>
                                 <DatePicker
@@ -131,35 +136,51 @@ const HeroEditForm = ({hero, handleSubmit, handleCancel, darkTheme}:Props) => {
                             </div>
                         </Col>
                     </Row>
-                    <Row className="mt-2">
+                    <Row className="mt-2 mb-3">
+
+                        {/** Регіон */}
+                        <Col md={4}>
+                            <FormLabel className="fw-bold">{t('hero.about.regions')}</FormLabel>
+                            <SelectRegions
+                                value={formik.values.region || ''}
+                                placeholder={t('hero.about.placeholderRegion')}
+                                onChange={(v)=>formik.setFieldValue('region', v)}
+                                disabled={formik.isSubmitting}/>
+                             
+                        </Col>
+
 
                         {/** Місце служби-рота */}
-                        <Col md={8}>
-                            <FloatingLabel controlId="fl-text" label={t('hero.about.armyNameLabel')} className="mb-3">
+                        <Col md={4}>
+                            <FormLabel className="fw-bold">{t('hero.about.armyNameLabel')}</FormLabel>
                             <FormControl type="text" 
                                 autoFocus
                                 placeholder={t('hero.about.armyNameLabel')}
                                 value={formik.values.armyName||''}
                                 onChange={(e)=>formik.setFieldValue('armyName', e.target.value)} 
                                 disabled={formik.isSubmitting}/>
-                            </FloatingLabel>
+                             
                         </Col>
 
                         {/** Позивний */}
                         <Col md={4}>
-                            <FloatingLabel controlId="fl-text" label={t('hero.about.callSign')} className="mb-3">
+                            <FormLabel className="fw-bold">{t('hero.about.callSign')}</FormLabel>
                             <FormControl type="text" 
                                 autoFocus
                                 placeholder={t('hero.about.callSign')}
-                                value={formik.values.callSign}
+                                value={formik.values.callSign||''}
                                 onChange={(e)=>formik.setFieldValue('callSign', e.target.value)} 
                                 disabled={formik.isSubmitting}/>
-                            </FloatingLabel>
-                        </Col>                        
-                    </Row>
+                         </Col>                        
+                    </Row>  
+
+                    {additionalFields &&
+                        (<>
+                            {additionalFields}
+                        </>)}  
 
                     {/** Про Героя */}
-                    <FormLabel htmlFor="clearableInput">{t('hero.about.title')}</FormLabel>
+                    <FormLabel className="fw-bold">{t('hero.about.title')}</FormLabel>
                     <div>
                         <ReactQuillSimple
                             stickyMode
@@ -169,7 +190,7 @@ const HeroEditForm = ({hero, handleSubmit, handleCancel, darkTheme}:Props) => {
                             disabled={formik.isSubmitting}/>
                     </div>
 
-                    <div className="d-flex justify-content-end pt-4 pe-2" style={{position:'sticky', bottom:0}}>
+                    <div className="d-flex justify-content-end pt-4 pe-2" style={{position:stickyButtons ? 'sticky' : undefined, bottom:0}}>
                         <Button 
                             type="submit"
                             variant="primary"

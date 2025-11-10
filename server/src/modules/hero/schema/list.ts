@@ -49,6 +49,8 @@ export const zHeroListRequestParamsSchema = z.object({
         "death",
         "deathDesc",
         ""
-    ]).optional()
+    ]).optional(),
+
+    region: z.string().optional()
 
 }).strip();

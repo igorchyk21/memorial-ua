@@ -9,17 +9,20 @@ interface Props {
 
 const FilterResult = ({count}:Props) => {
     const t = useTranslations('hero');
+    const m = useTranslations('map');
     const { search,
             handleClearSearch,
             onclyCandle,
-            handleClearCandle} = useFilterResult();
+            region, 
+            handleClearRegion,
+            handleClearCandle} = useFilterResult(); 
     return (
         <div className="d-md-flex align-items-start">
             <div className="h6 fs-sm fw-normal text-nowrap translate-middle-y mt-3 mb-0 me-4">
                 {t('found')} <span className="fw-semibold">{count}</span> {t('heroes')}
             </div>
             <div className="d-flex flex-wrap gap-2">
-
+ 
                 {search &&
                     (<Button variant="secondary" size="sm"
                         className="rounded-pill "
@@ -27,6 +30,14 @@ const FilterResult = ({count}:Props) => {
                         <i className="ci-close fs-sm ms-n1 me-1 my-auto" />
                         <span style={{maxWidth:60}}  className="text-truncate"  >{search}</span>
                     </Button>)}
+
+                {region &&
+                    (<Button variant="secondary" size="sm"
+                        className="rounded-pill "
+                        onClick={handleClearRegion}>      
+                        <i className="ci-close fs-sm ms-n1 me-1 my-auto" />
+                        <span style={{maxWidth:100}}  className="text-truncate"  >{m(region)}</span>
+                    </Button>)}                    
 
                 {onclyCandle &&
                   (<Button variant="secondary" size="sm"

@@ -1,4 +1,5 @@
 "use client"
+import { useQueryState } from "@/shared/hooks/query/useQueryState";
 import { useTranslations } from "next-intl";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -13,6 +14,7 @@ const FooterAddHeroForm = ({onHeroAdd}:Props) => {
     const [ value, setValue ] = useState('');
     const refInput = useRef<HTMLInputElement>(null);
     const path = usePathname();
+    const [ heroName, setHeroName ] = useQueryState<string>('hero');
 
     useEffect(()=>{
         setValue('')
@@ -39,6 +41,7 @@ const FooterAddHeroForm = ({onHeroAdd}:Props) => {
                     aria-label="Your email address"
                     required
                     value={value}
+                    disabled={path==='/new'}
                     onChange={(e)=>setValue(e.target.value)}/>
                 
                 <Button type="submit" size="lg" className="rounded-pill">

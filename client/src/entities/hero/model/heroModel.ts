@@ -1,18 +1,23 @@
 import { HERO_PHOTO_STAT, HERO_POST_STAT, HERO_STAT, HeroBiographyItem, HeroBiographyType, HeroListRequestParams, HeroListResponse, HeroPhotoItem, HeroPostType, HeroShortType } from "@global/types";
-import { apiGetHeroBiography, apiHeroDelete, apiHeroDeleteBio, apiHeroDeletePhoto, apiHeroDeletePost, apiHeroGet, apiHeroGetPhotoById, apiHeroGetPhotos, apiHeroGetPosts, apiHeroList, apiHeroSaveAbout, apiHeroSaveBio, apiHeroSavePost, apiHeroSetMainPhoto, apiHeroSetStatus, apiHeroSetStatusPhoto, apiHeroSetStatusPost, apiHeroSortedPhotos } from "../api/hero.api";
+import { apiGetHeroBiography, apiHeroCreate, apiHeroDelete, apiHeroDeleteBio, apiHeroDeletePhoto, apiHeroDeletePost, apiHeroGet, apiHeroGetPhotoById, apiHeroGetPhotos, apiHeroGetPosts, apiHeroList, apiHeroSaveAbout, apiHeroSaveBio, apiHeroSavePost, apiHeroSetMainPhoto, apiHeroSetStatus, apiHeroSetStatusPhoto, apiHeroSetStatusPost, apiHeroSortedPhotos } from "../api/hero.api";
 import { insertHeroBiographyItem } from "../helper/insertHeroBiographyItem";
 
 export const heroList = async (params:HeroListRequestParams,  authToken?:string): Promise<HeroListResponse|null> => {
     return await apiHeroList(params, authToken);
 }
 
-export const heroGet = async (heroId:number, heroUrl:string, authToken?:string): Promise<HeroShortType|null> => {
-    return await apiHeroGet(heroId, heroUrl, authToken);
+export const heroGet = async (heroId:number, heroUrl:string, authToken?:string, force?:boolean): Promise<HeroShortType|null> => {
+    return await apiHeroGet(heroId, heroUrl, authToken, force);
 }
 
 export const heroSave = async (heroId:number, hero:HeroShortType): Promise<boolean|number> => {
     return await apiHeroSaveAbout(heroId, hero);
 }
+
+export const heroCreate = async (hero:HeroShortType, reToken?:string|null): Promise<number|null> => { 
+    return await apiHeroCreate(hero, reToken);
+} 
+
 
 export const heroSetStatus = async (heroId:number, heroStatus:HERO_STAT): Promise<boolean> => {
     return await apiHeroSetStatus(heroId, heroStatus);

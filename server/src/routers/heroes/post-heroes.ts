@@ -114,6 +114,19 @@ router.post('/photo/status/:photoId', middleIsAdmin, async (req:Request, res:Res
     res.json({stat:resStat});
 })
 
+// Створення Гуроя
+router.post('/create', middleRecaptcha, async (req:Request, res:Response)=> {
+    const body = zHeroShortSchema.safeParse(req.body.hero);
+    if (!body.success) {
+        console.log(body)
+        return res.status(400).send(safeJSONParse(body.error.message));
+    }
+    const resId = await _hero.create(body.data);
+    if (!resId) return res.sendStatus(500);
+    const resSave = await _hero.save({...body.data, ID:resId})
+    res.json({id:resSave ? resId : false})
+})
+
 // Збереження Героя
 router.post('/:heroId', middleIsAdmin, async (req:Request, res:Response)=>{
     const heroId = safeIntParse(req.params.heroId, null);

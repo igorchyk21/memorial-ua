@@ -23,7 +23,8 @@ const Page = async ({params, searchParams}:Props) => {
         onlyCandle: Boolean(sp.onlyCandle),
         page: safeIntParse(sp.page)||1,
         search: sp.search ? sp.search as string : undefined,
-        sort: typeof sp.sort === 'string' ? sp.sort as HeroListSortType : undefined
+        sort: typeof sp.sort === 'string' ? sp.sort as HeroListSortType : undefined,
+        region: typeof sp.region === 'string' ? sp.region : undefined
     }
  
     const resHero = await heroList(heroParams,authToken); 

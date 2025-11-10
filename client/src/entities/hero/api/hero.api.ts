@@ -15,14 +15,25 @@ export const apiHeroList = async (params:HeroListRequestParams, authToken?:strin
 }
 
 // Повертає одного Героя
-export const apiHeroGet = async (heroId:number, heroUrl:string, authToken?:string): Promise<HeroShortType|null> => {
+export const apiHeroGet = async (heroId:number, heroUrl:string, authToken?:string, force?:boolean): Promise<HeroShortType|null> => {
     try {
         const headers = authToken ? { Authorization: `Bearer ${authToken}` } : {};
-        const r = await iAxios(`/hero/${heroId}`, {params:{heroUrl}, headers});
+        const r = await iAxios(`/hero/${heroId}`, {params:{heroUrl,force}, headers});
         return r.data;
     } catch(e){
         console.error(e);
         return null; 
+    }
+}
+
+// Створення Героя
+export const apiHeroCreate = async (hero:HeroShortType, reToken?:string|null): Promise<number|null> => {  
+    try {
+        const r = await iAxios.post('/hero/create', {hero, reToken});
+        return r.data.id || null;
+    } catch(e){
+        console.error(e);
+        return null;
     }
 }
 

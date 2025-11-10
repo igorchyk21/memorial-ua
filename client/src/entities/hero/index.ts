@@ -7,3 +7,4 @@ export { default as HeroStatus } from "./ui/HeroCard/HeroStatus";
 export { default as HeroAboutDropdown } from "./ui/HeroAboutDropdown/HeroAboutDropdown";
 export { default as HeroPhotoDropdown } from "./ui/HeroPhoto/HeroPhotoToolbar";
 export { default as HeroBioItem } from "./ui/Biography/HeroBioItem";
+export { default as HeroPublicPhone } from "./ui/HeroPublicPhone";

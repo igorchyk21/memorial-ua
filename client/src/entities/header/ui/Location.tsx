@@ -1,4 +1,3 @@
-import { useQueryState } from "@/shared/hooks/query/useQueryState";
 import { useTranslations } from "next-intl";
 import { Nav } from "react-bootstrap"
 
@@ -16,11 +15,13 @@ const Location = ({onClick, value}:Props) => {
               onClick={() => onClick()}>
               <div className="h6 fs-sm mb-0">
                 <i className="ci-map-pin me-1"></i>
-                {t('location.label')}</div>
+                {t('location.label')}
+                </div>
               <div className="d-flex align-items-center fs-sm fw-normal text-body">
                 <span className="animate-target text-nowrap">{value ? value : t('location.all')}</span>
                 <i className="ci-chevron-down fs-base ms-1" />
               </div>
+               
             </Nav.Link>
           </Nav>
     )

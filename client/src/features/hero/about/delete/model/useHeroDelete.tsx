@@ -20,7 +20,7 @@ export const useHeroDelete  = (heroId:number, heroName:string) => {
         hideDialog();
         if (resDelete) {
             showToast(t('hero.messDeleteSuccess'), 'success');
-            router.push('/');
+            router.push('/heroes');
             return
         }
             else showToast(t('error'),'danger');

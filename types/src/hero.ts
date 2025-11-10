@@ -35,6 +35,7 @@ export interface HeroListRequestParams {
     status?:HERO_STAT[]
     onlyCandle?:boolean;
     sort?: HeroListSortType;
+    region?: string;
 }
 
 export interface HeroDateType {
@@ -53,12 +54,16 @@ export interface HeroShortType {
     photo?:string;
     mobilization:number;
     armyName:string|null;
+    region?:string;
     callSign?:string;
     url:string;
     status:HERO_STAT
     candleExpiries?:number;
     slides?:string[];
     about?:string|null;
+
+    publicPhone?:string|null;
+    publicPhotos?:File[]
 }
 
 export interface HeroType extends HeroShortType { 

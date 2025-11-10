@@ -54,7 +54,7 @@ router.get('/photo/:photoId', async (req:Request, res:Response) => {
 
 // Повертає Героя
 router.get('/:heroId', async (req:Request, res:Response) => { 
-    const status = req.user?.admin ? [-1,0,1] : undefined;
+    const status = (req.user?.admin || req.query.force) ? [-1,0,1] : undefined;
     const heroId = safeIntParse(req.params.heroId, null);
     if (!heroId) return res.status(400).send('Incorrect parameter "heroId"');
     const resHero = await _hero.getList({status}, heroId);

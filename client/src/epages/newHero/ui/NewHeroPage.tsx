@@ -8,7 +8,7 @@ const NewHeroPage = () => {
 
     return (
         <Container className="p-4">
-            <div className="d-sm-flex justify-content-between">
+            <div className="d-sm-flex justify-content-between pb-4">
                 <h3 className="text-start mb-0">{t('hero.newHeroTitle')}</h3>
             </div>
             <NewHeroWidget/>

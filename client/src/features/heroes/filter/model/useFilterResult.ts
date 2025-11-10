@@ -5,6 +5,7 @@ import { useSetMultipleQuery } from "@/shared/hooks/query/useSetMultipleQuery";
 const useFilterResult = () => {
     
     const [ search, setSearch ] = useQueryState<string>('search');
+    const [ region, setRegions ] = useQueryState<string>('region');
     const [ onclyCandle, setOnlyCandle ] = useQueryState('onlyCandle');
     const miltipleQuery = useSetMultipleQuery();
     
@@ -15,6 +16,13 @@ const useFilterResult = () => {
         })
     } 
 
+    const handleClearRegion = () => {
+        miltipleQuery({
+            region:'',
+            page:'1'
+        })
+    }     
+
     const handleClearCandle = () => {
         setOnlyCandle('');
     }
@@ -23,7 +31,9 @@ const useFilterResult = () => {
         search,
         handleClearSearch,
         onclyCandle,
-        handleClearCandle
+        handleClearCandle,
+        region, 
+        handleClearRegion
     }
 }
 

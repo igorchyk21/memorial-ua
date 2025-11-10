@@ -7,9 +7,11 @@ import axios from "axios";
 
 export const middleRecaptcha = async (req: Request, res: Response, next: NextFunction) => {
     const RECAPTCHA_SECRET_KEY = conf.captchaSecret || '';
-    const token = req?.body?.reToken||'';
+    const reTokenHeader = req.headers?.retoken;
 
-    if (!token) 
+    const token = req?.body?.reToken||reTokenHeader||'';
+ 
+    if (!token)  
         return res.status(403).json({ message: 'reCAPTCHA токен не наданий.' });
 
     try {
@@ -26,7 +28,7 @@ export const middleRecaptcha = async (req: Request, res: Response, next: NextFun
             return res.status(403).json({ message: 'Error reCAPTCHA' });
         }
 
-        if (req.body.reCAPTCHA) req.body.reCAPTCHA = undefined;
+        
         next();
     } catch (error) {
         console.error('Error reCAPTCHA:', error);
