@@ -9,7 +9,13 @@ const nextConfig: NextConfig = {
             hostname: 'localhost',
             port:'3333',
             pathname: '/data/**',
-        }
+        },
+        {
+            protocol: 'https',
+            hostname: 'server.geroi.com.ua',
+            pathname: '/data/**',
+        },
+
     ],
   },
   sassOptions: {

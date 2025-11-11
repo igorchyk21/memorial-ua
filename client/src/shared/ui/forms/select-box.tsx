@@ -1,8 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
- import type { InputChoice, ClassNames } from 'choices.js'
-import 'choices.js/public/assets/styles/choices.css'
+import type { InputChoice, ClassNames } from 'choices.js'
 import { CommonComponentProps } from '@/types'
 import { useLocale } from 'next-intl'
 

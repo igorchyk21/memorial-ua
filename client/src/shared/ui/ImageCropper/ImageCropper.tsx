@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useRef, useState } from "react";
 import Croppie from "croppie";
-import "croppie/croppie.css";
+
 import { Alert, Button } from "react-bootstrap";
 import { useTranslations } from "next-intl";
 import BlockSpinner from "../spinners/BlockSpinner";

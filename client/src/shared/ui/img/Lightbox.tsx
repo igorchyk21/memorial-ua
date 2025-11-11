@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, type PropsWithChildren } from 'react'
- import 'glightbox/dist/css/glightbox.min.css'
 import { CommonComponentProps } from '@/types'
 
 interface LightboxProps extends CommonComponentProps {

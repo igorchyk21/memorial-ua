@@ -10,6 +10,7 @@ import { startPoint, initRoutes, initDataBase } from "./modules/init.js";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import { middleCorsDataStatic } from "./middleware/middleCorsDataStatic.js";
+import "../../"
  
 // Потрібно для заміни __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -32,12 +33,13 @@ app.use(express.static('public')); // Папка статичних ресурс
 
 
 // Імітація затримки для всіх запитів до /data
+/*
 app.use("/data", async (req, res, next) => {
   const delay = 0; // мілісекунди
   await new Promise(resolve => setTimeout(resolve, delay));
   console.log(req.path)
   next(); // передаємо далі до static
-});
+});*/
 
 app.options(/.*/, cors(_cors.corsOptions)); // АРІ сайту 
 app.use('/data', middleCorsDataStatic, express.static('data')); // Папка статичних ресурсів

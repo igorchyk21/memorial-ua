@@ -41,8 +41,8 @@ export const startPoint = (app: Application): void => {
 export const initRoutes = (app: Application): void => {
       
     app.get(/.*/, ( (req:Request,res:Response,next:NextFunction)=>{ console.log('\x1b[32m GET    \x1b[0m', req.path); setTimeout(() => { next() }, 0); }))
-    app.post(/.*/, ( (req:Request,res:Response,next:NextFunction)=>{ console.log('\x1b[33m POST   \x1b[0m', req.path); setTimeout(() => { next() }, 2000); }))
-    app.delete(/.*/, ( (req:Request,res:Response,next:NextFunction)=>{ console.log('\x1b[31m DELETE \x1b[0m', req.path); setTimeout(() => { next() }, 2000); }))
+    app.post(/.*/, ( (req:Request,res:Response,next:NextFunction)=>{ console.log('\x1b[33m POST   \x1b[0m', req.path); setTimeout(() => { next() }, 0); }))
+    app.delete(/.*/, ( (req:Request,res:Response,next:NextFunction)=>{ console.log('\x1b[31m DELETE \x1b[0m', req.path); setTimeout(() => { next() }, 0); }))
 
 
     app.use('/api/v1/auth',  wrapAsync(middleAuthToken), routerAuth);
@@ -53,7 +53,7 @@ export const initRoutes = (app: Application): void => {
     app.use('/api/v1/files', wrapAsync(middleAuthToken), routerFiles );
 
 };
-
+ 
 export const initDataBase = (): void => {
     const conn = _db.conn();
     const connStat = _db.connStat();

@@ -3,13 +3,15 @@ import "@shared/template/styles/theme.scss"
 import "@shared/style/global.css"
 import "@shared/style/correct.css"
 import "@shared/style/fonts.css"
+import "croppie/croppie.css"; 
+import 'choices.js/public/assets/styles/choices.css'
 import 'primereact/resources/themes/lara-light-blue/theme.css'; // тема (будь-яку)
 import "@shared/style/primereact.css"
 import 'primereact/resources/primereact.min.css';               // базові стилі
 import 'react-datepicker/dist/react-datepicker.css';
 import "react-quill-new/dist/quill.snow.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
- 
+import 'glightbox/dist/css/glightbox.min.css'
  
 import localFont from 'next/font/local' 
 import { Inter } from 'next/font/google'
