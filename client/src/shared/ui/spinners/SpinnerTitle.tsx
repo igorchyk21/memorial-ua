@@ -24,7 +24,7 @@ const SpinnerTitle = ({titleButton, showSpinner, titleSpinner, className="me-2"}
             className={className}>
             
         </Spinner>
-        {Boolean(titleSpinner) ? titleSpinner : titleButton}
+        {Boolean(showSpinner) ? titleSpinner : titleButton}
         </div>
         </>)
         : titleButton;

@@ -19,6 +19,13 @@ export enum HERO_PHOTO_STAT {
     REJECT = -1
 }
 
+export enum HERO_VIDEO_STAT {
+    PENDING = 0,
+    ACTIVE = 1,
+    REJECT = -1
+}
+
+
 export type HeroListSortType = 
     | 'name'
     | 'nameDesc'
@@ -96,6 +103,20 @@ export interface HeroPhotoItem {
     userName?:string|null;
     userPicture?:string|null;
 }
+
+export type HeroVideosType = HeroVideoItem[];
+export interface HeroVideoItem {
+    ID:number;
+    heroId:number;
+    userId:number;
+    uploadDt:number;
+    url:string;
+    description:string;
+    status:HERO_VIDEO_STAT;
+    userName?:string|null;
+    userPicture?:string|null;
+}
+
 
 export interface HeroPostType {
     ID:number;

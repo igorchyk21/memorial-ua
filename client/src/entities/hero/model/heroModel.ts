@@ -1,5 +1,5 @@
 import { HERO_PHOTO_STAT, HERO_POST_STAT, HERO_STAT, HeroBiographyItem, HeroBiographyType, HeroListRequestParams, HeroListResponse, HeroPhotoItem, HeroPostType, HeroShortType } from "@global/types";
-import { apiGetHeroBiography, apiHeroCreate, apiHeroDelete, apiHeroDeleteBio, apiHeroDeletePhoto, apiHeroDeletePost, apiHeroGet, apiHeroGetPhotoById, apiHeroGetPhotos, apiHeroGetPosts, apiHeroList, apiHeroSaveAbout, apiHeroSaveBio, apiHeroSavePost, apiHeroSetMainPhoto, apiHeroSetStatus, apiHeroSetStatusPhoto, apiHeroSetStatusPost, apiHeroSortedPhotos } from "../api/hero.api";
+import { apiGetHeroBiography, apiHeroCreate, apiHeroDelete, apiHeroDeleteBio, apiHeroDeletePhoto, apiHeroDeletePost, apiHeroGet, apiHeroGetPhotoById, apiHeroGetPhotos, apiHeroGetPosts, apiHeroList, apiHeroSaveAbout, apiHeroSaveBio, apiHeroSavePost, apiHeroSetMainPhoto, apiHeroSetStatus, apiHeroSetStatusPhoto, apiHeroSetStatusPost, apiHeroSortedPhotos, apiHeroSendVideoToYouTube } from "../api/hero.api";
 import { insertHeroBiographyItem } from "../helper/insertHeroBiographyItem";
 
 export const heroList = async (params:HeroListRequestParams,  authToken?:string): Promise<HeroListResponse|null> => {
@@ -103,4 +103,13 @@ export const heroDeletePhoto = async (photoId:number): Promise<boolean> => {
 
 export const heroSetMainPhoto = async (photoId:number, imgData:string): Promise<boolean> => {
     return await apiHeroSetMainPhoto(photoId, imgData);
+}
+
+
+/**
+ * ВІДЕО
+ */
+
+export const heroSendVideoToYouTube = async (heroId:number, videoUrl:string, description:string, reToken?:string|null): Promise<boolean> => {
+    return await apiHeroSendVideoToYouTube(heroId, videoUrl, description, reToken);
 }

@@ -10,7 +10,9 @@ import { lengthWords } from "../../modules/helpers/stringHelper.js";
 import { zHeroBiographyItemSchema } from "../../modules/hero/schema/biography.js";
 import { wrapAsync } from "../../modules/helpers/functions/wrapAsync.js";
 import { middleRecaptcha } from "../../middleware/middleRecaptcha.js";
-import { HERO_POST_STAT } from "@global/types";
+import { HERO_POST_STAT, HERO_VIDEO_STAT } from "@global/types";
+import _heroVideo from "../../modules/hero/video.js";
+
 const router = express.Router();
 
 // Зміна статусу Героя
@@ -68,7 +70,7 @@ router.post('/biography/:biographyId', middleIsAdmin, async (req:Request, res:Re
     if (biographyId === null) return res.status(400).send('Incorrect parameter "biographyId"');
 
     const body = zHeroBiographyItemSchema.safeParse(req.body.biographyItem);
-    console.log(body)
+
     if (!body.success) {
         console.log(body)
         return res.status(400).send(safeJSONParse(body.error.message));
@@ -112,6 +114,17 @@ router.post('/photo/status/:photoId', middleIsAdmin, async (req:Request, res:Res
     if (photoStatus === null) return res.status(400).send('Incorrect body parameter "photoStatus"');
     const resStat = await _heroPhoto.setStatus(photoId, photoStatus); 
     res.json({stat:resStat});
+})
+
+// Додавання відео з YouTube
+router.post('/video/youtube/:heroId', middleRecaptcha, async (req:Request, res:Response)=>{
+    const heroId = safeIntParse(req.params.heroId, null);
+    if (!heroId) return res.status(400).send('Incorrect parameter "heroId"');
+    const videoUrl = req.body.videoUrl;
+    if (!videoUrl) return res.status(400).send('Incorrect body parameter "videoUrl"');
+    const description = req.body.description || '';
+    const resVideo = await _heroVideo.add(heroId, req.user?.ID || 0, [videoUrl], description, HERO_VIDEO_STAT.PENDING);
+    res.json({stat:resVideo});
 })
 
 // Створення Гуроя

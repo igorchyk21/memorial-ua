@@ -51,13 +51,12 @@ router.get('/photo/:photoId', async (req:Request, res:Response) => {
     res.json(resPhoto?.[0]||null) 
 })
 
-
 // Повертає Героя
 router.get('/:heroId', async (req:Request, res:Response) => { 
     const status = (req.user?.admin || req.query.force) ? [-1,0,1] : undefined;
     const heroId = safeIntParse(req.params.heroId, null);
     if (!heroId) return res.status(400).send('Incorrect parameter "heroId"');
-    const resHero = await _hero.getList({status}, heroId);
+    const resHero = await _hero.getList({status}, heroId, req?.user?.admin || false); 
     if (!resHero?.heroes?.[0]) return res.status(404).send('Hero Not Found');
     res.json(resHero?.heroes?.[0])
 })  

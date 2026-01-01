@@ -3,13 +3,14 @@ import SpinnerTitle from "@/shared/ui/spinners/SpinnerTitle";
 import { HeroShortType } from "@global/types";
 import { Formik } from "formik";
 import { useTranslations } from "next-intl";
-import { Button, Col, FloatingLabel, FormControl, FormLabel, Row } from "react-bootstrap";
+import { Button, Col, FloatingLabel, FormCheck, FormControl, FormLabel, Row } from "react-bootstrap";
 import DatePicker, { registerLocale } from 'react-datepicker';
 import { DateTime as DT } from "luxon";
 import ReactQuillSimple from "@/shared/ui/editors/ReactQuill";
 import { ReactNode, useEffect, useRef } from "react";
 import { uk }  from "date-fns/locale/uk";
 import SelectRegions from "@/shared/ui/forms/SelectRegions";
+import Link from "next/link";
 
 interface Props { 
     hero:HeroShortType;
@@ -18,9 +19,10 @@ interface Props {
     darkTheme?:boolean;
     additionalFields?:ReactNode;
     stickyButtons?:boolean;
+    requiredRules?:boolean;
 }
  
-const HeroEditForm = ({hero, handleSubmit, handleCancel, darkTheme, additionalFields, stickyButtons}:Props) => {
+const HeroEditForm = ({hero, handleSubmit, handleCancel, darkTheme, additionalFields, stickyButtons, requiredRules}:Props) => {
 
     const refInputLName = useRef<HTMLInputElement>(null);
     const t = useTranslations();
@@ -30,7 +32,7 @@ const HeroEditForm = ({hero, handleSubmit, handleCancel, darkTheme, additionalFi
         setTimeout(() => {
             refInputLName.current?.focus();
         }, 0);
-    },[])
+    },[]) 
  
     return (
         <Formik<HeroShortType>
@@ -176,7 +178,7 @@ const HeroEditForm = ({hero, handleSubmit, handleCancel, darkTheme, additionalFi
 
                     {additionalFields &&
                         (<>
-                            {additionalFields}
+                            {additionalFields} 
                         </>)}  
 
                     {/** Про Героя */}
@@ -190,7 +192,31 @@ const HeroEditForm = ({hero, handleSubmit, handleCancel, darkTheme, additionalFi
                             disabled={formik.isSubmitting}/>
                     </div>
 
-                    <div className="d-flex justify-content-end pt-4 pe-2" style={{position:stickyButtons ? 'sticky' : undefined, bottom:0}}>
+                    <div className="d-flex justify-content-end  pt-4 pe-2"> 
+                        {requiredRules &&
+                        (<div className="pb-2 d-flex">
+                        <FormCheck      
+                            
+                            style={{fontSize:24}}
+                            required
+                            type="checkbox" id="rules" 
+                            label={<div>
+                            <span style={{ fontSize: 16, fontFamily:'"Prata", serif !important' }}>{t('hero.requiredLabel')}</span>
+                            <a  
+                                target="_blank"
+                                href="/info/offer">
+                            {t('hero.requiredOffer')}
+                            </a>
+                            </div>}
+                            
+                            />
+                                
+                            
+                            
+                        </div>)}
+                    </div>
+
+                    <div className="d-flex justify-content-end" style={{position:stickyButtons ? 'sticky' : undefined, bottom:0}}>
                         <Button 
                             type="submit"
                             variant="primary"

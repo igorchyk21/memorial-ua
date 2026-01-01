@@ -10,8 +10,8 @@ import { startPoint, initRoutes, initDataBase } from "./modules/init.js";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import { middleCorsDataStatic } from "./middleware/middleCorsDataStatic.js";
-import "../../"
  
+
 // Потрібно для заміни __dirname
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);

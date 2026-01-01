@@ -11,7 +11,7 @@ const Page = async ({params}:{params:any}) => {
     const [id, url] = stringUrlIdCortage(heroUrl);
     const resHero = await heroGet(id,url);
     if (!resHero) notFound(); 
-    return (<HeroVideoPage hero={resHero}/>)   
+    return (<HeroVideoPage hero={resHero}/>)    
 }
 
-export default Page;
+export default Page; 

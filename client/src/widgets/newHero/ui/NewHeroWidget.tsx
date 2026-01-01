@@ -20,7 +20,7 @@ const NewHeroWidget = () => {
     const [ heroName, setHeroName ] = useQueryState<string>('hero');
     const [ fName, lName ] = normalizeSpaces(heroName||'').split(' ');
     
-    return (<> 
+    return (<>  
         <HeroEditForm 
             handleCancel={()=>router.push('/')}
             handleSubmit={handleSubmit}
@@ -36,7 +36,7 @@ const NewHeroWidget = () => {
                 status:0,
                 url:''
             }}
-            
+            requiredRules
             additionalFields={
                 <Row>
                     {!auth?.user.admin &&

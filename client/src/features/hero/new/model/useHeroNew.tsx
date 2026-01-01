@@ -14,14 +14,14 @@ export const useHeroNew = () => {
 
     const t = useTranslations();
     const { showToast } = useToast();
-    const { executeRecaptcha } = useGoogleReCaptcha();
+    const { executeRecaptcha } = useGoogleReCaptcha(); 
     const { auth } = useAuth();
     const router = useRouter();
 
     const handleSubmit = async (values:HeroShortType) => {
         if ((!auth?.user.admin) && ((values?.publicPhone?.length || 0)<13)) 
             return showToast(t('hero.errors.phone'),'danger');
-
+  
         // Ствоорення героя
         const reToken  = executeRecaptcha ? await executeRecaptcha('form') : null;
         const { publicPhotos, ...hero } = values;
@@ -38,7 +38,7 @@ export const useHeroNew = () => {
                 const _file = (file.type.startsWith('image/')) ? await fileToWebpFile(file) : file; 
                 uFiles.push(_file || file);
             }
-            const resUpload = await uploadFiles(uFiles, null, `hero/photo/${resCreateId}`, reToken)
+            const resUpload = await uploadFiles(uFiles, null, `hero/photo/${resCreateId}`, reToken) 
             if (!resUpload) return showToast(t('hero.errors.upload'), 'danger')
         }
 

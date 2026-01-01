@@ -14,8 +14,8 @@ export const _getList = async ({
         sort='', 
         onlyCandle=false,
         region='',
-        status=[HERO_STAT.ACTIVE]
-    }:HeroListRequestParams, heroId:number|undefined, conn:Pool)
+        status=[HERO_STAT.ACTIVE] 
+    }:HeroListRequestParams, heroId:number|undefined,  admin=false, conn:Pool)
     : Promise<HeroListResponse|null> => {
      
     const dt = Date.now(); 
@@ -50,7 +50,7 @@ export const _getList = async ({
                 hero_mname              as mName,
                 hero_url                as url,
                 hero_region             as region,
-                hero_birth              as birth,
+                hero_birth              as birth, 
                 hero_death              as death,
                 hero_death              as heroDeath,
                 hero_mobilization       as mobilization,
@@ -58,7 +58,7 @@ export const _getList = async ({
                 hero_photo              as photo,
                 hero_army_name          as armyName,
                 hero_status             as status
-                
+                ${admin ? ', public_phone as publicPhone' : ''}
         FROM    heroes
                 ${where}
                 ${order}

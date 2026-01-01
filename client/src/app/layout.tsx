@@ -12,7 +12,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import "react-quill-new/dist/quill.snow.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import 'glightbox/dist/css/glightbox.min.css'
- 
+ import "@features/hero/biography/show/style/biography.css";
+
 import localFont from 'next/font/local' 
 import { Inter } from 'next/font/google'
 import { ThemeProvider } from 'next-themes'

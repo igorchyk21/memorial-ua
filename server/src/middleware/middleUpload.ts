@@ -26,6 +26,7 @@ const getPAth4File = (req:UploadRequest) => {
     let path4file:string;
     // завантаження з quill
     if (req.path.startsWith('/hero/photo')) path4file = path.join(dataFolder, `heroes/${req.params?.heroId}/gallery/photos`);
+    else if (req.path.startsWith('/hero/video')) path4file = path.join(dataFolder, `heroes/${req.params?.heroId}/gallery/videos`);
  
     // інші завантаження
     else path4file = path.join(dataFolder, `other/${req.user?.ID}`, getDateStamp());
@@ -51,13 +52,17 @@ const storage: StorageEngine = multer.diskStorage({
     filename: (req: UploadRequest, file:any, cb:any) => {
         //if (!req.user?.ID) return cb('Not Authorization');
         try {
-            
+            console.log(file);
             const path4file = getPAth4File(req);
             // Перекодовуємо ім’я
             file.originalname = Buffer.from(file.originalname, "latin1").toString("utf8");
+            const extension = file.originalname.split('.').pop();
 
-            // генеруємо доступне ім’я файлу     
-            const fileName = uuidv4(file.originalname)+'.webp';
+            // генеруємо доступне ім’я файлу   
+            const fileName = req.path.startsWith('/hero/photo')
+                ? uuidv4(file.originalname)+'.webp'
+                : uuidv4(file.originalname)+'.'+extension;
+
             const safeName = Buffer.from(fileName, "utf8").toString("utf8");
             cb(null, safeName);
         } catch(e){

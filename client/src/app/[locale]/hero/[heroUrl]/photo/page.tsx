@@ -19,4 +19,4 @@ const Page = async ({params}:{params:any}) => {
                 hero={resHero}/>)   
 }
 
-export default Page;
+export default Page; 

@@ -12,12 +12,14 @@ export interface EModalButton {
 }
 
 export interface EModalDialogProps {
-    open:boolean;
+    open:boolean; 
     title:string;
     content:string | ReactNode;
     width?:number;
+    noCloseOnClickButton?:boolean;
     buttons:EModalButton[]  | EModalButtonsCollection;
     onClickConfirmButton?:()=>{};
     className?:string;
+    onHide?:()=>void;
 }
 

@@ -27,6 +27,6 @@ const HeroPhotosWidget = ({heroId, heroName, photos}:Props) => {
             onClickStatus={handleClickStatus}
             onClickSetMain={handleClickSetMain}/>
     </>)
-}
+} 
 
 export default HeroPhotosWidget;

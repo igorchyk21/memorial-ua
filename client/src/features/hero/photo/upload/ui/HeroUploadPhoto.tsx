@@ -21,7 +21,7 @@ const HeroUploadPhoto = ({heroId}:Props) => {
                 titleButton={<><i className="ci-upload me-2"/>{t('hero.photo.uploadPhoto')}</>}
                 titleSpinner={t('hero.photo.uploadPhoto')}/>
             
-        </Button>
+        </Button> 
         <input
             className="d-none" 
             type="file"

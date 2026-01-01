@@ -7,6 +7,7 @@ import _content from "./content/content.js";
 import _hero from "./hero/heroes.js";
 import _heroBio from "./hero/biography.js";
 import _heroPhoto from "./hero/photo.js";
+import _heroVideo from "./hero/video.js";
 
 import cors from "cors";
  
@@ -67,7 +68,7 @@ export const initDataBase = (): void => {
     _hero.setConn(conn);
     _heroBio.setConn(conn);
     _heroPhoto.setConn(conn);
-
+    _heroVideo.setConn(conn);
      
 }
 

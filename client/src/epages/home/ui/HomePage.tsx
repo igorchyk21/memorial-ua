@@ -3,7 +3,7 @@ import { HeroListMain } from "@/features/heroes";
 import { _cnMainContainer } from "@/shared/const";
 import { ContentBaseType, ContentPageMain, HeroShortType } from "@global/types";
 import { getTranslations } from "next-intl/server";
-import { Container } from "react-bootstrap";
+import { Alert, AlertHeading, Container } from "react-bootstrap";
 
 interface Props {
     pageContent:ContentPageMain|null;
@@ -20,6 +20,25 @@ const HomePage = async ({pageContent, heroes}:Props) => {
             buttonTitle={t('buttons.heroes')}
             slides={pageContent.slides}/>)}
         
+        <Container className="pt-3"> 
+            <Alert variant="primary" className="d-sm-flex pb-4 pt-sm-4">
+            <i className="ci-tool fs-4 mt-1 mb-2 mb-sm-0"/>
+            <div className="ps-sm-3 pe-sm-4">
+                <AlertHeading className="mb-2">Триває розробка</AlertHeading>
+                <p>
+                    Платформа <b>«Віртуальна Алея Пам&apos;яті</b> перебуває на фінальному етапі розробки та тестування. 
+                    Якщо Ви зіткнетесь із труднощами в роботі або непрацюючими функціями, будь ласка, 
+                    спробуйте скористатися ними пізніше.
+                </p>
+                <hr className="text-primary opacity-25 my-3" />
+                <p className="fw-bold">
+                    Запуск у фінальній версії заплановано на січень 2026 року.
+                </p>
+            </div>
+        </Alert>
+
+        </Container>
+
         <Container> 
             {heroes &&
                 (<HeroListMain 
@@ -28,6 +47,8 @@ const HomePage = async ({pageContent, heroes}:Props) => {
                     linkHref="/heroes"
                     heroes={heroes}/>)}
         </Container>
+
+        
 
         {pageContent?.about &&
             (<InfoBlock 

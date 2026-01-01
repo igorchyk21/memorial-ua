@@ -1,6 +1,5 @@
 import { HeroBiographyItem, HeroBiographyType, HeroShortType } from "@global/types";
 import { Button, Col, Row } from "react-bootstrap";
-import "../style/biography.css";
 import { HeroBioItem } from "@/entities/hero";
 import { useTranslations } from "next-intl";
 interface Props {
@@ -12,7 +11,7 @@ interface Props {
 const HeroBiography = ({hero, biography, onClicEdit, onClickDelete}:Props) => {
 
     const t = useTranslations();
-  
+   
     return (<>
         <h3 className="text-center">{`${hero.fName} ${hero.lName}`}</h3>
         <Row className="bio-container pt-4">

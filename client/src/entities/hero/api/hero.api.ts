@@ -228,3 +228,14 @@ export const apiHeroSetMainPhoto = async (photoId:number, imgData:string): Promi
         return false;
     }
 }
+
+// Відправка відео на YouTube
+export const apiHeroSendVideoToYouTube = async (heroId:number, videoUrl:string, description:string, reToken?:string|null): Promise<boolean> => {
+    try {
+        const r = await iAxios.post(`/hero/video/youtube/${heroId}`, {videoUrl, description, reToken});
+        return r.data.stat || false;
+    } catch(e){
+        console.error(e);
+        return false;
+    }
+}

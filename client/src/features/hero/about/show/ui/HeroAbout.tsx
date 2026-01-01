@@ -27,14 +27,26 @@ const HeroAbout = ({hero, onClickEdit, onClickDelete, onClickStatus}:Props) => {
                     onClickDelete={onClickDelete}
                     onClickEdit={onClickEdit}
                     onClickStatus={onClickStatus}/>)}
-            </div> 
+            </div>  
             
         </div>
         {hero.status !== HERO_STAT.ACTIVE &&
             (<div style={{marginTop:-10}} className="mb-2">
                 <HeroStatus status={hero.status}/>
             </div>)}
+
+              
+
         <ul className="list-unstyled d-flex flex-column gap-3 fs-sm pb-5 m-0 mb-2 mb-sm-3">
+
+            {auth?.user.admin &&
+            (<li className="d-flex align-items-lg-center position-relative pe-4 flex-column flex-lg-row mb-3">
+                <span className="fs-6 fw-bold">{t('hero.about.pbPhone')}</span>
+                <span className="d-block flex-grow-1 border-bottom border-dashed px-lg-1 mt-lg-2 mx-lg-2" />
+                <span className="fs-6 text-dark-emphasis fw-bold text-end">
+                    <a href={`tel:${hero.publicPhone}`}>{hero.publicPhone}</a>
+                </span>
+            </li>)}
 
             <li className="d-flex align-items-lg-center position-relative pe-4 flex-column flex-lg-row">
                 <span className="fs-6">{t('hero.about.dtBirth')}</span>
@@ -69,6 +81,7 @@ const HeroAbout = ({hero, onClickEdit, onClickDelete, onClickStatus}:Props) => {
             </li>)}
 
         </ul> 
+
 
         {hero.about &&
         (<div dangerouslySetInnerHTML={{__html:hero.about}}></div>)}

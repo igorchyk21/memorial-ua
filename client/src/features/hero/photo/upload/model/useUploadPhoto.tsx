@@ -33,11 +33,11 @@ const useUploadPhoto = (heroId:number) => {
             const reToken  = executeRecaptcha ? await executeRecaptcha('form') : null;
             for(let i = 0; i<files.length; i ++ ) {
                 const file = files[i];
-                const _file = (file.type.startsWith('image/')) ? await fileToWebpFile(file) : file; 
+                const _file = (file.type.startsWith('image/')) ? await fileToWebpFile(file) : file;  
                 uFiles.push(_file || file);
             }
     
-            const resUpload = await uploadFiles(uFiles, handleUploadProgress, `hero/photo/${heroId}`, reToken)
+            const resUpload = await uploadFiles(uFiles, handleUploadProgress, `hero/photo/${heroId}`, '', reToken)
             if (resUpload?.stat) showToast(t('hero.messPhotoUpload'), 'success')
                 else showToast(t('hero.photo.errorUpload'), 'danger')
 

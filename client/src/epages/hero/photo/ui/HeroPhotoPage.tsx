@@ -5,7 +5,7 @@ import { HeroPhotoItem, HeroShortType } from "@global/types"
 interface Props {
     hero:HeroShortType;
     photos:HeroPhotoItem[]
-}
+} 
 const HeroPhotoPage = ({hero, photos}:Props) => { 
     return (<>
         <HeroNavigate/> 

@@ -20,7 +20,7 @@ export const ModalProvider = ({children}:CommonComponentChildren) => {
                 showDialog,
                 hideDialog
             }}>
-            {children} 
+            {children}  
             <div>
             {Boolean(dialogParams) &&
             (<Dialog  
@@ -50,7 +50,8 @@ export const ModalProvider = ({children}:CommonComponentChildren) => {
                                         await dialogParams.onClickConfirmButton();
                                     }
                                     setIsDisabled(false);
-                                    handleClose();
+                                    if (!dialogParams?.noCloseOnClickButton)
+                                        handleClose(); 
                                 }}>
 
                                 {i===0 

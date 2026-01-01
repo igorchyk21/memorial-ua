@@ -15,7 +15,7 @@ const Page = async ({params}:{params:any}) => {
 
     let md = '';
     try {
-        const filePath = path.join(process.cwd(), 'public', 'memorial', 'md', `${page}.md`); // /public/public_offer.md
+        const filePath = path.join(process.cwd(), 'client', 'public', 'memorial', 'md', `${page}.md`); // /public/public_offer.md
         md = await fs.readFile(filePath, 'utf8');
     } catch(e){
         return notFound();
