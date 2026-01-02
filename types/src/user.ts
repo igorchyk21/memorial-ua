@@ -1,4 +1,5 @@
 import { MLang } from "./bsae.js";
+import { CandleType } from "./hero.js";
 
 export enum USER_STATUS {
     DISABLE = 0,
@@ -19,7 +20,9 @@ export interface UserData  {
     userPicture:string;
     userStat:boolean;
     ban:boolean;
-}
+    candles?:CandleType[];
+
+};
 
 export interface UserGeoData {
     geoIp?:string;

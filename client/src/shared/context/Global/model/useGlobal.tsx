@@ -6,6 +6,8 @@ interface GlobalContextType {
     setLoading: Dispatch<SetStateAction<boolean>>;
     smallPhotos: boolean|null;
     setSmallPhotos: Dispatch<SetStateAction<boolean|null>>;
+    smallVideos: boolean|null;
+    setSmallVideos: Dispatch<SetStateAction<boolean|null>>;
 }
 
 const defaultValues = {
@@ -13,6 +15,8 @@ const defaultValues = {
     setLoading: ()=>{},
     smallPhotos: null,
     setSmallPhotos: ()=>{},
+    smallVideos: null,
+    setSmallVideos: ()=>{},
 }
 
 export const GlobalContext = createContext<GlobalContextType>(defaultValues);
@@ -22,7 +26,8 @@ export const useGlobal = () => useContext(GlobalContext);
 export const useGlobalModel = () => {
 
     const [ loading, setLoading ] = useState<boolean>(false);
-    const [ smallPhotos, setSmallPhotos ] = useState<boolean|null>(null);
+    const [ smallPhotos, setSmallPhotos ] = useState<boolean|null>(false);
+    const [ smallVideos, setSmallVideos ] = useState<boolean|null>(false);
 
     useEffect(()=>{
         if (smallPhotos === null) {
@@ -49,6 +54,8 @@ export const useGlobalModel = () => {
         loading,
         setLoading,
         smallPhotos,
-        setSmallPhotos
+        setSmallPhotos,
+        smallVideos,
+        setSmallVideos
     }
 }

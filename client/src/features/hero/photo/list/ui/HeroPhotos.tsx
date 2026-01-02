@@ -3,13 +3,14 @@ import { HeroPhotoDropdown } from "@/entities/hero";
 import { useGlobal } from "@/shared/context/Global/model/useGlobal";
 import { HERO_PHOTO_STAT, HeroPhotoItem } from "@global/types";
 import { useTranslations } from "next-intl";
-import { Col, Row } from "react-bootstrap";
+import { Badge, Col, Row } from "react-bootstrap";
 import HeroPhoto from "./HeroPhoto";
 import { ReactSortable } from "react-sortablejs";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { isSameOrderByID } from "../../helper/isSameOrderByID";
 import useHeroPhotos from "../model/useHeroPhotos";
 import { useAuth } from "@/shared/context/Auth";
+import AlertEmpty from "@/shared/ui/other/AlertEmpty";
 
 interface Props {
     heroId:number;
@@ -21,17 +22,31 @@ interface Props {
     onClickDelete:(photoId:number)=>void;
     onClickSetMain:(photoId:number)=>void;
 }
-
+ 
 const HeroPhotos = ({ heroId, heroName, photos, onSort, onClickStatus, onClickDelete, onClickSetMain}:Props) => {
     const t = useTranslations();
     const { smallPhotos } = useGlobal();
     const { auth } = useAuth();
     const { list, setList, changeSort} = useHeroPhotos(heroId, photos);
     const [ showSpinner, setShowSpinner ] = useState<number[]>([]);
-    if (smallPhotos === null) return null;
+    const [ count, setCount ] = useState<number>(0);
 
-    return (
+    useEffect(()=>{
+        const count =list
+        .filter(photo=>{
+            return !((photo.status !== HERO_PHOTO_STAT.ACTIVE) && 
+                    (!auth?.user.admin) &&
+                    ((!auth) || ( auth && (auth.user.ID !== photo.userId))))})?.length || 0;
+        setCount(count);
         
+    },[]);
+ 
+    return (<>
+        {count === 0 && 
+        (<AlertEmpty
+            title={t('hero.photo.empty')}
+            description={t('hero.photo.emptyDescription')}/>
+        )}
         <ReactSortable
             className="row g-3"
             list={list}
@@ -45,13 +60,12 @@ const HeroPhotos = ({ heroId, heroName, photos, onSort, onClickStatus, onClickDe
                 onSort?.(newList);
             }}
             animation={150}
-            handle=".sortable-handle">
-            
+            handle=".sortable-handle">            
                 {list
                     .filter(photo=>{
                         return !((photo.status !== HERO_PHOTO_STAT.ACTIVE) && 
                                 (!auth?.user.admin) &&
-                                ((!auth) || ( auth && (auth.user.ID !== photo.userId))));
+                                ((!auth) || ( auth && (auth.user.ID !== photo.userId)))); 
                     })
                     .map((photo) => {
                     return (<Col 
@@ -70,14 +84,15 @@ const HeroPhotos = ({ heroId, heroName, photos, onSort, onClickStatus, onClickDe
                             <i className="ci-move"/>
                         </div>)}
 
-                        <HeroPhoto 
+                        <HeroPhoto  
                             photo={photo} 
                             heroName={heroName}
                             showSpinner={showSpinner.includes(photo.ID)} />
-
                         <div 
                             className="position-absolute pe-4 w-100 text-end"
                             style={{ bottom: 5 }}> 
+                            {photo.status === HERO_PHOTO_STAT.ACTIVE && (Boolean(auth?.user.admin) || auth?.user.ID === photo.userId) && 
+                            <Badge bg="success">{t('hero.photo.activePhoto')}</Badge>}
                             <HeroPhotoDropdown  
                                 showDelete={Boolean(auth?.user.admin) || auth?.user.ID === photo.userId}
                                 showActions={Boolean(auth?.user.admin)}
@@ -97,7 +112,7 @@ const HeroPhotos = ({ heroId, heroName, photos, onSort, onClickStatus, onClickDe
             
         </ReactSortable>
         
-    );
+    </>);
 };
 
 export default HeroPhotos;

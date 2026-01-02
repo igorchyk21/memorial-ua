@@ -5,13 +5,15 @@ import _heroPhoto from "../../modules/hero/photo.js";
 import { middleIsAdmin } from "../../middleware/middleIdAdmin.js";
 import { safeIntParse, safeJSONParse } from "../../modules/helpers/gim-beckend-helpers.js";
 import { zHeroShortSchema } from "../../modules/hero/schema/hero.js";
-import { zHeroPostSchema } from "../../modules/hero/schema/post.js";
+import { zHeroCandleSchema, zHeroPostSchema } from "../../modules/hero/schema/post.js";
 import { lengthWords } from "../../modules/helpers/stringHelper.js";
 import { zHeroBiographyItemSchema } from "../../modules/hero/schema/biography.js";
 import { wrapAsync } from "../../modules/helpers/functions/wrapAsync.js";
 import { middleRecaptcha } from "../../middleware/middleRecaptcha.js";
-import { HERO_POST_STAT, HERO_VIDEO_STAT } from "@global/types";
+import { HERO_AUDIO_STAT, HERO_POST_STAT, HERO_VIDEO_STAT } from "@global/types";
 import _heroVideo from "../../modules/hero/video.js";
+import _heroAudio from "../../modules/hero/audio.js";
+import _heroCandle from "../../modules/hero/candle.js";
 
 const router = express.Router();
 
@@ -105,7 +107,6 @@ router.post('/photo/base64/:heroId', middleIsAdmin, async (req:Request, res:Resp
     res.json({stat:resSetMain})
 })
 
-
 // Зміна статусу фотографії
 router.post('/photo/status/:photoId', middleIsAdmin, async (req:Request, res:Response)=>{
     const photoId = safeIntParse(req.params.photoId, null);
@@ -114,6 +115,15 @@ router.post('/photo/status/:photoId', middleIsAdmin, async (req:Request, res:Res
     if (photoStatus === null) return res.status(400).send('Incorrect body parameter "photoStatus"');
     const resStat = await _heroPhoto.setStatus(photoId, photoStatus); 
     res.json({stat:resStat});
+})
+
+// Зміна опису відео
+router.post('/video/description/:videoId', middleIsAdmin, async (req:Request, res:Response)=>{
+    const videoId = safeIntParse(req.params.videoId, null);
+    if (!videoId) return res.status(400).send('Incorrect parameter "videoId"');
+    const description = req.body.description || '';
+    const resDescription = await _heroVideo.setDescription(videoId, description);
+    res.json({stat:resDescription});
 })
 
 // Додавання відео з YouTube
@@ -127,7 +137,68 @@ router.post('/video/youtube/:heroId', middleRecaptcha, async (req:Request, res:R
     res.json({stat:resVideo});
 })
 
-// Створення Гуроя
+// Сортування відео
+router.post('/video/sorted/:heroId', middleIsAdmin, async(req:Request, res:Response) => {
+    const heroId = safeIntParse(req.params.heroId, null);
+    if (!heroId) return res.status(400).send('Incorrect parameter "heroId"');
+    const sortedIds = req.body.sortedIds;
+    if (!Array.isArray(sortedIds)) res.status(400).send('Incorrect body parameter "sortedIds"');
+    const resSort = await _heroVideo.sorted(heroId, sortedIds);
+    res.json({stat:resSort});
+})
+
+// Зміна статусу відео
+router.post('/video/status/:videoId', middleIsAdmin, async (req:Request, res:Response)=>{
+    const videoId = safeIntParse(req.params.videoId, null);
+    if (!videoId) return res.status(400).send('Incorrect parameter "videoId"');
+    const videoStatus = safeIntParse(req.body.videoStatus, null);
+    if (videoStatus === null) return res.status(400).send('Incorrect body parameter "videoStatus"');
+    const resStat = await _heroVideo.setStatus(videoId, videoStatus);
+    res.json({stat:resStat});
+})
+
+// Додавання аудіо з зовнішнього джерела
+router.post('/audio/link/:heroId', middleRecaptcha, async (req:Request, res:Response)=>{
+    const heroId = safeIntParse(req.params.heroId, null);
+    if (!heroId) return res.status(400).send('Incorrect parameter "heroId"');
+    const audioUrl = req.body.audioUrl;
+    if (!audioUrl) return res.status(400).send('Incorrect body parameter "audioUrl"');
+    const description = req.body.description || '';
+    const resAudio = await _heroAudio.add(heroId, req.user?.ID || 0, [audioUrl], description, HERO_AUDIO_STAT.PENDING);
+    res.json({stat:resAudio});
+})
+
+
+// Зміна опису аудіо
+router.post('/audio/description/:audioId', middleIsAdmin, async (req:Request, res:Response)=>{
+    const audioId = safeIntParse(req.params.audioId, null);
+    if (!audioId) return res.status(400).send('Incorrect parameter "audioId"');
+    const description = req.body.description || '';
+    const resDescription = await _heroAudio.setDescription(audioId, description);
+    res.json({stat:resDescription});
+})
+
+// Сортування аудіо
+router.post('/audio/sorted/:heroId', middleIsAdmin, async(req:Request, res:Response) => {
+    const heroId = safeIntParse(req.params.heroId, null);
+    if (!heroId) return res.status(400).send('Incorrect parameter "heroId"');
+    const sortedIds = req.body.sortedIds;
+    if (!Array.isArray(sortedIds)) res.status(400).send('Incorrect body parameter "sortedIds"');
+    const resSort = await _heroAudio.sorted(heroId, sortedIds);
+    res.json({stat:resSort});
+})  
+
+// Зміна статусу аудіо
+router.post('/audio/status/:audioId', middleIsAdmin, async (req:Request, res:Response)=>{
+    const audioId = safeIntParse(req.params.audioId, null);
+    if (!audioId) return res.status(400).send('Incorrect parameter "audioId"');
+    const audioStatus = safeIntParse(req.body.audioStatus, null);
+    if (audioStatus === null) return res.status(400).send('Incorrect body parameter "audioStatus"');
+    const resStat = await _heroAudio.setStatus(audioId, audioStatus);
+    res.json({stat:resStat});
+})
+
+// Створення Героя
 router.post('/create', middleRecaptcha, async (req:Request, res:Response)=> {
     const body = zHeroShortSchema.safeParse(req.body.hero);
     if (!body.success) {
@@ -139,6 +210,19 @@ router.post('/create', middleRecaptcha, async (req:Request, res:Response)=> {
     const resSave = await _hero.save({...body.data, ID:resId})
     res.json({id:resSave ? resId : false})
 })
+
+// Додавання свічки Герою
+router.post('/candle/:heroId', middleRecaptcha, async (req:Request, res:Response)=>{
+    const heroId = safeIntParse(req.params.heroId, null);
+    if (!heroId) return res.status(400).send('Incorrect parameter "heroId"');
+    const body = zHeroCandleSchema.safeParse(req.body.candle);
+    if (!body.success) {
+        console.log(body)
+        return res.status(400).send(safeJSONParse(body.error.message));
+    }
+    const resCandle = await _heroCandle.add(heroId, body.data);
+    res.json({stat:Boolean(resCandle), expiries:resCandle});
+})      
 
 // Збереження Героя
 router.post('/:heroId', middleIsAdmin, async (req:Request, res:Response)=>{

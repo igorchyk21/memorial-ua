@@ -24,7 +24,6 @@ const HeroListMain = ({heroes, title, linkTitle, linkHref}:Props) => {
                 linkHref={linkHref}/>
 
             <Herolist 
-                
                 heroes={heroes}
                 showMax={8}/>
 

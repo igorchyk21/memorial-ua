@@ -1,3 +1,4 @@
+"use client"
 import { useGlobal } from "@/shared/context/Global/model/useGlobal";
 import { HERO_PHOTO_STAT, HeroPhotoItem } from "@global/types";
 import { useTranslations } from "next-intl";
@@ -14,7 +15,7 @@ const HeroPhotosHeader = ({count}:Props) => {
     const { smallPhotos, setSmallPhotos } = useGlobal();
 
     return (
-        <div className="pt-1 d-flex justify-content-between">
+        <div className="pt-1 mb-2 d-flex justify-content-between">
             <h6>{t('hero.photo.countPhotos')} ({count})</h6>
             <div>
                 <Button

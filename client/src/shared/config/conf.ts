@@ -9,7 +9,8 @@ const conf = {
     authGoogleId    : process.env.NEXT_PUBLIC_AUTH_GOOGLE_ID||'',
 
     candlePrice     : (process.env.NEXT_PUBLIC_CANDLE_PRICE||'0').split(',').map(price=>safeIntParse(price)),
-
+    candleDays      : (process.env.NEXT_PUBLIC_CANDLE_DAYS||'0').split(',').map(price=>safeIntParse(price)),
+    
     social:{
         facebook1   : process.env.NEXT_PUBLIC_FACEBOOK1, 
         facebook2   : process.env.NEXT_PUBLIC_FACEBOOK2,

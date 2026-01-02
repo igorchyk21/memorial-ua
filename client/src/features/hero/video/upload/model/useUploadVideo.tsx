@@ -92,7 +92,7 @@ const useUploadVideo = (heroId: number) => {
     const handleAddYoutubeVideo = async () => {
         showDialog({
             open: true,
-            title: t('hero.video.uploadVideo'),
+            title: t('hero.video.addVideo'), 
             noCloseOnClickButton: true,
             onHide:()=>{
                 if (refInputFile.current)
@@ -103,7 +103,7 @@ const useUploadVideo = (heroId: number) => {
                         refInputTextarea={refInputTextarea}
                         uploadMode="youtube"/>,
             buttons: [
-                {   title: t('hero.video.uploadVideo'), 
+                {   title: t('hero.video.addVideo'), 
                     onClick: async ()=>await addYoutubeVideo() }
             ]
         }); 

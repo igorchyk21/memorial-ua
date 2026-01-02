@@ -10,7 +10,7 @@ const statuses:Record<HERO_STAT | HERO_POST_STAT,{title:string; bg:string;} | nu
     "0":{title:'panding', bg:'warning'},
     "1":{title:'active', bg:'success'},
 }
-
+ 
 const HeroStatus = ({status}:Props) => {
     const t = useTranslations();
     return (<>

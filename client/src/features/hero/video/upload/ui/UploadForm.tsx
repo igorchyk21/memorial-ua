@@ -44,7 +44,7 @@ const UploadForm = ({refInputTextarea, refInputYoutubeLink, uploadFileName, uplo
                     onlyNumber={false}
                     refInput={refInputYoutubeLink}
                     value={youtubeLink}
-                    onChange={(value)=>setYoutubeLink(value)}/>
+                    onChange={(value)=>setYoutubeLink(value)}/> 
             </FloatingLabel>)}
 
             <FloatingLabel controlId="fl-textarea" label={t('hero.video.videoDescription')}> 

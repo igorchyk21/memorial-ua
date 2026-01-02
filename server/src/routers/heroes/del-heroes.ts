@@ -4,6 +4,7 @@ import _heroBio from "../../modules/hero/biography.js";
 import _heroPhoto from "../../modules/hero/photo.js";
 import { middleIsAdmin } from "../../middleware/middleIdAdmin.js";
 import { safeIntParse } from "../../modules/helpers/gim-beckend-helpers.js";
+import _heroVideo from "../../modules/hero/video.js";
 const router = express.Router();
 
 // Видалення допису Героя
@@ -31,6 +32,15 @@ router.delete('/photo/:photoId', async (req:Request, res:Response) => {
     if (!photoId) return res.status(400).send('Incorrect parameter "photoId"');
     // Якщо адмін - не передаємо ІД користувача, якщо ні - передаємо ІД користувача для ідентифікації
     const resDel = await _heroPhoto.deletePhoto(photoId, !req.user.admin ? req.user.ID : undefined);
+    res.json({stat:resDel})
+})
+
+// Видалення відео
+router.delete('/video/:videoId', async (req:Request, res:Response) => {
+    if (!req.user) return res.sendStatus(403);
+    const videoId = safeIntParse(req.params.videoId, null);
+    if (!videoId) return res.status(400).send('Incorrect parameter "videoId"');
+    const resDel = await _heroVideo.deleteVideo(videoId, !req.user.admin ? req.user.ID : undefined);
     res.json({stat:resDel})
 })
  

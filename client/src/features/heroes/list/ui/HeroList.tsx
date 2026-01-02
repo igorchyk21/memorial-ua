@@ -20,7 +20,7 @@ const Herolist = ({heroes, className, showMax = 99999999999}:Props) => {
                 return (
                     <Col key={hero.ID} 
                         lg={3} md={6} xs={12}>
-                        <HeroCard hero={hero}/> 
+                        <HeroCard hero={hero}/>  
                     </Col>
                 )
             })}

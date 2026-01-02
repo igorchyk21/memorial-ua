@@ -22,6 +22,6 @@ export default async function mainMiddleware(req:NextRequest) {
 
 export const config = {
     // Вказуємо, що middleware буде застосовуватися тільки до динамічних маршрутів
-    matcher: ["/((?!_next/static|_next/image|_next/img|sitemap-market.xml|favicon.ico|css|api|.*\\.(?:webp|png|svg|jpg|jpeg|md|mp4)$).*)",],
+    matcher: ["/((?!_next/static|_next/image|_next/img|sitemap-market.xml|favicon.ico|css|api|.*\\.(?:webp|png|svg|jpg|jpeg|gif|md|mp4|mov)$).*)",],
 };
 

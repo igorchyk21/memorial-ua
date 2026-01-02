@@ -1,9 +1,10 @@
 import { heroList } from "@/entities/hero";
-import { HeroesPage, HomePage } from "@/epages";
-import { _cnMain, _cnMainContainer } from "@/shared/const";
+import { HeroesPage } from "@/epages";
 import { safeIntParse } from "@/shared/helper/safeParsers";
+import { buildBasePageMetadata } from "@/shared/helper/seo/seoHelpers";
 import { AppPageSearchProps } from "@/types";
-import { HeroListRequestParams, HeroListSortType, HeroShortType } from "@global/types";
+import { HeroListRequestParams, HeroListSortType } from "@global/types";
+import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { cookies } from "next/headers";
 
@@ -12,6 +13,19 @@ interface Props extends AppPageSearchProps{
         locale:string, 
     }>;
 }  
+
+export const generateMetadata = async ({ params }: { params: Props["params"] }): Promise<Metadata> => {
+    const { locale } = await params;
+    setRequestLocale(locale);
+    const t = await getTranslations();
+
+    return buildBasePageMetadata({
+        locale,
+        path: `/${locale}/heroes`,
+        pageKey: "heroes",
+        t,
+    });
+};
 
 const Page = async ({params, searchParams}:Props) => {
     const authToken = (await cookies()).get('authToken')?.value;

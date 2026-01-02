@@ -4,6 +4,7 @@ import Lightbox from "@/shared/ui/img/Lightbox"
 import BlockSpinner from "@/shared/ui/spinners/BlockSpinner";
 import { SpinnerIcon } from "@bprogress/next";
 import { HERO_PHOTO_STAT, HeroPhotoItem } from "@global/types"
+import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { Spinner } from "react-bootstrap";
 
@@ -12,9 +13,10 @@ interface Props {
     heroName?:string;
     showSpinner?:boolean;
 }
- 
+  
 const HeroPhoto = ({photo, heroName, showSpinner}:Props) => {
-    return (
+    const t = useTranslations();
+        return (
         <Lightbox
         href={`${conf.dataUrl}/${photo.url}`}
         gallery="productGallery"
@@ -25,7 +27,7 @@ const HeroPhoto = ({photo, heroName, showSpinner}:Props) => {
             <Image 
                 className="hero-photo"
                 src={`${conf.dataUrl}/${photo.url}`}
-                alt={`${heroName||''}`}
+                alt={`${heroName||''}, ${t('seo.keywords')}`}
                 width={600}
                 height={0}
                 placeholder="blur"
@@ -34,7 +36,7 @@ const HeroPhoto = ({photo, heroName, showSpinner}:Props) => {
                 style={{aspectRatio:1, objectFit:'cover'}}/>
             <div className="position-absolute" style={{top:3,left:-3}}>
                     {photo.status != HERO_PHOTO_STAT.ACTIVE &&
-                    (<HeroStatus status={photo.status}/>)}
+                    (<HeroStatus status={photo.status}/>)} 
             </div>
         </div>
         </Lightbox>

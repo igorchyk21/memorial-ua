@@ -11,9 +11,10 @@ interface Props {
 const HeroUploadPhoto = ({heroId}:Props) => {
     const t = useTranslations();
     const { refInputFile, handleChange, isConverting } = useUploadPhoto(heroId);
-    return (<div>
+    return (<div className="d-flex justify-content-end flex-wrap gap-1">
         <Button 
             className="rounded-pill"
+            style={{height:40}}
             disabled={isConverting}
             onClick={()=>refInputFile.current?.click()}>
             <SpinnerTitle

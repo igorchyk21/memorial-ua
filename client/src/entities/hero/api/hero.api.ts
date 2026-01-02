@@ -1,5 +1,5 @@
 import iAxios from "@/shared/api/iAxios";
-import { HERO_PHOTO_STAT, HERO_POST_STAT, HERO_STAT, HeroBiographyItem, HeroBiographyType, HeroListRequestParams, HeroListResponse, HeroPhotoItem, HeroPostType, HeroShortType } from "@global/types";
+import { HERO_PHOTO_STAT, HERO_POST_STAT, HERO_STAT, HERO_VIDEO_STAT, HeroBiographyItem, HeroBiographyType, HeroCandleDataType, HeroListRequestParams, HeroListResponse, HeroPhotoItem, HeroPostType, HeroShortType, HeroVideoItem } from "@global/types";
 import { isAbsolute } from "path";
 
 // Повертає список Героїв
@@ -229,6 +229,23 @@ export const apiHeroSetMainPhoto = async (photoId:number, imgData:string): Promi
     }
 }
 
+
+/**
+ * ВІДЕО ГЕРОЯ
+ */
+
+// Повертає відео Героя
+export const apiHeroGetVideos = async (heroId:number): Promise<HeroVideoItem[]|null> => {
+    try {
+        const r = await iAxios(`/hero/videos/${heroId}`);
+        return r.data;
+    } catch(e){
+        console.error(e);
+        return null;
+    }
+}
+
+
 // Відправка відео на YouTube
 export const apiHeroSendVideoToYouTube = async (heroId:number, videoUrl:string, description:string, reToken?:string|null): Promise<boolean> => {
     try {
@@ -237,5 +254,132 @@ export const apiHeroSendVideoToYouTube = async (heroId:number, videoUrl:string, 
     } catch(e){
         console.error(e);
         return false;
+    }
+}
+
+// Зміна сортування
+export const apiHeroSortedVideos = async (heroId:number, sortedIds:number[]): Promise<boolean> => {
+    try {
+        const r = await iAxios.post(`/hero/video/sorted/${heroId}`, {sortedIds});
+        return r.data.stat;
+    } catch(e){
+        console.error(e);
+        return false;
+    }
+}
+
+// Видалення відео
+export const apiHeroDeleteVideo = async (videoId:number): Promise<boolean> => {
+    try {
+        const r = await iAxios.delete(`/hero/video/${videoId}`);
+        return r.data.stat || false;
+    } catch(e){
+        console.error(e);
+        return false;
+    }
+}
+
+// Зміна статусу
+export const apiHeroSetStatusVideo = async (videoId:number, videoStatus:HERO_VIDEO_STAT): Promise<boolean> => {
+    try {
+        const r = await iAxios.post(`/hero/video/status/${videoId}`, {videoStatus});
+        return r.data.stat || false;
+    } catch(e){
+        console.error(e);
+        return false;
+    }
+}   
+
+// Зміна опису відео
+export const apiHeroEditVideo = async (videoId:number, description:string): Promise<boolean> => {
+    try {
+        const r = await iAxios.post(`/hero/video/description/${videoId}`, {description});
+        return r.data.stat || false;
+    } catch(e){
+        console.error(e);
+        return false;
+    }
+}
+
+
+/**
+ * АУДІО ГЕРОЯ
+ * (аналогічно до відео, але без прив'язки до YouTube;
+ *  використовується довільне посилання на аудіо)
+ */
+
+// Повертає аудіо Героя
+export const apiHeroGetAudios = async (heroId:number): Promise<HeroVideoItem[]|null> => {
+    try {
+        const r = await iAxios(`/hero/audios/${heroId}`);
+        return r.data;
+    } catch(e){
+        console.error(e);
+        return null;
+    }
+}
+
+// Додавання аудіо за довільним посиланням
+export const apiHeroSendAudioByLink = async (heroId:number, audioUrl:string, description:string, reToken?:string|null): Promise<boolean> => {
+    try {
+        const r = await iAxios.post(`/hero/audio/link/${heroId}`, {audioUrl, description, reToken});
+        return r.data.stat || false;
+    } catch(e){
+        console.error(e);
+        return false;
+    }
+}
+
+// Зміна сортування аудіо
+export const apiHeroSortedAudios = async (heroId:number, sortedIds:number[]): Promise<boolean> => {
+    try {
+        const r = await iAxios.post(`/hero/audio/sorted/${heroId}`, {sortedIds});
+        return r.data.stat;
+    } catch(e){
+        console.error(e);
+        return false;
+    }
+}
+
+// Видалення аудіо
+export const apiHeroDeleteAudio = async (audioId:number): Promise<boolean> => {
+    try {
+        const r = await iAxios.delete(`/hero/audio/${audioId}`);
+        return r.data.stat || false;
+    } catch(e){
+        console.error(e);
+        return false;
+    }
+}
+
+// Зміна статусу аудіо
+export const apiHeroSetStatusAudio = async (audioId:number, audioStatus:HERO_VIDEO_STAT): Promise<boolean> => {
+    try {
+        const r = await iAxios.post(`/hero/audio/status/${audioId}`, {audioStatus});
+        return r.data.stat || false;
+    } catch(e){
+        console.error(e);
+        return false;
+    }
+}
+
+// Зміна опису аудіо
+export const apiHeroEditAudio = async (audioId:number, description:string): Promise<boolean> => {
+    try {
+        const r = await iAxios.post(`/hero/audio/description/${audioId}`, {description});
+        return r.data.stat || false;
+    } catch(e){
+        console.error(e);
+        return false;
+    }
+}
+
+export const apiHeroAddCandle = async (heroId:number, candle:HeroCandleDataType, reToken?:string|null): Promise<number|null> => {
+    try {
+        const r = await iAxios.post(`/hero/candle/${heroId}`, {candle, reToken});
+        return r.data.expiries || null;
+    } catch(e){
+        console.error(e);
+        return null;
     }
 }

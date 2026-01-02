@@ -14,7 +14,7 @@ const HeroLayoutWidget = ({children, hero}:Props) => {
                 {children}
             </Col>
             <Col lg={4} className="pt-4 pt-lg-0" >
-                <CandleLight 
+                <CandleLight  
                     heroId={hero.ID}/> 
             </Col>
         </Row>

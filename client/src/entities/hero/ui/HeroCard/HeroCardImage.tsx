@@ -31,7 +31,7 @@ const HeroCardImage = (p:HeroCardImageProps) => {
         })()
     },[])
 
-    
+      
     return (
         <div className={p.className} style={{...p.style, maxWidth:'100%'}}>
         {error 

@@ -27,6 +27,7 @@ const getPAth4File = (req:UploadRequest) => {
     // завантаження з quill
     if (req.path.startsWith('/hero/photo')) path4file = path.join(dataFolder, `heroes/${req.params?.heroId}/gallery/photos`);
     else if (req.path.startsWith('/hero/video')) path4file = path.join(dataFolder, `heroes/${req.params?.heroId}/gallery/videos`);
+    else if (req.path.startsWith('/hero/audio')) path4file = path.join(dataFolder, `heroes/${req.params?.heroId}/gallery/audios`);
  
     // інші завантаження
     else path4file = path.join(dataFolder, `other/${req.user?.ID}`, getDateStamp());

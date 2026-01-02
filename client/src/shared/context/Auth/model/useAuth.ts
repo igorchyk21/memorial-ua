@@ -22,6 +22,7 @@ export interface AuthContextType {
     registerUser: (userName:string, userEmail: string, reToken:string)=>Promise<boolean|API_USERS>;
     reFetchUser:()=>void;
     docEditMode:boolean;
+    updateAuth:()=>void;
 }
  
 const AuthContextDef = {
@@ -34,7 +35,8 @@ const AuthContextDef = {
     recoveryPassword: async()=>false,
     registerUser: async()=>false,
     reFetchUser:()=>{},
-    docEditMode:false
+    docEditMode:false,
+    updateAuth:()=>{}
 }  
 
 export const AuthContext = createContext<AuthContextType>(AuthContextDef);  
@@ -89,6 +91,12 @@ export const useAuthModel = (authDef?:AuthResultType | null) => {
         setAuth(null);
     }
 
+    const updateAuth = async () => {
+        const authToken = localStorage.getItem('authToken');
+        if (authToken) await loginByJwt(authToken);
+        else setAuth(null);
+    }
+
     // Реєстрація користувача     
     const registerUser = async (userName:string, userEmail:string, reToken:string): Promise<boolean|API_USERS> => {
         const ipInfo = await getIpInfo4User();
@@ -125,8 +133,7 @@ export const useAuthModel = (authDef?:AuthResultType | null) => {
     useEffect(()=>{
         reFetchUser();
     },[])
-
-     
+ 
 
     return {
         showOffAuth,
@@ -138,7 +145,8 @@ export const useAuthModel = (authDef?:AuthResultType | null) => {
         logout,
         auth,
         reFetchUser,
-        docEditMode
+        docEditMode,
+        updateAuth
         
     }
 }

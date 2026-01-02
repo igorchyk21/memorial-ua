@@ -25,6 +25,12 @@ export enum HERO_VIDEO_STAT {
     REJECT = -1
 }
 
+export enum HERO_AUDIO_STAT {
+    PENDING = 0,
+    ACTIVE = 1,
+    REJECT = -1
+}
+
 
 export type HeroListSortType = 
     | 'name'
@@ -35,6 +41,11 @@ export type HeroListSortType =
     | 'deathDesc'
     | '';
 
+export interface  CandleType {
+    heroId:number;
+    expiries:number;    
+};
+    
 export interface HeroListRequestParams {
     search?:string|null;
     page?:number;
@@ -113,10 +124,26 @@ export interface HeroVideoItem {
     url:string;
     description:string;
     status:HERO_VIDEO_STAT;
+    dt?:number;
+    userEmail?:string;
     userName?:string|null;
     userPicture?:string|null;
 }
 
+export type HeroAudiosType = HeroAudioItem[];
+export interface HeroAudioItem {
+    ID:number;
+    heroId:number;
+    userId:number;
+    uploadDt:number;
+    url:string;
+    description:string;
+    status:HERO_AUDIO_STAT;
+    dt?:number;
+    userEmail?:string;
+    userName?:string|null;
+    userPicture?:string|null;
+}
 
 export interface HeroPostType {
     ID:number;
@@ -128,4 +155,12 @@ export interface HeroPostType {
     author?:string|null;
     userPicture?:string;
     status:HERO_POST_STAT;
+}
+
+export interface HeroCandleDataType {
+    userId:number;
+    userName?:string;
+    days:number;
+    price:number;
+    comment:string;
 }

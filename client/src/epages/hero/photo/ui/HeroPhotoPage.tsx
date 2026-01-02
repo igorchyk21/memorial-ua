@@ -12,8 +12,8 @@ const HeroPhotoPage = ({hero, photos}:Props) => {
         <main className="container mx-auto p-4"> 
             <HeroLayoutWidget  
                 hero={hero}>
-                <div className="d-flex justify-content-between">
-                    <h3 className="text-start">{`${hero.fName} ${hero.lName}`}</h3>
+                <div className="d-md-flex justify-content-between mb-2">
+                <h3 className="text-start">{`${hero.fName} ${hero.lName}`}</h3>
                     <HeroUploadPhoto heroId={hero.ID}/> 
                 </div>
                 <HeroPhotosWidget
@@ -21,7 +21,7 @@ const HeroPhotoPage = ({hero, photos}:Props) => {
                     photos={photos}
                     heroName={`${hero.fName} ${hero.lName}`}/>
             </HeroLayoutWidget> 
-        </main>
+        </main> 
     </>)
 }
  

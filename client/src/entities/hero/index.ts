@@ -8,3 +8,7 @@ export { default as HeroAboutDropdown } from "./ui/HeroAboutDropdown/HeroAboutDr
 export { default as HeroPhotoDropdown } from "./ui/HeroPhoto/HeroPhotoToolbar";
 export { default as HeroBioItem } from "./ui/Biography/HeroBioItem";
 export { default as HeroPublicPhone } from "./ui/HeroPublicPhone";
+export { default as HeroVideoToolbar } from "./ui/HeroVideo/HeroVideoToolbar";
+export { default as HeroAudioToolbar } from "./ui/HeroAudio/HeroAudioToolbar";
+export { default as HeroAudio } from "./ui/HeroAudio/HeroAudio";
+export { default as CandleShow } from "./ui/CandleShow/CandleShow";

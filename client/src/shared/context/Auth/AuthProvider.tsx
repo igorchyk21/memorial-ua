@@ -17,7 +17,9 @@ export const AuthProvider = ({children, authDef}:AuthProviderProps) => {
             auth,
             docEditMode,
             reFetchUser,
-            logout} = useAuthModel(authDef);
+            logout,
+            updateAuth
+        } = useAuthModel(authDef);
 
     return ( 
         <AuthContext.Provider
@@ -31,7 +33,8 @@ export const AuthProvider = ({children, authDef}:AuthProviderProps) => {
                 auth,
                 docEditMode,
                 reFetchUser,
-                logout 
+                logout,
+                updateAuth
             }}>
             {children}
         </AuthContext.Provider>

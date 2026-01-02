@@ -3,56 +3,67 @@ import conf from "@/shared/config/conf";
 import { safeIntParse } from "@/shared/helper/safeParsers";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { Button, FloatingLabel, FormControl, FormLabel, Stack, ToggleButton } from "react-bootstrap";
+import { Button, FloatingLabel, FormControl, FormLabel, Spinner, Stack, TabPane, Tabs, ToggleButton } from "react-bootstrap";
+import { useAuth } from "@/shared/context/Auth/model/useAuth";
+import { Formik } from "formik";
+import { HeroCandleDataType } from "@global/types";
+import CandleLightForm from "./CandleLightForm";
+import useCandleLight from "../model/useCandleLight";
+import BlockSpinner from "@/shared/ui/spinners/BlockSpinner";
+import BaseSpinner from "@/shared/ui/spinners/BaseSpinner";
+import { DateTime as DT } from "luxon";
+import { CandleShow } from "@/entities/hero";
 
 interface Props {
     heroId:number;
-}
+} 
 const CandleLight = ({heroId}:Props) => {
 
     const t = useTranslations();
-    const [modelValue, setModelValue] = useState(100)
-
+    const { auth } = useAuth();
+    const [modelValue, setModelValue] = useState(0);
+    const { handleSubmit, activeTab, setActiveTab, candleExpiries } = useCandleLight(heroId);
+ 
     return (
         <div className="border rounded-4 py-4 px-4 mb-4"
             style={{position:'sticky', top:190}}>
-        <h5>{t('hero.candle.title')}</h5>
- 
-        {/* Text input */}
-        <FloatingLabel controlId="fl-text" label={t('hero.candle.youName')} className="mb-3">
-            <FormControl type="text" placeholder={t('hero.candle.youName')} />
-        </FloatingLabel>
-
-        {/* Textarea */}
-        <FloatingLabel controlId="fl-textarea" 
-            label={t('hero.candle.youMess')}>
-            <FormControl as="textarea" placeholder={t('hero.candle.youMess')} style={{ height: 120 }} />
-        </FloatingLabel>
-
-        {/* Model options made of <ToggleButton> */}
-        <FormLabel className="pb-1 mt-3 mb-2">{t('hero.candle.offering')}</FormLabel>
-        <Stack direction="horizontal" gap={2} className="flex-wrap">
-            {conf.candlePrice.map((value, index) => (
-            <ToggleButton
-                key={index}
-                type="radio"
-                id={`model-${index}`}
-                variant="outline-secondary"
-                size="sm"
-                name="model-options"
-                value={value}
-                checked={modelValue === value}
-                onChange={(e) => setModelValue(safeIntParse(e.currentTarget.value))}
-                
-            >
-                {value}
-            </ToggleButton>
-            ))}
-        </Stack>
-
-        <div className="pt-3">
-            <Button className="d-block w-100">{t('hero.candle.light')}</Button>
+        <div className="mb-3">
+        <h5 className="mb-0">{activeTab === 'candle' ? t('hero.candle.candleBurning') : t('hero.candle.title')}</h5>
+        {activeTab === 'candle' && <p>{t('hero.candle.candleExpiries')} {DT.fromMillis(candleExpiries||0).setLocale("uk").toLocaleString(DT.DATETIME_MED)}</p>}
         </div>
+        
+        {activeTab !== null
+
+        ?(<Tabs activeKey={activeTab} 
+            className="d-none"
+            onSelect={(key) => setActiveTab(key as 'form' | 'candle')}>
+        
+        <TabPane
+            eventKey="form"
+            title="form">
+            <Formik<HeroCandleDataType>
+                initialValues={{
+                    userId: auth?.user.ID||0,
+                    userName: auth?.user.userName||'',
+                    days: 1,
+                    price: 0,
+                    comment: ''
+                }}
+                onSubmit={handleSubmit}
+            >
+                {(formik)=>(
+                    <CandleLightForm formik={formik} />)}
+                </Formik>
+            </TabPane>
+
+        <TabPane
+            eventKey="candle"
+            title="candle">
+                <CandleShow />
+        </TabPane>
+        </Tabs>)
+
+        :(<BaseSpinner show={true}/>)}
 
 
     </div>)

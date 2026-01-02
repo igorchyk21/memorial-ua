@@ -42,7 +42,7 @@ const cartzillaIcons = localFont({
 
 export default function RootLayout({children}:CommonComponentChildren) {
     return (
-        <html lang="en" suppressHydrationWarning>
+        <html lang="uk" suppressHydrationWarning>
             <head>
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" />

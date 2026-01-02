@@ -6,3 +6,5 @@ export { default as HeroPhotosWidget } from "./hero/ui/HeroPhotosWidget";
 export { default as OffAuthWidget } from "./auth/ui/OffAuthWidget";
 export { default as HeroPostsListWidget } from "./hero/ui/HeroPostsListWidget";
 export { default as NewHeroWidget } from "./newHero/ui/NewHeroWidget";
+export { default as HeroVideosWidget } from "./hero/ui/HeroVideosWidget";
+export { default as HeroAudiosWidget } from "./hero/ui/HeroAudiosWidget";

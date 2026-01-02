@@ -7,6 +7,8 @@ import conf from "@/shared/config/conf";
 import { DateTime as DT } from "luxon";
 import HeroStatus from "./HeroStatus";
 import { useAuth } from "@/shared/context/Auth";
+import { useTranslations } from "next-intl";
+import CandleShow from "../CandleShow/CandleShow"
 
 interface Props {
     hero:HeroShortType;
@@ -15,6 +17,8 @@ interface Props {
 
 const HeroCard = ({hero, showName=true}:Props) => {
     const { auth } = useAuth();
+    const t = useTranslations();
+    const dt = Date.now();
     return ( 
         <article className="hero" style={{maxWidth:350, marginInline:'auto'}}>
             <div className="animate-underline hover-effect-opacity p-3 position-relative">
@@ -37,16 +41,23 @@ const HeroCard = ({hero, showName=true}:Props) => {
                         className={`d-flex rounded p-0 underline-none`}>
                         
                         <HeroCardImage
-                                src={`${conf.dataUrl}/${hero.photo}`}
-                                href={null}
-                                width={350}
-                                height={0}/> 
+                            alt={`${hero.lName} ${hero.fName}, ${t('seo.keywords')}`}
+                            src={`${conf.dataUrl}/${hero.photo}`}
+                            href={null}
+                            width={350}
+                            height={0}/> 
                     </Link>
 
-                    {auth?.user.admin &&
-                    (<div className="position-absolute p-2" style={{bottom:0, right:0}}>
-                        <HeroStatus status={hero.status}/>
+                    {(hero.candleExpiries||0) >= dt &&
+                    (<div className="position-absolute" style={{bottom:-10, right:-10, zIndex:999}}>
+                    <CandleShow maxWidth={100}/>
                     </div>)}
+
+                    
+                    <div className="position-absolute p-2" style={{bottom:0, right:0, zIndex:1000}}>
+                        {auth?.user.admin &&
+                            (<HeroStatus status={hero.status}/>)}
+                    </div>
                 </div>
 
                 
@@ -56,6 +67,7 @@ const HeroCard = ({hero, showName=true}:Props) => {
                 <Link className="nav-link animate-target min-w-0 text-dark-emphasis p-0"
                     href={`/hero/${hero.url ? `${hero.url}-` : ''}${hero.ID}`}>
                     <span className="text-truncate mt-2 fs-18">{hero.lName} {hero.fName}</span>
+                     
                 </Link>
                 </div>)}
                 

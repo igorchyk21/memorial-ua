@@ -9,13 +9,13 @@ interface Props {
     heroId:number;
     photos:HeroPhotoItem[];
     heroName?:string;
-}
+} 
  
 const HeroPhotosWidget = ({heroId, heroName, photos}:Props) => {
     
     const { handleClickDelete, handleClickSetMain, handleClickStatus } = useHeroPhotoActions();
     const count = photos.filter(photo =>photo.status === HERO_PHOTO_STAT.ACTIVE)?.length || 0;
-    return (<>
+    return (<> 
         {Boolean(photos.length) &&
         (<HeroPhotosHeader 
             count={count}/>)}

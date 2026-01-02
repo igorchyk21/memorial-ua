@@ -57,7 +57,8 @@ export const _getList = async ({
                 hero_callsign           as callSign,
                 hero_photo              as photo,
                 hero_army_name          as armyName,
-                hero_status             as status
+                hero_status             as status,
+                hero_candle_expiries    as candleExpiries
                 ${admin ? ', public_phone as publicPhone' : ''}
         FROM    heroes
                 ${where}

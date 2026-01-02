@@ -1,15 +1,26 @@
-import { contentBigSlider } from "@/entities/content";
-import { contentPageMain } from "@/entities/content/model/contentMode";
-import { heroGet, heroList } from "@/entities/hero";
-import { HomePage, NewHeroPage, NewHeroResultPage } from "@/epages";
-import { _cnMain, _cnMainContainer } from "@/shared/const";
+import { heroGet } from "@/entities/hero";
+import { NewHeroResultPage } from "@/epages";
+import { _cnMain } from "@/shared/const";
+import { buildBasePageMetadata } from "@/shared/helper/seo/seoHelpers";
 import { safeIntParse } from "@/shared/helper/safeParsers";
-import { HeroListRequestParams } from "@global/types";
+import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { cookies } from "next/headers";
 import { notFound } from "next/navigation";
-import { Card, Container } from "react-bootstrap";
  
+export const generateMetadata = async ({ params }: { params: any }): Promise<Metadata> => {
+    const { locale } = await params;
+    setRequestLocale(locale);
+    const t = await getTranslations();
+
+    return buildBasePageMetadata({
+        locale,
+        path: `/${locale}/new`,
+        pageKey: "newHeroResult",
+        t,
+    });
+};
+
 const Page = async ({params}:{params:any}) => {
     const authToken = (await cookies()).get('authToken')?.value;
     

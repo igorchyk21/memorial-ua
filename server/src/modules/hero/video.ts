@@ -17,6 +17,8 @@ const get = async (heroId: number | null, videoId?: number)
                 heroes_videos.video_url          as url,
                 heroes_videos.video_description  as description,
                 heroes_videos.video_status       as status,
+                heroes_videos.upload_dt          as dt,
+                users.user_email                 as userEmail,
                 users.user_name                  as userName,
                 users.user_picture               as userPicture 
         FROM    heroes_videos
@@ -58,6 +60,21 @@ const add = async (heroId: number, userId: number, videos: string[], description
     }
 };
 
+// Зміна опису відео 
+const setDescription = async (videoId: number, description: string) 
+    : Promise<boolean> => {
+    const sql = `
+        UPDATE heroes_videos SET video_description = ? WHERE ID = ?`;
+    try {
+        const [r] = await conn.execute<ResultSetHeader>(sql, [description, videoId]);
+        return r.affectedRows === 1;
+    } catch (e) {
+        console.error(e);
+        return false;
+    }
+};
+
+// Сортування відео
 const sorted = async (heroId: number, sortedIds: number[]) => {
     const sql = `
         UPDATE heroes_videos SET video_ord = ? WHERE ID = ? AND hero_id = ?`;
@@ -119,7 +136,8 @@ export default {
     add,
     sorted,
     setStatus,
-    deleteVideo
+    deleteVideo,
+    setDescription
 };
 
 

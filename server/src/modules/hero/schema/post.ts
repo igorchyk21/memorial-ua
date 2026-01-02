@@ -13,4 +13,12 @@ export const zHeroPostSchema = z.object({
   status: z.nativeEnum(HERO_POST_STAT),
 });
 
+
+export const zHeroCandleSchema = z.object({
+  userId: z.number(),
+  userName: z.string(),
+  days: z.number(),
+  price: z.number(),
+  comment: z.string(),
+}).strip();
  

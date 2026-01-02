@@ -1,5 +1,5 @@
-import { HERO_PHOTO_STAT, HERO_POST_STAT, HERO_STAT, HeroBiographyItem, HeroBiographyType, HeroListRequestParams, HeroListResponse, HeroPhotoItem, HeroPostType, HeroShortType } from "@global/types";
-import { apiGetHeroBiography, apiHeroCreate, apiHeroDelete, apiHeroDeleteBio, apiHeroDeletePhoto, apiHeroDeletePost, apiHeroGet, apiHeroGetPhotoById, apiHeroGetPhotos, apiHeroGetPosts, apiHeroList, apiHeroSaveAbout, apiHeroSaveBio, apiHeroSavePost, apiHeroSetMainPhoto, apiHeroSetStatus, apiHeroSetStatusPhoto, apiHeroSetStatusPost, apiHeroSortedPhotos, apiHeroSendVideoToYouTube } from "../api/hero.api";
+import { HERO_PHOTO_STAT, HERO_POST_STAT, HERO_STAT, HERO_VIDEO_STAT, HeroBiographyItem, HeroBiographyType, HeroCandleDataType, HeroListRequestParams, HeroListResponse, HeroPhotoItem, HeroPostType, HeroShortType, HeroVideoItem } from "@global/types";
+import { apiGetHeroBiography, apiHeroCreate, apiHeroDelete, apiHeroDeleteBio, apiHeroDeletePhoto, apiHeroDeletePost, apiHeroGet, apiHeroGetPhotoById, apiHeroGetPhotos, apiHeroGetPosts, apiHeroList, apiHeroSaveAbout, apiHeroSaveBio, apiHeroSavePost, apiHeroSetMainPhoto, apiHeroSetStatus, apiHeroSetStatusPhoto, apiHeroSetStatusPost, apiHeroSortedPhotos, apiHeroSendVideoToYouTube, apiHeroGetVideos, apiHeroSortedVideos, apiHeroDeleteVideo, apiHeroSetStatusVideo, apiHeroEditVideo, apiHeroGetAudios, apiHeroSendAudioByLink, apiHeroSortedAudios, apiHeroDeleteAudio, apiHeroSetStatusAudio, apiHeroEditAudio, apiHeroAddCandle } from "../api/hero.api";
 import { insertHeroBiographyItem } from "../helper/insertHeroBiographyItem";
 
 export const heroList = async (params:HeroListRequestParams,  authToken?:string): Promise<HeroListResponse|null> => {
@@ -110,6 +110,61 @@ export const heroSetMainPhoto = async (photoId:number, imgData:string): Promise<
  * ВІДЕО
  */
 
+
+export const heroGetVideos = async (heroId:number): Promise<HeroVideoItem[]|null> => {
+    return await apiHeroGetVideos(heroId);
+}
+
 export const heroSendVideoToYouTube = async (heroId:number, videoUrl:string, description:string, reToken?:string|null): Promise<boolean> => {
     return await apiHeroSendVideoToYouTube(heroId, videoUrl, description, reToken);
+}
+
+export const heroSorterVideos = async (heroId:number, sortedIds:number[]): Promise<boolean> => {
+    return await apiHeroSortedVideos(heroId, sortedIds);
+}
+
+export const heroDeleteVideo = async (videoId:number): Promise<boolean> => {
+    return await apiHeroDeleteVideo(videoId);
+}
+
+export const heroSetStatusVideo = async (videoId:number, videoStatus:HERO_VIDEO_STAT): Promise<boolean> => {
+    return await apiHeroSetStatusVideo(videoId, videoStatus);
+}
+
+export const heroEditVideo = async (videoId:number, description:string): Promise<boolean> => {
+    return await apiHeroEditVideo(videoId, description);
+}   
+
+
+/**
+ * АУДІО
+ * (аналогічно до відео, але замість YouTube використовується довільне посилання)
+ */
+
+export const heroGetAudios = async (heroId:number): Promise<HeroVideoItem[]|null> => {
+    return await apiHeroGetAudios(heroId);
+}
+
+export const heroSendAudioByLink = async (heroId:number, audioUrl:string, description:string, reToken?:string|null): Promise<boolean> => {
+    return await apiHeroSendAudioByLink(heroId, audioUrl, description, reToken);
+}
+
+export const heroSorterAudios = async (heroId:number, sortedIds:number[]): Promise<boolean> => {
+    return await apiHeroSortedAudios(heroId, sortedIds);
+}
+
+export const heroDeleteAudio = async (audioId:number): Promise<boolean> => {
+    return await apiHeroDeleteAudio(audioId);
+}
+
+export const heroSetStatusAudio = async (audioId:number, audioStatus:HERO_VIDEO_STAT): Promise<boolean> => {
+    return await apiHeroSetStatusAudio(audioId, audioStatus);
+}
+
+export const heroEditAudio = async (audioId:number, description:string): Promise<boolean> => {
+    return await apiHeroEditAudio(audioId, description);
+}
+
+export const heroAddCandle = async (heroId:number, candle:HeroCandleDataType, reToken?:string|null): Promise<number|null> => {
+    return await apiHeroAddCandle(heroId, candle, reToken);
 }

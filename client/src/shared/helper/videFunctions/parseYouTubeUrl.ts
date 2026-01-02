@@ -3,7 +3,7 @@ export function parseYouTubeUrl(url: string): {
   videoId?: string | null;
   embedUrl?: string;
   reason?: string;
-} {
+} { 
   if (!url) return { valid: false, reason: "Empty URL" };
 
   try {

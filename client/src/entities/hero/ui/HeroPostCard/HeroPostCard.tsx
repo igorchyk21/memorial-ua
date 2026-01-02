@@ -30,10 +30,10 @@ const HeroPostCard = ({post, onClickEdit, onClickDelete, onClickStatus}:Props) =
                 <div
                     className="position-relative d-flex align-items-center justify-content-center flex-shrink-0 bg-body-secondary rounded-circle overflow-hidden"
                     style={{ width: 40, height: 40 }}>
-                    <UserAvatar
+                    <UserAvatar 
                         picture={post.userPicture}
                         name={post.author || post.userName || '-'}/>
-                
+                 
                 </div>
                 <div className="ps-2 ms-1">
                     <div className="fs-sm fw-semibold text-dark-emphasis">{post.userName || post.author}</div>

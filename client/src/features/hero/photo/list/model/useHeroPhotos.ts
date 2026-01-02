@@ -19,7 +19,7 @@ const useHeroPhotos = (heroId:number, photos:HeroPhotoItem[]) => {
     }
 
     useEffect(()=>{
-        setList(photos.map(p => ({ ...p, id: p.ID })) )
+        setList(photos.map(p => ({ ...p, id: p.ID })) ) 
     },[photos])
 
     return {

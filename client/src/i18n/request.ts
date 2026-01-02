@@ -8,7 +8,7 @@ export default getRequestConfig(async ({requestLocale}) => {
     ? requested
     : routing.defaultLocale;
 
-  const modules = ['common', 'auth', 'hero', 'map']; // перелік модулів
+  const modules = ['common', 'auth', 'hero', 'map', 'seo']; // перелік модулів
 
   const messagesEntries = await Promise.all(
     modules.map(async (mod) => {

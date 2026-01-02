@@ -6,6 +6,7 @@ import validator from "validator";
 import axios from "axios";
 import { getUserFromGoogle } from "../modules/user/helpers/getUserFromGoogle.js";
 import { API_USERS, AuthRecoveryData, AuthRegisterData, USER_STATUS } from "@global/types";
+import _heroCandle from "../modules/hero/candle.js";
  
 const router = express.Router();
 
@@ -38,11 +39,13 @@ router.post('/local', async (req:Request, res:Response) => {
     // Зберігаємо токен в БД для користувача
     if (!loginToken) await _usersAuth.JWT2User(resUser.ID, token);
 
+    // Отримуємо свічки користувача
+    const candles = await _heroCandle.getByUserId(resUser.ID);
 
     // відповідь авторизації
     res.json({
         isLogin:true,
-        user:resUser,
+        user:{...resUser, candles},
         token:token
     })    
 }) 
@@ -78,9 +81,13 @@ router.post('/google',
     if (!resUser) return res.sendStatus(500);
     const token = _usersAuth.createJWT(resUser) || '';
     await _usersAuth.JWT2User(resUser.ID, token);
+
+    // Отримуємо свічки користувача
+    const candles = await _heroCandle.getByUserId(resUser.ID);
+
     res.json({
         isLogin:true,
-        user:resUser,
+        user:{...resUser, candles},
         token:token
     }) 
      

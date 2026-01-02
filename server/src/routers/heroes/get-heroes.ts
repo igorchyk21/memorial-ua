@@ -5,6 +5,9 @@ import _heroPhoto from "../../modules/hero/photo.js";
 import { zHeroListRequestParamsSchema } from "../../modules/hero/schema/list.js";
 import { safeIntParse, safeJSONParse } from "../../modules/helpers/gim-beckend-helpers.js";
 import { HERO_STAT } from "@global/types";
+import _heroVideo from "../../modules/hero/video.js";
+import _heroAudio from "../../modules/hero/audio.js";
+
 const router = express.Router();
 
 
@@ -41,6 +44,22 @@ router.get('/photos/:heroId', async (req:Request, res:Response) => {
     if (!heroId) return res.status(400).send('Incorrect parameter "heroId"');
     const resPhoto = await _heroPhoto.get(heroId);
     res.json(resPhoto) 
+})
+
+// Повертає відео героя
+router.get('/videos/:heroId', async (req:Request, res:Response) => {
+    const heroId = safeIntParse(req.params.heroId, null);
+    if (!heroId) return res.status(400).send('Incorrect parameter "heroId"');
+    const resVideos = await _heroVideo.get(heroId);
+    res.json(resVideos)
+})
+
+// Повертає аудіо героя
+router.get('/audios/:heroId', async (req:Request, res:Response) => {
+    const heroId = safeIntParse(req.params.heroId, null);
+    if (!heroId) return res.status(400).send('Incorrect parameter "heroId"');
+    const resAudios = await _heroAudio.get(heroId);
+    res.json(resAudios)
 })
 
 // Повертає фотографію героя по її ID
