@@ -21,6 +21,7 @@ export interface UserData  {
     userStat:boolean;
     ban:boolean;
     candles?:CandleType[];
+    subscriptions?:number[];
 
 };
 

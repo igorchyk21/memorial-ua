@@ -1,7 +1,7 @@
 import { BigSlider, FaqBlock, InfoBlock, ItemsSlider } from "@/entities/content";
-import { HeroListMain } from "@/features/heroes";
+import { HeroesMainWidget } from "@/widgets";
 import { _cnMainContainer } from "@/shared/const";
-import { ContentBaseType, ContentPageMain, HeroShortType } from "@global/types";
+import { ContentPageMain, HeroShortType } from "@global/types";
 import { getTranslations } from "next-intl/server";
 import { Alert, AlertHeading, Container } from "react-bootstrap";
 
@@ -38,14 +38,9 @@ const HomePage = async ({pageContent, heroes}:Props) => {
         </Alert>
 
         </Container>
-
+ 
         <Container> 
-            {heroes &&
-                (<HeroListMain 
-                    title={t('blocks.candleTitle')}
-                    linkTitle={t('buttons.allHeroes')}
-                    linkHref="/heroes"
-                    heroes={heroes}/>)}
+            <HeroesMainWidget heroes={heroes}/>
         </Container>
 
         

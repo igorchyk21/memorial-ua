@@ -1,4 +1,5 @@
 "use client"
+import { useHeroSubscription } from "@/features/hero";
 import { HeroList, HeroPaginator } from "@/features/heroes";
 import { _cnMain } from "@/shared/const";
 import { HeroesListHeadWidget } from "@/widgets";
@@ -11,6 +12,7 @@ interface Props {
 }
 
 const HeroesPage = ({heroes, paginator}:Props) => {
+    const { handleClickSubscription } = useHeroSubscription();
     return (
         <main className={_cnMain}> 
             <Container> 
@@ -18,6 +20,7 @@ const HeroesPage = ({heroes, paginator}:Props) => {
                     countAllHeroes={paginator.countRows} /> 
 
                 <HeroList 
+                    onClickSubscription={handleClickSubscription}
                     className="mb-5"
                     heroes={heroes}/>
     

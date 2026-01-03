@@ -5,6 +5,7 @@ import _heroPhoto from "../../modules/hero/photo.js";
 import { middleIsAdmin } from "../../middleware/middleIdAdmin.js";
 import { safeIntParse } from "../../modules/helpers/gim-beckend-helpers.js";
 import _heroVideo from "../../modules/hero/video.js";
+import _heroSubscription from "../../modules/hero/subscription.js";
 const router = express.Router();
 
 // Видалення допису Героя
@@ -41,6 +42,15 @@ router.delete('/video/:videoId', async (req:Request, res:Response) => {
     const videoId = safeIntParse(req.params.videoId, null);
     if (!videoId) return res.status(400).send('Incorrect parameter "videoId"');
     const resDel = await _heroVideo.deleteVideo(videoId, !req.user.admin ? req.user.ID : undefined);
+    res.json({stat:resDel})
+})
+
+// Видалення підписки на Героя
+router.delete('/subscription/:heroId', async (req:Request, res:Response) => {
+    if (!req.user) return res.sendStatus(403);
+    const heroId = safeIntParse(req.params.heroId, null);
+    if (!heroId) return res.status(400).send('Incorrect parameter "heroId"');
+    const resDel = await _heroSubscription.removeSubscription(heroId, req.user.ID);
     res.json({stat:resDel})
 })
  

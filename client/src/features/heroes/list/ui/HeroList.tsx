@@ -1,3 +1,4 @@
+"use client"
 import { HeroCard } from "@/entities/hero";
 import { HeroShortType } from "@global/types";
 import { useTranslations } from "next-intl";
@@ -8,9 +9,10 @@ interface Props {
     heroes:HeroShortType[];
     className?:string;
     showMax?:number;
+    onClickSubscription:(heroId:number)=>void;
 }
 
-const Herolist = ({heroes, className, showMax = 99999999999}:Props) => {
+const Herolist = ({heroes, className, showMax = 99999999999, onClickSubscription}:Props) => {
     const t = useTranslations();
     return (
         <Row className={className}>
@@ -20,7 +22,9 @@ const Herolist = ({heroes, className, showMax = 99999999999}:Props) => {
                 return (
                     <Col key={hero.ID} 
                         lg={3} md={6} xs={12}>
-                        <HeroCard hero={hero}/>  
+                        <HeroCard 
+                            hero={hero}
+                            onClickSubscription={onClickSubscription}/>  
                     </Col>
                 )
             })}

@@ -58,7 +58,7 @@ const ButtonTheme = ({
       themeIcon = 'sun'
   }
 
-  return (
+  return ( 
     <Dropdown className={className}>
       <Dropdown.Toggle
         variant="secondary"

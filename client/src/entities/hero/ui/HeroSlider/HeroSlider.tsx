@@ -15,9 +15,10 @@ import HeroCard from '../HeroCard/HeroCard'
 
 interface Props {
     hero:HeroShortType;
+    onClickSubscription:(heroId:number)=>void;
 }
 
-const HeroSlider = ({hero}:Props) => {
+const HeroSlider = ({hero, onClickSubscription}:Props) => {
 
 
     if (!hero) return null;
@@ -49,7 +50,10 @@ const HeroSlider = ({hero}:Props) => {
                     </Col>
                     <Col md={6} className="d-flex align-items-center">
                         <div className='m-auto d-flex align-items-center'>
-                        <HeroCard hero={hero} showName={false}/> 
+                        <HeroCard 
+                            hero={hero} 
+                            showName={false} 
+                            onClickSubscription={onClickSubscription}/> 
                         </div>
                     </Col>
                     </Row>

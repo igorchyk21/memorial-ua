@@ -15,7 +15,7 @@ const HeroesListHeadWidget = ({countAllHeroes}:Props) => {
             <Col md={9}>
                 <FilterResult count={countAllHeroes}/>
             </Col>
-            <Col md={3} className="mt-2 mt-md-0">
+            <Col md={3} className="mt-2 mt-md-0"> 
                 <SortHeroes/>
             </Col>
         </Row>

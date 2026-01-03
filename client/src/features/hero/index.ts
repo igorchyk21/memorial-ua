@@ -24,3 +24,4 @@ export * from "./photo/actions/model/useHeroPhotoActions";
 export * from "./video/actions/model/useHeroVideActions";
 export * from "./audio/actions/model/useHeroAudioActions";
 export * from "./new/model/useHeroNew"
+export * from "./subscription/model/useHeroSubscription"

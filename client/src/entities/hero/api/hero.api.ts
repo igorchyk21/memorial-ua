@@ -383,3 +383,25 @@ export const apiHeroAddCandle = async (heroId:number, candle:HeroCandleDataType,
         return null;
     }
 }
+
+// Додаємо підпискуу на Героя
+export const apiHeroAddSubscription = async (heroId:number): Promise<boolean> => {
+    try {
+        const r = await iAxios.post(`/hero/subscription/${heroId}`);
+        return r.data.stat || false;
+    } catch(e){
+        console.error(e);
+        return false;
+    }
+}
+
+// Видаляємо підписку на Героя
+export const apiHeroDeleteSubscription = async (heroId:number): Promise<boolean> => {
+    try {
+        const r = await iAxios.delete(`/hero/subscription/${heroId}`);
+        return r.data.stat || false;
+    } catch(e){
+        console.error(e);
+        return false;
+    }
+}

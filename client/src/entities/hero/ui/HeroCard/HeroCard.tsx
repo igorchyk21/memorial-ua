@@ -9,14 +9,18 @@ import HeroStatus from "./HeroStatus";
 import { useAuth } from "@/shared/context/Auth";
 import { useTranslations } from "next-intl";
 import CandleShow from "../CandleShow/CandleShow"
-
+import { useState } from "react";
+import SpinnerTitle from "@/shared/ui/spinners/SpinnerTitle"
+ 
 interface Props {
     hero:HeroShortType;
     showName?:boolean;
+    onClickSubscription:(heroId:number)=>void;
 }
 
-const HeroCard = ({hero, showName=true}:Props) => {
+const HeroCard = ({hero, showName=true, onClickSubscription}:Props) => {
     const { auth } = useAuth();
+    const [ isSubscribed, setIsSubscribed ] = useState(false);
     const t = useTranslations();
     const dt = Date.now();
     return ( 
@@ -27,12 +31,23 @@ const HeroCard = ({hero, showName=true}:Props) => {
                     <Badge
                         className="position-absolute top-0 start-0 z-2 mt-2 ms-2 mt-sm-3 ms-sm-3">
                         {hero.callSign}
-                    </Badge>
-                    <Button
+                    </Badge> 
+                    {auth?.isLogin &&
+                    (<Button 
+                        onClick={async ()=>{
+                            setIsSubscribed(true);
+                            await onClickSubscription(hero.ID);
+                            setIsSubscribed(false);
+                        }}
+                        disabled={isSubscribed}
                         type="button"
-                        className="btn btn-icon btn-secondary animate-pulse fs-base bg-transparent border-0 position-absolute top-0 end-0 z-2 mt-1 mt-sm-2 me-1 me-sm-2">
-                        <i className={`${true ? 'ci-heart-filled' : 'ci-heart'} animate-target text-white`} />
-                    </Button>
+                        className="btn btn-icon btn-secondary rounded-circle animate-pulse fs-base  order-0 position-absolute top-0 end-0 z-2 mt-1 mt-sm-2 me-1 me-sm-2">
+                            <SpinnerTitle
+                                showSpinner={isSubscribed}
+                                className=""
+                                titleButton={<i className={`${auth?.user?.subscriptions?.includes(hero.ID) ? 'ci-heart-filled' : 'ci-heart'} animate-target text-white`} />}
+                            />
+                    </Button>)}
                     <div className="cr cr-bottom cr-left cr-sticky cr-black fs-12">
                         {DT.fromMillis(hero.death||0).setLocale("uk").toLocaleString(DT.DATE_MED)}
                     </div> 
@@ -41,7 +56,7 @@ const HeroCard = ({hero, showName=true}:Props) => {
                         className={`d-flex rounded p-0 underline-none`}>
                         
                         <HeroCardImage
-                            alt={`${hero.lName} ${hero.fName}, ${t('seo.keywords')}`}
+                            alt={`${hero.lName} ${hero.fName}, ${t('seo.keywords')}`} 
                             src={`${conf.dataUrl}/${hero.photo}`}
                             href={null}
                             width={350}

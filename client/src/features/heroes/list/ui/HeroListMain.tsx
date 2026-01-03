@@ -1,3 +1,4 @@
+"use client"
 import { HeroCard } from "@/entities/hero";
 import CandleBlack from "@/shared/svg/CandleBlack";
 import TitleBlock from "@/shared/ui/other/TitleBlock";
@@ -12,9 +13,10 @@ interface Props {
     title?:string;
     linkTitle?:string;
     linkHref?:string;
+    onClickSubscription:(heroId:number)=>void;
 }
 
-const HeroListMain = ({heroes, title, linkTitle, linkHref}:Props) => {
+const HeroListMain = ({heroes, title, linkTitle, linkHref, onClickSubscription}:Props) => {
     const t = useTranslations();
     return (
         <Container as="section" className=" mb-5" id="candles">
@@ -25,7 +27,8 @@ const HeroListMain = ({heroes, title, linkTitle, linkHref}:Props) => {
 
             <Herolist 
                 heroes={heroes}
-                showMax={8}/>
+                showMax={8}
+                onClickSubscription={onClickSubscription}/>
 
             {heroes.length > 8 && 
                 (<div className="py-5 text-center">

@@ -7,6 +7,7 @@ import axios from "axios";
 import { getUserFromGoogle } from "../modules/user/helpers/getUserFromGoogle.js";
 import { API_USERS, AuthRecoveryData, AuthRegisterData, USER_STATUS } from "@global/types";
 import _heroCandle from "../modules/hero/candle.js";
+import _heroSubscription from "../modules/hero/subscription.js";
  
 const router = express.Router();
 
@@ -42,10 +43,13 @@ router.post('/local', async (req:Request, res:Response) => {
     // Отримуємо свічки користувача
     const candles = await _heroCandle.getByUserId(resUser.ID);
 
+    // Отримуємо підписки користувача
+    const subscriptions = await _heroSubscription.getSubscriptionByUserId(resUser.ID);
+
     // відповідь авторизації
     res.json({
         isLogin:true,
-        user:{...resUser, candles},
+        user:{...resUser, candles, subscriptions},
         token:token
     })    
 }) 
@@ -85,9 +89,12 @@ router.post('/google',
     // Отримуємо свічки користувача
     const candles = await _heroCandle.getByUserId(resUser.ID);
 
+    // Отримуємо підписки користувача
+    const subscriptions = await _heroSubscription.getSubscriptionByUserId(resUser.ID);
+
     res.json({
         isLogin:true,
-        user:{...resUser, candles},
+        user:{...resUser, candles, subscriptions},
         token:token
     }) 
      

@@ -10,6 +10,7 @@ import _heroPhoto from "./hero/photo.js";
 import _heroVideo from "./hero/video.js";
 import _heroAudio from "./hero/audio.js";
 import _heroCandle from "./hero/candle.js"
+import _heroSubscription from "./hero/subscription.js";
 
 import cors from "cors";
  
@@ -73,6 +74,7 @@ export const initDataBase = (): void => {
     _heroVideo.setConn(conn);
     _heroAudio.setConn(conn);
     _heroCandle.setConn(conn)
+    _heroSubscription.setConn(conn)
 }
 
 

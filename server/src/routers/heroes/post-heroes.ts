@@ -14,6 +14,7 @@ import { HERO_AUDIO_STAT, HERO_POST_STAT, HERO_VIDEO_STAT } from "@global/types"
 import _heroVideo from "../../modules/hero/video.js";
 import _heroAudio from "../../modules/hero/audio.js";
 import _heroCandle from "../../modules/hero/candle.js";
+import _heroSubscription from "../../modules/hero/subscription.js";
 
 const router = express.Router();
 
@@ -223,6 +224,14 @@ router.post('/candle/:heroId', middleRecaptcha, async (req:Request, res:Response
     const resCandle = await _heroCandle.add(heroId, body.data);
     res.json({stat:Boolean(resCandle), expiries:resCandle});
 })      
+
+// Додавання підписки на Героя
+router.post('/subscription/:heroId', async (req:Request, res:Response)=>{
+    const heroId = safeIntParse(req.params.heroId, null);
+    if (!heroId) return res.status(400).send('Incorrect parameter "heroId"');
+    const resSubscription = await _heroSubscription.addSubscription(heroId, req.user?.ID || 0);
+    res.json({stat:Boolean(resSubscription), id:resSubscription});
+})
 
 // Збереження Героя
 router.post('/:heroId', middleIsAdmin, async (req:Request, res:Response)=>{
