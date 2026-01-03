@@ -1,4 +1,4 @@
-import { HERO_PHOTO_STAT, HERO_POST_STAT, HERO_STAT, HERO_VIDEO_STAT, HeroBiographyItem, HeroBiographyType, HeroCandleDataType, HeroListRequestParams, HeroListResponse, HeroPhotoItem, HeroPostType, HeroShortType, HeroVideoItem } from "@global/types";
+import { HERO_PHOTO_STAT, HERO_POST_STAT, HERO_STAT, HERO_VIDEO_STAT, HeroBiographyItem, HeroBiographyType, HeroCandleDataResponse, HeroCandleDataType, HeroListRequestParams, HeroListResponse, HeroPhotoItem, HeroPostType, HeroShortType, HeroVideoItem } from "@global/types";
 import { apiGetHeroBiography, apiHeroCreate, apiHeroDelete, apiHeroDeleteBio, apiHeroDeletePhoto, apiHeroDeletePost, apiHeroGet, apiHeroGetPhotoById, apiHeroGetPhotos, apiHeroGetPosts, apiHeroList, apiHeroSaveAbout, apiHeroSaveBio, apiHeroSavePost, apiHeroSetMainPhoto, apiHeroSetStatus, apiHeroSetStatusPhoto, apiHeroSetStatusPost, apiHeroSortedPhotos, apiHeroSendVideoToYouTube, apiHeroGetVideos, apiHeroSortedVideos, apiHeroDeleteVideo, apiHeroSetStatusVideo, apiHeroEditVideo, apiHeroGetAudios, apiHeroSendAudioByLink, apiHeroSortedAudios, apiHeroDeleteAudio, apiHeroSetStatusAudio, apiHeroEditAudio, apiHeroAddCandle, apiHeroDeleteSubscription, apiHeroAddSubscription } from "../api/hero.api";
 import { insertHeroBiographyItem } from "../helper/insertHeroBiographyItem";
 
@@ -165,8 +165,8 @@ export const heroEditAudio = async (audioId:number, description:string): Promise
     return await apiHeroEditAudio(audioId, description);
 }
 
-export const heroAddCandle = async (heroId:number, candle:HeroCandleDataType, reToken?:string|null): Promise<number|null> => {
-    return await apiHeroAddCandle(heroId, candle, reToken);
+export const heroAddCandle = async (heroId:number, candle:HeroCandleDataType, url:string, reToken?:string|null): Promise<HeroCandleDataResponse|null> => {
+    return await apiHeroAddCandle(heroId, candle, url, reToken);
 }
 
 

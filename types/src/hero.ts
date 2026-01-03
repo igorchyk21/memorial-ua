@@ -164,3 +164,9 @@ export interface HeroCandleDataType {
     price:number;
     comment:string;
 }
+
+export interface HeroCandleDataResponse {
+    stat:boolean;
+    expiries:number;
+    wfp?:string;
+}

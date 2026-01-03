@@ -1,5 +1,6 @@
+"use client"
 import { HeroCandleDataType } from "@global/types";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3"; 
 import { heroAddCandle } from "@/entities/hero";
 import { useTranslations } from "next-intl";
@@ -10,11 +11,14 @@ import { safeIntParse } from "@/shared/helper/safeParsers";
 const useCandleLight = (heroId:number) => {
     
     const t = useTranslations();
-    const { auth, updateAuth } = useAuth();
+    const { auth, reFetchUser } = useAuth();
     const { showToast } = useToast();
     const { executeRecaptcha } = useGoogleReCaptcha();
     const [ candleExpiries, setCandleExpiries ] = useState<number|null>(null);
     const [ activeTab, setActiveTab ] = useState<'form' | 'candle' | null>(null);
+    const [ wfpHtml, setWfpHtml ] = useState<string|null>(null);
+    const wfpContainerRef = useRef<HTMLDivElement|null>(null);
+
 
     useEffect(() => {
         
@@ -42,23 +46,47 @@ const useCandleLight = (heroId:number) => {
 
     const handleSubmit = async (values: HeroCandleDataType) => {
         const reToken = executeRecaptcha ? await executeRecaptcha('form') : null;
-        await new Promise(resolve => setTimeout(resolve, 3000));
-        const resAddCandle = await heroAddCandle(heroId, {...values, userId: auth?.user.ID||0, userName: auth?.user.userName||''}, reToken);
+        const resAddCandle = await heroAddCandle(heroId, {...values, userId: auth?.user.ID||0, userName: auth?.user.userName||''}, window.location.href, reToken);
+        
+        if (resAddCandle?.wfp) {
+            setWfpHtml(resAddCandle.wfp);
+            return;
+        }
+
         if (resAddCandle) {
-            if (auth?.isLogin)
-                await updateAuth();
-            else sessionStorage.setItem(`candle_${heroId}`, resAddCandle.toString());
+            if (auth?.isLogin) 
+                await reFetchUser();
+            else sessionStorage.setItem(`candle_${heroId}`, resAddCandle?.expiries?.toString()||'');
             setActiveTab('candle');
         }
+
         else return showToast(t('error'), 'danger');
-            
- 
-    }
+    } 
+
+
+    
+    useEffect(() => {
+        if (!wfpHtml) return;
+        if (!wfpContainerRef.current) return;
+
+        // Вставляємо HTML форми в DOM
+        wfpContainerRef.current.innerHTML = wfpHtml;
+
+        // Знаходимо форму та відправляємо її
+        const form =
+            document.getElementById("autoSubmitForm") as HTMLFormElement | null ||
+            (wfpContainerRef.current.querySelector("form") as HTMLFormElement | null);
+        if (form) form.submit();
+        
+    }, [wfpHtml]);
+
     return {
         handleSubmit,
         activeTab,
         setActiveTab,
-        candleExpiries
+        candleExpiries,
+        wfpHtml,
+        wfpContainerRef,
     }
 }
 

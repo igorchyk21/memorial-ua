@@ -8,7 +8,7 @@ const setConn = (_conn:Pool) => { conn = _conn };
 
 // Додаємо свічку Герою
 const add = async (heroId:number, candle:HeroCandleDataType)
-    : Promise<number|null> => {
+    : Promise<{id:number, expiries:number}|null> => {
 
     const dt = Date.now();
     const expiries = DT.fromMillis(dt).plus({ days: candle.days }).toMillis();
@@ -36,7 +36,7 @@ const add = async (heroId:number, candle:HeroCandleDataType)
         const [r] = await conn.execute<ResultSetHeader>(sql, params);
         const maxExpiries = await getMaxExpiries(heroId);
         await conn.execute(sqlHeroUpdate, [maxExpiries, heroId]);
-        return expiries;
+        return {id:r.insertId, expiries:expiries};
     } catch(e) {
         console.error(e);
         return null;
@@ -80,9 +80,26 @@ const getByUserId = async (userId: number): Promise<CandleType[] | null> => {
 };
 
 
+const payment2Candle = async (candleId:number, paymentStatus:number, paymentData:any) => {
+    const sql = `
+        UPDATE  heroes_candles
+        SET     payment_status = ?,
+                payment_data = ?
+        WHERE   ID = ?`;
+
+    try {
+        const [r] = await conn.execute<ResultSetHeader>(sql, [paymentStatus, JSON.stringify(paymentData), candleId]);
+        return r.affectedRows === 1;
+    } catch (e) {
+        console.error(e);
+        return false;
+    }
+}
+
 export default {
     setConn,
     add,
     getByUserId,
-    getMaxExpiries
+    getMaxExpiries,
+    payment2Candle
 }

@@ -1,5 +1,5 @@
 import iAxios from "@/shared/api/iAxios";
-import { HERO_PHOTO_STAT, HERO_POST_STAT, HERO_STAT, HERO_VIDEO_STAT, HeroBiographyItem, HeroBiographyType, HeroCandleDataType, HeroListRequestParams, HeroListResponse, HeroPhotoItem, HeroPostType, HeroShortType, HeroVideoItem } from "@global/types";
+import { HERO_PHOTO_STAT, HERO_POST_STAT, HERO_STAT, HERO_VIDEO_STAT, HeroBiographyItem, HeroBiographyType, HeroCandleDataResponse, HeroCandleDataType, HeroListRequestParams, HeroListResponse, HeroPhotoItem, HeroPostType, HeroShortType, HeroVideoItem } from "@global/types";
 import { isAbsolute } from "path";
 
 // Повертає список Героїв
@@ -374,10 +374,10 @@ export const apiHeroEditAudio = async (audioId:number, description:string): Prom
     }
 }
 
-export const apiHeroAddCandle = async (heroId:number, candle:HeroCandleDataType, reToken?:string|null): Promise<number|null> => {
+export const apiHeroAddCandle = async (heroId:number, candle:HeroCandleDataType, url:string, reToken?:string|null): Promise<HeroCandleDataResponse|null> => {
     try {
-        const r = await iAxios.post(`/hero/candle/${heroId}`, {candle, reToken});
-        return r.data.expiries || null;
+        const r = await iAxios.post(`/hero/candle/${heroId}`, {candle, url, reToken});
+        return r.data || null;
     } catch(e){
         console.error(e);
         return null;

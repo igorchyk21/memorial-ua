@@ -15,6 +15,7 @@ import _heroVideo from "../../modules/hero/video.js";
 import _heroAudio from "../../modules/hero/audio.js";
 import _heroCandle from "../../modules/hero/candle.js";
 import _heroSubscription from "../../modules/hero/subscription.js";
+import _wfp from "../../modules/wfp/wfp.js";
 
 const router = express.Router();
 
@@ -221,8 +222,16 @@ router.post('/candle/:heroId', middleRecaptcha, async (req:Request, res:Response
         console.log(body)
         return res.status(400).send(safeJSONParse(body.error.message));
     }
-    const resCandle = await _heroCandle.add(heroId, body.data);
-    res.json({stat:Boolean(resCandle), expiries:resCandle});
+
+    if (body.data.price === 0) {
+        const resCandle = await _heroCandle.add(heroId, body.data);
+        res.json({stat:Boolean(resCandle), expiries:resCandle?.expiries||0});
+    } else {
+        const resCandle = await _heroCandle.add(heroId, {...body.data, days:1});
+        if (!resCandle) return res.status(500).send('Error add candle');
+        const wfp = await _wfp.createWfpForm4Candle(resCandle?.id, body.data.price, req.body.url||'');
+        res.json({stat:Boolean(resCandle), expiries:resCandle, wfp:wfp});
+    }
 })      
 
 // Додавання підписки на Героя

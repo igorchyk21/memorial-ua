@@ -2,7 +2,7 @@
 import conf from "@/shared/config/conf";
 import { safeIntParse } from "@/shared/helper/safeParsers";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Button, FloatingLabel, FormControl, FormLabel, Spinner, Stack, TabPane, Tabs, ToggleButton } from "react-bootstrap";
 import { useAuth } from "@/shared/context/Auth/model/useAuth";
 import { Formik } from "formik";
@@ -22,7 +22,8 @@ const CandleLight = ({heroId}:Props) => {
     const t = useTranslations();
     const { auth } = useAuth();
     const [modelValue, setModelValue] = useState(0);
-    const { handleSubmit, activeTab, setActiveTab, candleExpiries } = useCandleLight(heroId);
+    const { handleSubmit, activeTab, setActiveTab, candleExpiries, wfpHtml, wfpContainerRef } = useCandleLight(heroId);
+
  
     return (
         <div className="border rounded-4 py-4 px-4 mb-4"
@@ -32,6 +33,10 @@ const CandleLight = ({heroId}:Props) => {
         {activeTab === 'candle' && <p>{t('hero.candle.candleExpiries')} {DT.fromMillis(candleExpiries||0).setLocale("uk").toLocaleString(DT.DATETIME_MED)}</p>}
         </div>
         
+        {wfpHtml && (
+            <div ref={wfpContainerRef} className="w-100 d-block" />
+        )}
+
         {activeTab !== null
 
         ?(<Tabs activeKey={activeTab} 
@@ -52,7 +57,9 @@ const CandleLight = ({heroId}:Props) => {
                 onSubmit={handleSubmit}
             >
                 {(formik)=>(
-                    <CandleLightForm formik={formik} />)}
+                    <CandleLightForm 
+                        disabled={!!wfpHtml}
+                        formik={formik} />)}
                 </Formik>
             </TabPane>
 

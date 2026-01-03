@@ -11,9 +11,10 @@ import SpinnerTitle from "@/shared/ui/spinners/SpinnerTitle";
 
 interface Props {
     formik: FormikProps<HeroCandleDataType>;
+    disabled?: boolean;
 }   
 
-const CandleLightForm = ({formik}:Props) => {
+const CandleLightForm = ({formik, disabled}:Props) => {
 
     const { auth } = useAuth();
     const t = useTranslations();
@@ -25,7 +26,7 @@ const CandleLightForm = ({formik}:Props) => {
             <FormControl 
                 type="text" 
                 value={auth?.user.userName||''}
-                disabled={!!auth?.user.userName || formik.isSubmitting}
+                disabled={!!auth?.user.userName || formik.isSubmitting || disabled}
                 onChange={(e) => formik.setFieldValue('userName', e.target.value)}
                 placeholder={t('hero.candle.youName')} />
         </FloatingLabel>
@@ -38,7 +39,7 @@ const CandleLightForm = ({formik}:Props) => {
                 placeholder={t('hero.candle.youMess')} 
                 style={{ height: 120 }} 
                 value={formik.values.comment||''}
-                disabled={formik.isSubmitting}
+                disabled={formik.isSubmitting || disabled}
                 onChange={(e) => formik.setFieldValue('comment', e.target.value)} />
         </FloatingLabel>
 
@@ -55,7 +56,7 @@ const CandleLightForm = ({formik}:Props) => {
                 size="sm"
                 name="model-options"
                 value={value}
-                disabled={formik.isSubmitting}
+                disabled={formik.isSubmitting || disabled}
                 checked={formik.values.price === value}
                 onChange={(e) => {
                     const days = conf.candleDays[index];
@@ -70,11 +71,12 @@ const CandleLightForm = ({formik}:Props) => {
         <div className="pt-3">
             <Button
                 type="submit"
-                disabled={formik.isSubmitting}
+                disabled={formik.isSubmitting || disabled}
                 className="d-block w-100">                    
-                    <SpinnerTitle showSpinner={formik.isSubmitting} titleButton={t('hero.candle.light')}/>
+                    <SpinnerTitle showSpinner={formik.isSubmitting || !!disabled} titleButton={t('hero.candle.light')}/>
             </Button>
         </div>
+
         </form>
     )
 }

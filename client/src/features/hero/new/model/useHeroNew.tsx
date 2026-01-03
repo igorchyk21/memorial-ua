@@ -33,6 +33,7 @@ export const useHeroNew = () => {
         if ((publicPhotos) && (publicPhotos.length > 0)) {
             const uFiles:File[] = [];
             const reToken  = executeRecaptcha ? await executeRecaptcha('form') : null;
+            if (!reToken) return showToast(t('error'), 'danger');
             for(let i = 0; i<publicPhotos.length; i ++ ) {
                 const file = publicPhotos[i];
                 const _file = (file.type.startsWith('image/')) ? await fileToWebpFile(file) : file; 

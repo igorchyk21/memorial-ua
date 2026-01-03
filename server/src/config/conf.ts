@@ -16,6 +16,9 @@ const conf = {
     stat_user: process.env.STAT_USER,
     stat_pass: process.env.STAT_PASS, 
 
+    domain: process.env.DOMAIN || '',
+    host: process.env.HOST || '',
+
     secretKey: process.env.SECRET_KEY,
     jwtvalid:  safeIntParse(process.env.JWT_VALID) || 2 * 24 * 60 * 60,
 
@@ -30,7 +33,12 @@ const conf = {
 
     dataFolder: process.env.DATA_FOLDER || '',
 
-    heroOnPage : safeIntParse(process.env.HERO_ON_PAGE)||12
+    heroOnPage : safeIntParse(process.env.HERO_ON_PAGE)||12,
+
+    wfpMerchant: process.env.WFP_MERCHANT || '',
+    wfpSecretKey: process.env.WFP_SECRET_KEY || '',
+    wfpHook: process.env.WFP_HOOK || '',
+    wfpTitle: process.env.WFP_TITLE || '', 
 
 }
 
