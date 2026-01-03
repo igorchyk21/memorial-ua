@@ -7,6 +7,7 @@ import { safeIntParse, safeJSONParse } from "../../modules/helpers/gim-beckend-h
 import { HERO_STAT } from "@global/types";
 import _heroVideo from "../../modules/hero/video.js";
 import _heroAudio from "../../modules/hero/audio.js";
+import _heroCandle from "../../modules/hero/candle.js";
 
 const router = express.Router();
 
@@ -80,4 +81,13 @@ router.get('/:heroId', async (req:Request, res:Response) => {
     res.json(resHero?.heroes?.[0])
 })  
 
+// Повертає свічки Героя
+router.get('/candles/:heroId', async (req:Request, res:Response) => {
+    const heroId = safeIntParse(req.params.heroId, null);
+    if (!heroId) return res.status(400).send('Incorrect parameter "heroId"');
+    const resCandles = await _heroCandle.getByHeroId(heroId);
+    res.json({candles:resCandles||[]})
+})
+
 export default router; 
+ 

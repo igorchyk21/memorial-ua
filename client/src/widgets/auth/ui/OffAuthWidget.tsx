@@ -21,7 +21,7 @@ const OffAuthWidget = () => {
             setShowAction(showOffAuth)
         }, showOffAuth===null ? 300 : 0);
     },[showOffAuth])
- 
+  
     return (
         <Offcanvas show={showOffAuth!==null}
             onHide={()=>setShowOffAuth(null)}

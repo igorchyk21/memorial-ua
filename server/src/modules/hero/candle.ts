@@ -1,10 +1,45 @@
-import { CandleType, HeroCandleDataType } from "@global/types";
+import { CandleType, HeroCandleDataType, HeroCandleType } from "@global/types";
 import { Pool, ResultSetHeader, RowDataPacket } from "mysql2/promise";
 import { DateTime as DT } from "luxon";
 
 let conn:Pool;
 const setConn = (_conn:Pool) => { conn = _conn };
 
+// Повертає свічки Героя (активні і просрочені, але платні)
+const getByHeroId = async (heroId:number): Promise<HeroCandleType[] | null> => {
+    const dt = Date.now();
+    const sql = `
+        SELECT  heroes_candles.ID   as ID,
+                hero_id             as heroId,
+                user_id             as userId,
+                heroes_candles.user_name  as userName1,
+                dt                  as dt,
+                candle_days         as days,
+                candle_price        as price,
+                candle_expiries     as expiries,
+                candle_comment      as comment,
+                users.user_name     as userName2,
+                users.user_picture  as userPicture
+                
+        FROM    heroes_candles
+        LEFT    JOIN users ON users.ID = heroes_candles.user_id
+        WHERE   hero_id = ?
+        AND     candle_expiries >= ? || payment_status = 1
+        ORDER   BY dt DESC
+        LIMIT   0, 300`;
+
+    try {
+        const [r] = await conn.execute<(RowDataPacket & HeroCandleType & {userName1:string, userName2:string})[]>(sql, [heroId, dt]);
+        return r.map(row=>({
+            ...row,
+            userName: row.userId ? row.userName2 :row.userName1
+        }));
+        
+    } catch (e) {
+        console.error(e);
+        return null;
+    }
+}
 
 // Додаємо свічку Герою
 const add = async (heroId:number, candle:HeroCandleDataType)
@@ -14,8 +49,8 @@ const add = async (heroId:number, candle:HeroCandleDataType)
     const expiries = DT.fromMillis(dt).plus({ days: candle.days }).toMillis();
     const sql = `
         INSERT  INTO heroes_candles
-                (dt, hero_id, user_id, candle_days, candle_price, candle_expiries, candle_comment)
-        VALUES  (?,?,?,?,?,?,?)`;
+                (dt, hero_id, user_id, user_name, candle_days, candle_price, candle_expiries, candle_comment)
+        VALUES  (?,?,?,?,?,?,?,?)`;
 
     const sqlHeroUpdate = `
         UPDATE  heroes
@@ -26,6 +61,7 @@ const add = async (heroId:number, candle:HeroCandleDataType)
         dt,
         heroId,
         candle.userId,
+        candle.userName,
         candle.days,
         candle.price,
         expiries,
@@ -79,16 +115,20 @@ const getByUserId = async (userId: number): Promise<CandleType[] | null> => {
     }
 };
 
+// Обробляємо платіж для свічки
+const payment2Candle = async (candleId:number, paymentStatus:number, days:number, paymentData:any) => {
 
-const payment2Candle = async (candleId:number, paymentStatus:number, paymentData:any) => {
+    const dt = Date.now();
+    const expiries = DT.fromMillis(dt).plus({ days: days }).toMillis();
     const sql = `
         UPDATE  heroes_candles
         SET     payment_status = ?,
-                payment_data = ?
+                payment_data = ?,
+                candle_expiries = ?
         WHERE   ID = ?`;
 
     try {
-        const [r] = await conn.execute<ResultSetHeader>(sql, [paymentStatus, JSON.stringify(paymentData), candleId]);
+        const [r] = await conn.execute<ResultSetHeader>(sql, [paymentStatus, JSON.stringify(paymentData), expiries, candleId]);
         return r.affectedRows === 1;
     } catch (e) {
         console.error(e);
@@ -101,5 +141,6 @@ export default {
     add,
     getByUserId,
     getMaxExpiries,
-    payment2Candle
+    payment2Candle,
+    getByHeroId
 }

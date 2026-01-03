@@ -13,15 +13,18 @@ import BlockSpinner from "@/shared/ui/spinners/BlockSpinner";
 import BaseSpinner from "@/shared/ui/spinners/BaseSpinner";
 import { DateTime as DT } from "luxon";
 import { CandleShow } from "@/entities/hero";
+import { useGlobal } from "@/shared/context/Global/model/useGlobal";
 
 interface Props {
     heroId:number;
+    heroName:string;
 } 
-const CandleLight = ({heroId}:Props) => {
+const CandleLight = ({heroId, heroName}:Props) => {
 
     const t = useTranslations();
     const { auth } = useAuth();
     const [modelValue, setModelValue] = useState(0);
+    const { setHeroCandlesListShow } = useGlobal();
     const { handleSubmit, activeTab, setActiveTab, candleExpiries, wfpHtml, wfpContainerRef } = useCandleLight(heroId);
 
  
@@ -64,9 +67,12 @@ const CandleLight = ({heroId}:Props) => {
             </TabPane>
 
         <TabPane
+            className="py-4"
             eventKey="candle"
             title="candle">
-                <CandleShow />
+                <CandleShow 
+                    maxWidth={100}
+                    onClick={()=>setHeroCandlesListShow({id:heroId, name:heroName})} />
         </TabPane>
         </Tabs>)
 

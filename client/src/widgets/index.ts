@@ -9,3 +9,4 @@ export { default as NewHeroWidget } from "./newHero/ui/NewHeroWidget";
 export { default as HeroVideosWidget } from "./hero/ui/HeroVideosWidget";
 export { default as HeroAudiosWidget } from "./hero/ui/HeroAudiosWidget";
 export { default as HeroesMainWidget } from "./heroes/ui/HeroesMainWidget";
+export { default as HeroCandlesListWidget } from "./hero/ui/HeroCandlesListWidget";

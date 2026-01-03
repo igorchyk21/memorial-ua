@@ -9,7 +9,7 @@ interface Props {
     pageContent:ContentPageMain|null;
     heroes:HeroShortType[]|null|undefined;
 } 
- 
+  
 const HomePage = async ({pageContent, heroes}:Props) => {
     const t = await getTranslations();
     return (<>

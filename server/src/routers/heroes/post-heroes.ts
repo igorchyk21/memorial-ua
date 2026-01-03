@@ -229,7 +229,7 @@ router.post('/candle/:heroId', middleRecaptcha, async (req:Request, res:Response
     } else {
         const resCandle = await _heroCandle.add(heroId, {...body.data, days:1});
         if (!resCandle) return res.status(500).send('Error add candle');
-        const wfp = await _wfp.createWfpForm4Candle(resCandle?.id, body.data.price, req.body.url||'');
+        const wfp = await _wfp.createWfpForm4Candle(resCandle?.id, body.data.price, body.data.days, req.body.url||'');
         res.json({stat:Boolean(resCandle), expiries:resCandle, wfp:wfp});
     }
 })      

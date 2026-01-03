@@ -23,7 +23,7 @@ const HeroAboutPage = ({hero,posts}:Props) => {
             <main className="container mx-auto p-4">
                 <HeroLayoutWidget 
                     hero={hero}>
-                    <HeroAbout 
+                    <HeroAbout  
                         hero={hero}
                         onClickEdit={handleClickEdit}
                         onClickStatus={handleClickStatus}

@@ -11,6 +11,8 @@ import _heroVideo from "./hero/video.js";
 import _heroAudio from "./hero/audio.js";
 import _heroCandle from "./hero/candle.js"
 import _heroSubscription from "./hero/subscription.js";
+import _wfp from "./wfp/wfp.js";
+import _eventer from "./eventer/eventer.js";
 
 import cors from "cors";
  
@@ -22,7 +24,7 @@ import routerGetHero from "../routers/heroes/get-heroes.js"
 import routerPostHero from "../routers/heroes/post-heroes.js"
 import routerDeleteHero from "../routers/heroes/del-heroes.js"
 import routerFiles from "../routers/files.js";
-import routerWfp from "../routers/fwp.js";
+import routerWfp from "../routers/wfp.js";
 import { wrapAsync } from "./helpers/functions/wrapAsync.js";
 
 export const startPoint = (app: Application): void => {
@@ -77,6 +79,8 @@ export const initDataBase = (): void => {
     _heroAudio.setConn(conn);
     _heroCandle.setConn(conn)
     _heroSubscription.setConn(conn)
+    _wfp.setConn(conn)
+    _eventer.setConn(conn)
 }
 
 

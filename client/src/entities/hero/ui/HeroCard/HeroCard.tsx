@@ -11,6 +11,7 @@ import { useTranslations } from "next-intl";
 import CandleShow from "../CandleShow/CandleShow"
 import { useState } from "react";
 import SpinnerTitle from "@/shared/ui/spinners/SpinnerTitle"
+import { useGlobal } from "@/shared/context/Global/model/useGlobal";
  
 interface Props {
     hero:HeroShortType;
@@ -20,6 +21,7 @@ interface Props {
 
 const HeroCard = ({hero, showName=true, onClickSubscription}:Props) => {
     const { auth } = useAuth();
+    const { setHeroCandlesListShow } = useGlobal();
     const [ isSubscribed, setIsSubscribed ] = useState(false);
     const t = useTranslations();
     const dt = Date.now();
@@ -64,8 +66,8 @@ const HeroCard = ({hero, showName=true, onClickSubscription}:Props) => {
                     </Link>
 
                     {(hero.candleExpiries||0) >= dt &&
-                    (<div className="position-absolute" style={{bottom:-10, right:-10, zIndex:999}}>
-                    <CandleShow maxWidth={100}/>
+                    (<div className="position-absolute" style={{bottom:2, right:20, zIndex:999}}>
+                        <CandleShow maxWidth={40} onClick={()=>setHeroCandlesListShow({id:hero.ID, name:hero.lName+' '+hero.fName})}/>
                     </div>)}
 
                     

@@ -157,6 +157,19 @@ export interface HeroPostType {
     status:HERO_POST_STAT;
 }
 
+
+export interface HeroCandleType {
+    ID:number;
+    heroId:number;
+    userId:number;
+    dt:number;
+    expiries:number;
+    comment:string;
+    userName?:string;
+    userPicture?:string;
+}
+
+
 export interface HeroCandleDataType {
     userId:number;
     userName?:string;

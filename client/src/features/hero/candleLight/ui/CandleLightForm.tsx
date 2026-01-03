@@ -19,15 +19,17 @@ const CandleLightForm = ({formik, disabled}:Props) => {
     const { auth } = useAuth();
     const t = useTranslations();
 
-    return (
+    return ( 
         <form onSubmit={formik.handleSubmit}>
         {/* Text input */}
         <FloatingLabel controlId="fl-text" label={t('hero.candle.youName')} className="mb-3">
             <FormControl 
                 type="text" 
-                value={auth?.user.userName||''}
+                required
+                value={auth?.isLogin ? auth?.user.userName||'' : formik.values.userName||''}
+                minLength={3}
                 disabled={!!auth?.user.userName || formik.isSubmitting || disabled}
-                onChange={(e) => formik.setFieldValue('userName', e.target.value)}
+                onChange={(e) => formik.setFieldValue('userName', e.target.value)} 
                 placeholder={t('hero.candle.youName')} />
         </FloatingLabel>
 
@@ -35,6 +37,8 @@ const CandleLightForm = ({formik, disabled}:Props) => {
         <FloatingLabel controlId="fl-textarea" 
             label={t('hero.candle.youMess')}>
             <FormControl as="textarea" 
+                required
+                minLength={10}
                 maxLength={250}
                 placeholder={t('hero.candle.youMess')} 
                 style={{ height: 120 }} 

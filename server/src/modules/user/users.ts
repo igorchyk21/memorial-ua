@@ -63,7 +63,20 @@ const getUserFullByEmail = async (userEmail?:string)
         return null;
     }
 }
- 
+
+// повертає повну структуру користувача по його ID
+const getEmailById = async (userId:number)
+    :Promise<string|null> => {
+    if (!userId) return null;
+    const sql = `SELECT user_email from users WHERE ID = ?`;
+    try {
+        const [r] = await conn.execute<(RowDataPacket & {user_email:string})[]>(sql,[userId]);
+        return r[0]?.user_email || null;
+    } catch(e){
+        console.error(e); 
+        return null;
+    }
+}
 
 // зміна статусу користувача
 const changeStatus = async (userId:number, userStatus:number)
@@ -83,6 +96,6 @@ export default {
 
     createUser,
     getUserFullByEmail,
-   
+    getEmailById,
     
 }

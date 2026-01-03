@@ -7,6 +7,7 @@ import { useTranslations } from "next-intl";
 import { useToast } from "@/shared/context/Toast/models/useToast";
 import { useAuth } from "@/shared/context/Auth/model/useAuth";
 import { safeIntParse } from "@/shared/helper/safeParsers";
+import { FormikHelpers, FormikProps } from "formik";
 
 const useCandleLight = (heroId:number) => {
     
@@ -44,9 +45,9 @@ const useCandleLight = (heroId:number) => {
     }, [auth?.user?.candles, heroId]);
     
 
-    const handleSubmit = async (values: HeroCandleDataType) => {
+    const handleSubmit = async (values: HeroCandleDataType, formik: FormikHelpers<HeroCandleDataType>) => {
         const reToken = executeRecaptcha ? await executeRecaptcha('form') : null;
-        const resAddCandle = await heroAddCandle(heroId, {...values, userId: auth?.user.ID||0, userName: auth?.user.userName||''}, window.location.href, reToken);
+        const resAddCandle = await heroAddCandle(heroId, {...values, userId: auth?.user.ID||0, userName: auth?.user.userName||values.userName||''}, window.location.href, reToken);
         
         if (resAddCandle?.wfp) {
             setWfpHtml(resAddCandle.wfp);
@@ -54,9 +55,14 @@ const useCandleLight = (heroId:number) => {
         }
 
         if (resAddCandle) {
+            formik.resetForm();
             if (auth?.isLogin) 
                 await reFetchUser();
-            else sessionStorage.setItem(`candle_${heroId}`, resAddCandle?.expiries?.toString()||'');
+            else {
+                console.log(resAddCandle?.expiries);
+                sessionStorage.setItem(`candle_${heroId}`, resAddCandle?.expiries?.toString()||'');
+                setCandleExpiries(resAddCandle?.expiries||null);
+            }
             setActiveTab('candle');
         }
 

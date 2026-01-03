@@ -34,13 +34,13 @@ const HeroListMain = ({heroes, title, linkTitle, linkHref, onClickSubscription}:
                 (<div className="py-5 text-center">
                     <Link
                         className="btn btn-primary btn-lg rounded-pill"
-                        href="/heroes?onlyCandle=1">
+                        href="/heroes">
                         <CandleBlack/>
-                    <span className="ms-2">{t('buttons.allCandle')}</span>
+                    <span className="ms-2">{t('buttons.allHeroes')}</span>
                     </Link>
                 </div>)}
             
-        </Container>)
+        </Container>) 
 }
 
 export default HeroListMain;

@@ -62,10 +62,24 @@ const BioEditForm = ({handleSubmit, handleCancel, item}:Props) => {
                             <FormLabel htmlFor="clearableInput">{t('hero.biography.date')}</FormLabel>
                             <div className="position-relative">
                                 <i className="ci-calendar position-absolute top-50 start-0 translate-middle-y z-1 ms-3"/>
-                                <DatePicker
+                                <DatePicker 
                                     locale="uk"
-                                    selected={DT.fromMillis(formik.values.dt||0).toJSDate()}
-                                    onChange={(date) => formik.setFieldValue('dt', date ? DT.fromJSDate(date).toMillis() : 0)}
+                                    selected={
+                                        formik.values.dt
+                                            ? DT.fromMillis(formik.values.dt, { zone: "utc" }).toJSDate()
+                                            : null
+                                    }
+                                    onChange={(date) =>
+                                        formik.setFieldValue(
+                                            "dt",
+                                            date
+                                                ? DT.fromJSDate(date, { zone: "utc" })
+                                                    .startOf("day")
+                                                    .toMillis()
+                                                : null
+                                        )
+                                    }
+                                    
                                     isClearable
                                     dateFormat="dd.MM.yyyy" 
                                     className="form-control form-icon-start mb-0"

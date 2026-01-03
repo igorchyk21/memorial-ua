@@ -1,5 +1,4 @@
  import { Pool } from "mysql2/promise";
-import { safeIntParse, safeJSONParse } from "../helpers/gim-beckend-helpers.js";
 import conf from "../../config/conf.js";
  import crypto from "crypto";
 import { WayForPayRequestData } from "@global/types";
@@ -23,10 +22,10 @@ const processing = async (wfpData:any) => {
     // Розбираємо референс
     const dRef = decodeReference(wfpData?.orderReference||'');
     if (!dRef) return false;
-    const { aRef, payType, candleId } = dRef;
-    if (!candleId) return false;
+    const { days, candleId } = dRef;
+    if (!candleId || !days) return false;
     const paymentStatus = ['Approved', 'Pending'].includes(wfpData?.transactionStatus||'') ? 1 : 0;
-    const resPayment = await _heroCandle.payment2Candle(candleId, paymentStatus, wfpData);
+    const resPayment = await _heroCandle.payment2Candle(candleId, paymentStatus, days, wfpData); 
     if (!resPayment) return false;
     return true;
 }
@@ -48,11 +47,11 @@ const createSignature =(wpData:WayForPayRequestData, dRef:DecodedReference, docS
 }
 
 // Стоврення форми для бікунг оплати
-const createWfpForm4Candle = async (candleId:number, price:number, returnUrl:string) => {
+const createWfpForm4Candle = async (candleId:number, price:number, days:number, returnUrl:string) => {
 
     // Отримуємо базові дані та генеруємо референс платежу на основі міту
     const dt = Date.now();
-    const reference = `candle-${candleId}-${Date.now()}`;
+    const reference = `candle-${candleId}-${days}-${Date.now()}`;
     const dRef = decodeReference(reference);
     if (!dRef) return null;
 
@@ -103,7 +102,7 @@ const createWfpForm4Candle = async (candleId:number, price:number, returnUrl:str
 }
 
  
-// Шифруюємо стрічку з ключем wfp
+// Шифруюємо стрічку з ключем wfp 
 const wfpMd5 = async (wfpSignature:string) =>{
     // Визначаємо секреткей - свій або фахівця
     const secretKey = conf.wfpSecretKey; 

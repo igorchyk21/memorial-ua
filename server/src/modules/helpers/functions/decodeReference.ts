@@ -1,10 +1,10 @@
-import { safeIntParse } from "../gim-beckend-helpers";
+import { safeIntParse } from "../gim-beckend-helpers.js";
 
 export interface DecodedReference {
     aRef: string[];   // масив частин референсу
     payType: string;  // тип платежу (meet, sub, selfmeet, media)
     candleId: number;   // ID свічки
-     
+    days: number;   // кількість днів
 }
 
 /**
@@ -20,12 +20,14 @@ export const decodeReference = (ref: string): DecodedReference | null => {
 
     const payType = aRef[0];
     const candleId = safeIntParse(aRef?.[1], null);
+    const days = safeIntParse(aRef?.[2], null);
 
-    if (!candleId) return null;
+    if (!candleId || !days) return null;
 
     return {
         aRef,
         payType,
-        candleId
+        candleId,
+        days
     };
 };

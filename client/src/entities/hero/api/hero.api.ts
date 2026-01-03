@@ -1,5 +1,5 @@
 import iAxios from "@/shared/api/iAxios";
-import { HERO_PHOTO_STAT, HERO_POST_STAT, HERO_STAT, HERO_VIDEO_STAT, HeroBiographyItem, HeroBiographyType, HeroCandleDataResponse, HeroCandleDataType, HeroListRequestParams, HeroListResponse, HeroPhotoItem, HeroPostType, HeroShortType, HeroVideoItem } from "@global/types";
+import { HERO_PHOTO_STAT, HERO_POST_STAT, HERO_STAT, HERO_VIDEO_STAT, HeroBiographyItem, HeroBiographyType, HeroCandleDataResponse, HeroCandleDataType, HeroCandleType, HeroListRequestParams, HeroListResponse, HeroPhotoItem, HeroPostType, HeroShortType, HeroVideoItem } from "@global/types";
 import { isAbsolute } from "path";
 
 // Повертає список Героїв
@@ -403,5 +403,16 @@ export const apiHeroDeleteSubscription = async (heroId:number): Promise<boolean>
     } catch(e){
         console.error(e);
         return false;
+    }
+}
+
+// Повертає список свічок Героя
+export const apiHeroGetCandles = async (heroId:number): Promise<HeroCandleType[]|null> => {
+    try {
+        const r = await iAxios(`/hero/candles/${heroId}`);
+        return r.data.candles || null;
+    } catch(e){
+        console.error(e);
+        return null;
     }
 }

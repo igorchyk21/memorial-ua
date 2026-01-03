@@ -18,7 +18,7 @@ export const generateMetadata = async ({ params }: { params: any }): Promise<Met
         pageKey: "home",
         t,
     });
-};
+}; 
 
 const Page = async ({params}:{params:any}) => {
     const {locale} = await params;
@@ -27,14 +27,24 @@ const Page = async ({params}:{params:any}) => {
             onPage:99999,
             onlyCandle:true
     } 
+
+    const heroParamsAll:HeroListRequestParams = {
+        onPage:10,
+}
      
     const resHero = await heroList(heroParams);
+    const resHeroAll = await heroList(heroParamsAll);
     const pageContent = await contentPageMain();
-
+    const heroes = Array.from(
+        new Map(
+            [...(resHero?.heroes || []), ...(resHeroAll?.heroes || [])]
+                .map(h => [h.ID, h])
+        ).values()
+    );
     return (
         <main className={_cnMain}> 
-            <HomePage 
-                heroes={resHero?.heroes}
+            <HomePage  
+                heroes={heroes}
                 pageContent={pageContent}/> 
         </main>)   
 }

@@ -10,7 +10,8 @@ import { startPoint, initRoutes, initDataBase } from "./modules/init.js";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 import { middleCorsDataStatic } from "./middleware/middleCorsDataStatic.js";
- 
+import { schedulerHourly } from "./modules/scheduler/shceduler.js";
+import _eventer from "./modules/eventer/eventer.js";
 
 // Потрібно для заміни __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -59,5 +60,16 @@ server.listen(conf.port, () => {
     console.log(`memorialUA Start Server on Port: ${conf.port}`);
     console.log('===========================\n');
     console.log('\n');
+
+        /** 
+         * Запуск шедулеря для виконання задач репітерів
+         * Кожні 30 хвилин
+         * Після 10 години
+         **/
+        
+        schedulerHourly(10, () => {  
+            console.log('EXECUTE EVENTER');
+            _eventer.execute();
+        }, 60 * 20);
 }); 
 

@@ -8,6 +8,8 @@ interface GlobalContextType {
     setSmallPhotos: Dispatch<SetStateAction<boolean|null>>;
     smallVideos: boolean|null;
     setSmallVideos: Dispatch<SetStateAction<boolean|null>>;
+    heroCandlesListShow: {id:number, name:string}|null;
+    setHeroCandlesListShow: Dispatch<SetStateAction<{id:number, name:string}|null>>;
 }
 
 const defaultValues = {
@@ -17,6 +19,8 @@ const defaultValues = {
     setSmallPhotos: ()=>{},
     smallVideos: null,
     setSmallVideos: ()=>{},
+    heroCandlesListShow: null,
+    setHeroCandlesListShow: ()=>{},
 }
 
 export const GlobalContext = createContext<GlobalContextType>(defaultValues);
@@ -28,7 +32,7 @@ export const useGlobalModel = () => {
     const [ loading, setLoading ] = useState<boolean>(false);
     const [ smallPhotos, setSmallPhotos ] = useState<boolean|null>(false);
     const [ smallVideos, setSmallVideos ] = useState<boolean|null>(false);
-
+    const [ heroCandlesListShow, setHeroCandlesListShow ] = useState<number|null>(null);
     useEffect(()=>{
         if (smallPhotos === null) {
             setSmallPhotos(Boolean(localStorage.getItem('smallPhotos')));
@@ -56,6 +60,8 @@ export const useGlobalModel = () => {
         smallPhotos,
         setSmallPhotos,
         smallVideos,
-        setSmallVideos
+        setSmallVideos,
+        heroCandlesListShow,
+        setHeroCandlesListShow
     }
 }

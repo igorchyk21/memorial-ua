@@ -1,6 +1,6 @@
 import express, { Request, Response} from "express";
-import { safeJSONParse } from "../modules/helpers/gim-beckend-helpers";
-import _wfp from "../modules/wfp/wfp.js";
+ import _wfp from "../modules/wfp/wfp.js";
+import { safeJSONParse } from "../modules/helpers/gim-beckend-helpers.js";
 
 const router = express.Router();
 
@@ -15,7 +15,7 @@ router.post('/hook', async (req:Request, res:Response) => {
         if (!answer) return res.status(500).send('Error answer')
         res.json(answer);
     } catch(e){
-        console.log(e);
+        console.log(e); 
         res.sendStatus(500);
     }
 });

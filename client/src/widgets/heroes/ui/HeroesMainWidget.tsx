@@ -13,8 +13,8 @@ const HeroesMainWidget = ({heroes}:Props) => {
     const { handleClickSubscription } = useHeroSubscription();
     return (<>
         {heroes &&
-            (<HeroListMain 
-                title={t('blocks.candleTitle')}
+            (<HeroListMain  
+                title={t('blocks.ourHeroes')} 
                 linkTitle={t('buttons.allHeroes')}
                 linkHref="/heroes"
                 onClickSubscription={handleClickSubscription}

@@ -22,7 +22,7 @@ import { GlobalProvider } from "@/shared/context/Global/GlobalProvider"
 import { ToastProvider } from "@/shared/context/Toast/ToastProvider"
 import { AuthProvider } from "@/shared/context/Auth"
 import { NextIntlClientProvider } from "next-intl"
-import { FooterWidget, HeaderWidget, OffAuthWidget } from "@/widgets"
+import { FooterWidget, HeaderWidget, HeroCandlesListWidget, OffAuthWidget } from "@/widgets"
 import { ProgressProvider } from "@/shared/context/progress-context"
 import { CommonComponentChildren } from "@/types"
 import ReCaptcha from "@/shared/context/reCaptcha/ReCaptcha"
@@ -60,6 +60,7 @@ export default function RootLayout({children}:CommonComponentChildren) {
                                     <OffAuthWidget/>
                                     <HeaderWidget/>
                                     {children}
+                                    <HeroCandlesListWidget/>
                                     <FooterWidget/>
                                     </ProgressProvider>
                                 </ThemeProvider>
