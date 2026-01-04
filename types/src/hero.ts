@@ -99,7 +99,7 @@ export interface HeroBiographyItem {
     heroId:number;
     dt:number;
     title:string;
-    body?:string|null;
+    [key:string]:any;
 }
 
 export type HeroPhotosType = HeroPhotoItem[];

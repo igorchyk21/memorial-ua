@@ -28,7 +28,7 @@ export const useHeroBioDelete = () => {
                 {biographyItem.body &&
                 (<> 
                     <hr/>
-                    <div>{biographyItem.body.split('\n').map((p,i)=>(<p className="fs-12" key={i}>{p}</p>))}</div>
+                    <div>{biographyItem.body.split('\n').map((p:string,i:number)=>(<p className="fs-12" key={i}>{p}</p>))}</div>
                 </>)}
                 </>),
             buttons:[

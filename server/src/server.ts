@@ -12,6 +12,13 @@ import { dirname } from "path";
 import { middleCorsDataStatic } from "./middleware/middleCorsDataStatic.js";
 import { schedulerHourly } from "./modules/scheduler/shceduler.js";
 import _eventer from "./modules/eventer/eventer.js";
+import dotenv from "dotenv";
+dotenv.config();
+
+if (process.env.MODE !== 'dev') {
+    await import("../client/init.js"); 
+  }
+  
 
 // Потрібно для заміни __dirname
 const __filename = fileURLToPath(import.meta.url);
@@ -66,10 +73,9 @@ server.listen(conf.port, () => {
          * Кожні 30 хвилин
          * Після 10 години
          **/
-        
+        _eventer.execute();
         schedulerHourly(10, () => {  
-            console.log('EXECUTE EVENTER');
             _eventer.execute();
-        }, 60 * 20);
+        }, 30 * 60);
 }); 
 

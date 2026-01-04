@@ -32,7 +32,7 @@ const HeroCandlesListWidget = () => {
                 </Offcanvas.Title>
             </Offcanvas.Header>
             <Offcanvas.Body>   
-                {heroId && <HeroCandleList heroId={heroId}/>}
+                {heroId && <HeroCandleList heroId={heroId}/>} 
             </Offcanvas.Body>
         </Offcanvas>
     )

@@ -19,7 +19,7 @@ const HeroAboutPage = ({hero,posts}:Props) => {
             <HeroSlider 
                 onClickSubscription={handleClickSubscription}
                 hero={hero}/>
-            <HeroNavigate/>
+            <HeroNavigate/> 
             <main className="container mx-auto p-4">
                 <HeroLayoutWidget 
                     hero={hero}>

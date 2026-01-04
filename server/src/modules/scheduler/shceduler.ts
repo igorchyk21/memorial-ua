@@ -34,7 +34,7 @@ export const schedulerHourly = (
     const currentDateKey = now.toISOString().slice(0, 10); // YYYY-MM-DD
 
     // Перевіряємо, що поточна година потрапляє у вікно [startAtHour; startAtHour + 1)
-    if (currentHour >= startAtHour && currentHour < startAtHour + 1) {
+    if (currentHour >= startAtHour && currentHour < startAtHour + 2) {
         // Щоб не запускати exec декілька разів за одну й ту ж добу,
         // перевіряємо, чи ми вже виконували її сьогодні.
         /*

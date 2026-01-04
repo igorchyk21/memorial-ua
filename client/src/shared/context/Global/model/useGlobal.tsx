@@ -32,7 +32,7 @@ export const useGlobalModel = () => {
     const [ loading, setLoading ] = useState<boolean>(false);
     const [ smallPhotos, setSmallPhotos ] = useState<boolean|null>(false);
     const [ smallVideos, setSmallVideos ] = useState<boolean|null>(false);
-    const [ heroCandlesListShow, setHeroCandlesListShow ] = useState<number|null>(null);
+    const [ heroCandlesListShow, setHeroCandlesListShow ] = useState<{id:number, name:string}|null>(null);
     useEffect(()=>{
         if (smallPhotos === null) {
             setSmallPhotos(Boolean(localStorage.getItem('smallPhotos')));

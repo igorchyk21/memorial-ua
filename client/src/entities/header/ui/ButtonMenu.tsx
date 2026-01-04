@@ -6,7 +6,7 @@ interface Props {
 
 const ButtonMenu = ({onClick}:Props) => {
     return (
-        <Navbar.Toggle className="d-block flex-shrink-0 me-1 me-md-3 me-sm-4" onClick={onClick} />
+        <Navbar.Toggle className="d-block flex-shrink-0 me-1 me-md-2 me-sm-3" onClick={onClick} />
     )
 }
  

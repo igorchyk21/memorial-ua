@@ -12,7 +12,7 @@ const HeroNavigate = () => {
     const pathName = usePathname();
     const aPathName = pathName.split('/');
     const heroUrl = aPathName?.[2]||'';
-
+  
     return (
         <Container fluid className="px-0 hero-navigate">
             <TabContainer defaultActiveKey="about" >

@@ -90,21 +90,21 @@ section { scroll-margin-top: 100px; }
 
 .hero-navigate {
   position: sticky;
-  top:101px;
+  top:93px;
   z-index: 5;
 }
 
 @media (max-width:1200px) {
-  .hero-navigate { top: 93px}
+  .hero-navigate { top: 85px}
 }
 
 @media (max-width:991px) {
-  .hero-navigate { top: 100px}
+  .hero-navigate { top: 93px}
 }
 
 
 @media (max-width:767px) {
-  .hero-navigate { top: 87px}
+  .hero-navigate { top: 93px}
 }
 
 @media (max-width:767px) {

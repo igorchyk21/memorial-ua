@@ -25,6 +25,7 @@ import routerPostHero from "../routers/heroes/post-heroes.js"
 import routerDeleteHero from "../routers/heroes/del-heroes.js"
 import routerFiles from "../routers/files.js";
 import routerWfp from "../routers/wfp.js";
+import routerUser from "../routers/user.js";
 import { wrapAsync } from "./helpers/functions/wrapAsync.js";
 
 export const startPoint = (app: Application): void => {
@@ -58,6 +59,7 @@ export const initRoutes = (app: Application): void => {
     app.use('/api/v1/hero', wrapAsync(middleAuthToken), routerPostHero);
     app.use('/api/v1/hero', wrapAsync(middleAuthToken), routerDeleteHero);
     app.use('/api/v1/files', wrapAsync(middleAuthToken), routerFiles );
+    app.use('/api/v1/user', wrapAsync(middleAuthToken), routerUser);
     app.use('/wfp', routerWfp);
 
 };

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { memo, useMemo } from "react";
 
 interface Props {
@@ -17,15 +18,18 @@ const CandleShow = memo(({ maxWidth = 999, onClick, expiries = false }: Props) =
 
     return (
         <div className="d-flex justify-content-center" style={style} onClick={onClick}>
-            <img
-                src={`/memorial/candle-${isSmall ? "small" : "trans"}.gif`}
-                alt="candle"
-                width={maxWidth > 0 ? maxWidth : undefined}
-                loading="lazy"
-                decoding="async"
-            />
+        <Image
+            src={`/memorial/candle-${isSmall ? "small" : "trans"}.gif`}
+            alt="candle"
+            width={maxWidth > 0 ? maxWidth : undefined}
+            height={0}
+            loading="lazy"
+            decoding="async"
+        />
         </div>
     );
 });
-
+  
+CandleShow.displayName = "CandleShow";
+  
 export default CandleShow;

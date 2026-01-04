@@ -66,19 +66,19 @@ const BioEditForm = ({handleSubmit, handleCancel, item}:Props) => {
                                     locale="uk"
                                     selected={
                                         formik.values.dt
-                                            ? DT.fromMillis(formik.values.dt, { zone: "utc" }).toJSDate()
+                                            ? DT.fromMillis(formik.values.dt).toJSDate()
                                             : null
                                     }
-                                    onChange={(date) =>
+                                    onChange={(date) => {
                                         formik.setFieldValue(
                                             "dt",
                                             date
-                                                ? DT.fromJSDate(date, { zone: "utc" })
+                                                ? DT.fromJSDate(date)
                                                     .startOf("day")
                                                     .toMillis()
                                                 : null
                                         )
-                                    }
+                                    }}
                                     
                                     isClearable
                                     dateFormat="dd.MM.yyyy" 

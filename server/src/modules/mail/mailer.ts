@@ -4,7 +4,7 @@ import conf from '../../config/conf.js';
 /**
  * Тип для об'єкта з полями, які підставляються в шаблон
  */
-type MailData = Record<string, string>;
+type MailData = Record<string, any>;
 
 /**
  * Тип для аргументів SendMail
@@ -18,38 +18,38 @@ interface SendMailOptions {
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
-  auth: {
+  auth: { 
     user: conf.GoogleEmail,
     pass: conf.GoogleApppass,
-  }
-});
-
+  } 
+}); 
+  
 /**
- * Функція для відправки листа
+ * Функція для відправки листа  
  */
-const SendMail = async ({
+const SendMail = async ({  
   to,
   subject,
-  templateHTML,
-  mailData
-}: SendMailOptions): Promise<boolean> => {
-
+  templateHTML,   
+  mailData 
+}: SendMailOptions): Promise<boolean> => { 
+ 
   let HTML:string = templateHTML || '';
 
   for (const field in mailData) {
-    if (Object.prototype.hasOwnProperty.call(mailData, field)) {
-     HTML = HTML.replaceAll(`{${field}}`, mailData[field]);
-    }
-  }
+    if (Object.prototype.hasOwnProperty.call(mailData, field)) { 
+     HTML = HTML.replaceAll(`[${field}]`, mailData[field]||'');
+    } 
+  } 
 
-  const mailOptions = {
-    from: conf.GoogleEmail,
+  const mailOptions = { 
+    from: '"Віртуальна Алея Пам’яті" <info@geroi.com.ua>',
     to,
     subject,
     html: HTML
-  };
-
-  try {
+  }; 
+  
+  try { 
     await transporter.sendMail(mailOptions);
     return true;
   } catch (e) {
@@ -61,4 +61,4 @@ const SendMail = async ({
 
 export {
   SendMail
-};
+}; 

@@ -30,7 +30,7 @@ const HeaderWidget = () => {
 
             <Container className="justify-content-start py-0 py-lg-0 gap-1 gap-lg-2 ">
                 {/* Offcanvas menu toggler (Hamburger) */}
-                <ButtonMenu onClick={()=>setMenuShow(true)}/>
+                <ButtonMenu onClick={()=>setMenuShow(true)}/> 
 
                 {/* Navbar brand (Logo) */}
                 <Logo/>

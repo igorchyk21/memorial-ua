@@ -91,11 +91,28 @@ const changeStatus = async (userId:number, userStatus:number)
     }
 }
 
+
+const unsubscribeAll = async (userId:string)
+    :Promise<boolean> => {
+    const sql = `
+        DELETE  FROM heroes_subscriptions 
+        WHERE user_id = ?`;
+    try {
+        const [r] = await conn.execute<ResultSetHeader>(sql, [userId]);
+        return r.affectedRows > 0;
+    } catch(e){
+        console.error(e);
+        return false;
+    }
+}
+
+
 export default { 
     setConn,
 
     createUser,
     getUserFullByEmail,
     getEmailById,
+    unsubscribeAll
     
 }

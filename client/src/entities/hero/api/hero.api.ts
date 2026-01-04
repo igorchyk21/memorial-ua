@@ -405,6 +405,7 @@ export const apiHeroDeleteSubscription = async (heroId:number): Promise<boolean>
         return false;
     }
 }
+ 
 
 // Повертає список свічок Героя
 export const apiHeroGetCandles = async (heroId:number): Promise<HeroCandleType[]|null> => {

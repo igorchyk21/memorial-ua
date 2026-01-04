@@ -22,7 +22,7 @@ export const generateMetadata = async ({ params }: { params: Props["params"] }):
     return buildBasePageMetadata({
         locale,
         path: `/${locale}/heroes`,
-        pageKey: "heroes",
+        pageKey: "heroes", 
         t,
     });
 };
