@@ -7,7 +7,7 @@ import { useTranslations } from "next-intl";
 interface Props {
     heroes:HeroShortType[]|null|undefined;
 }
-
+ 
 const HeroesMainWidget = ({heroes}:Props) => {
     const t = useTranslations();
     const { handleClickSubscription } = useHeroSubscription();

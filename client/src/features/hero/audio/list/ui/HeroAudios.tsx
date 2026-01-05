@@ -54,7 +54,7 @@ const HeroAudios = ({ heroId, heroName, audios, onClickDelete, onClickStatus, on
             className="row g-3"
             list={list}
             setList={(newList) => {
-                const changed = !isSameOrderByID(
+                const changed = !isSameOrderByID( 
                     newList as any[],
                     list as any[]
                 );

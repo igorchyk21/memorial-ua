@@ -15,13 +15,15 @@ const HeroBiography = ({hero, biography, onClicEdit, onClickDelete}:Props) => {
     return (<>
         <h3 className="text-center">{`${hero.fName} ${hero.lName}`}</h3>
         <Row className="bio-container pt-4">
-            {biography.map((item,i)=>{
-                return (<HeroBioItem  
-                            onClicEdit={onClicEdit}
-                            onClickDelete={onClickDelete}
-                            key={i} 
-                            item={item} 
-                            right={Boolean(i % 2)}/>)
+            {biography
+                .filter((item)=>Boolean(item.dt))
+                .map((item,i)=>{
+                    return (<HeroBioItem  
+                                onClicEdit={onClicEdit}
+                                onClickDelete={onClickDelete}
+                                key={i} 
+                                item={item} 
+                                right={Boolean(i % 2)}/>)
             })}
         </Row>
         <div className="text-center  pt-4">

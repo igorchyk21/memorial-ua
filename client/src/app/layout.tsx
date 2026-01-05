@@ -55,7 +55,7 @@ export default function RootLayout({children}:CommonComponentChildren) {
                         <ToastProvider>
                             <AuthProvider authDef={null}> 
                                 <ReCaptcha>
-                                <ThemeProvider attribute="data-bs-theme" defaultTheme="system" disableTransitionOnChange>
+                                <ThemeProvider attribute="data-bs-theme" defaultTheme="dark" disableTransitionOnChange>
                                     <ProgressProvider> 
                                     <OffAuthWidget/>
                                     <HeaderWidget/>

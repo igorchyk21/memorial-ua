@@ -71,7 +71,7 @@ const CandleLight = ({heroId, heroName}:Props) => {
             eventKey="candle"
             title="candle">
                 <CandleShow 
-                    maxWidth={100}
+                    maxWidth={200}
                     onClick={()=>setHeroCandlesListShow({id:heroId, name:heroName})} />
         </TabPane>
         </Tabs>)

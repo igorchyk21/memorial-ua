@@ -2,11 +2,14 @@
 import { FooterInfo, FooterLinks } from "@/entities/footer";
 import { FooterAddHeroForm } from "@/entities/hero";
 import { useRouter } from "@bprogress/next";
+import { useTranslations } from "next-intl";
 import { Container, Row } from "react-bootstrap";
+import { DateTime } from "luxon";
+import AlertEmpty from "@/shared/ui/other/AlertEmpty";
 
 const FooterWidget = () => {
     const router = useRouter();
-
+    const t = useTranslations();
     return (
     <footer className="footer bg-dark pb-4" data-bs-theme="dark">
              
@@ -18,7 +21,13 @@ const FooterWidget = () => {
                     <FooterLinks/>
 
                 </Row>
+                <Row>
+                <AlertEmpty className="mt-0 mb-5 text-center"/>
+                </Row>
+                
             </Container>
+            
+            <p className="fs-14 text-center fw-bold text-white"> © {DateTime.now().year} {t('footer.bottomInfo')}</p>
         </footer>
     )
 }

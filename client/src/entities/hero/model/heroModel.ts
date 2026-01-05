@@ -1,5 +1,5 @@
 import { HERO_PHOTO_STAT, HERO_POST_STAT, HERO_STAT, HERO_VIDEO_STAT, HeroBiographyItem, HeroBiographyType, HeroCandleDataResponse, HeroCandleDataType, HeroCandleType, HeroListRequestParams, HeroListResponse, HeroPhotoItem, HeroPostType, HeroShortType, HeroVideoItem } from "@global/types";
-import { apiGetHeroBiography, apiHeroCreate, apiHeroDelete, apiHeroDeleteBio, apiHeroDeletePhoto, apiHeroDeletePost, apiHeroGet, apiHeroGetPhotoById, apiHeroGetPhotos, apiHeroGetPosts, apiHeroList, apiHeroSaveAbout, apiHeroSaveBio, apiHeroSavePost, apiHeroSetMainPhoto, apiHeroSetStatus, apiHeroSetStatusPhoto, apiHeroSetStatusPost, apiHeroSortedPhotos, apiHeroSendVideoToYouTube, apiHeroGetVideos, apiHeroSortedVideos, apiHeroDeleteVideo, apiHeroSetStatusVideo, apiHeroEditVideo, apiHeroGetAudios, apiHeroSendAudioByLink, apiHeroSortedAudios, apiHeroDeleteAudio, apiHeroSetStatusAudio, apiHeroEditAudio, apiHeroAddCandle, apiHeroDeleteSubscription, apiHeroAddSubscription, apiHeroGetCandles } from "../api/hero.api";
+import { apiGetHeroBiography, apiHeroCreate, apiHeroDelete, apiHeroDeleteBio, apiHeroDeletePhoto, apiHeroDeletePost, apiHeroGet, apiHeroGetPhotoById, apiHeroGetPhotos, apiHeroGetPosts, apiHeroList, apiHeroSaveAbout, apiHeroSaveBio, apiHeroSavePost, apiHeroSetMainPhoto, apiHeroSetStatus, apiHeroSetStatusPhoto, apiHeroSetStatusPost, apiHeroSortedPhotos, apiHeroSendVideoToYouTube, apiHeroGetVideos, apiHeroSortedVideos, apiHeroDeleteVideo, apiHeroSetStatusVideo, apiHeroEditVideo, apiHeroGetAudios, apiHeroSendAudioByLink, apiHeroSortedAudios, apiHeroDeleteAudio, apiHeroSetStatusAudio, apiHeroEditAudio, apiHeroAddCandle, apiHeroDeleteSubscription, apiHeroAddSubscription, apiHeroGetCandles, apiHeroExists } from "../api/hero.api";
 import { insertHeroBiographyItem } from "../helper/insertHeroBiographyItem";
 
 export const heroList = async (params:HeroListRequestParams,  authToken?:string): Promise<HeroListResponse|null> => {
@@ -25,6 +25,10 @@ export const heroSetStatus = async (heroId:number, heroStatus:HERO_STAT): Promis
 
 export const heroDelete = async (heroId:number): Promise<boolean> => {
     return await apiHeroDelete(heroId);
+}
+  
+export const heroExists = async (search:string, dtBirth:number, dtDeath:number): Promise<boolean> => {
+    return await apiHeroExists(search, dtBirth, dtDeath);
 }
 
 /**

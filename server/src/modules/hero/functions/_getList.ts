@@ -23,8 +23,21 @@ export const _getList = async ({
     const cntOnPage = onPage ? onPage : conf.heroOnPage;
     const from = page > 0 ? (page - 1) * cntOnPage : 0;
 
-    const whereSearch = search ? ` AND 
-        CONCAT(hero_fname,hero_lname,hero_mname,hero_callsign) like '%${sanitizeForSQL(search.trim())}%'` : '';
+    const whereSearch = search
+    ? ' AND ' + search
+        .trim()
+        .split(/\s+/)
+        .map(word => `
+            CONCAT(
+                hero_fname,
+                hero_lname,
+                hero_mname,
+                hero_callsign
+            ) LIKE '%${sanitizeForSQL(word)}%'
+        `)
+        .join(' AND ')
+    : '';
+
     const whereStatus = status.length>0 ? ` AND hero_status in (${status.map(stat=>safeIntParse(stat)).join(',')}) ` : ''
     const whereCandle = onlyCandle ? ` AND hero_candle_expiries >= ${dt}` : '';
     const whereRegion = region ? ` AND hero_region = '${sanitizeForSQL(region)}'` : '';

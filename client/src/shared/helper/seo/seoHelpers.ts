@@ -4,7 +4,7 @@ import { HeroShortType } from "@global/types";
 
 type TFunction = (key: string, values?: Record<string, any>) => string;
 
-export type HeroSeoPageKind = "about" | "biography" | "photo" | "video" | "audio";
+export type HeroSeoPageKind = "about" | "biography" | "photo" | "video" | "audio" | "candles" | "unsubscribe";
 
 const trimSlash = (value: string | undefined | null): string =>
   (value || "").replace(/\/+$/, "");

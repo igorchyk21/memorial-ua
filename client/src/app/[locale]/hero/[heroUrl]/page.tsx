@@ -26,7 +26,7 @@ export const generateMetadata = async ({ params }: { params: any }): Promise<Met
         t,
     });
 };
-
+ 
 const Page = async ({params}:{params:any}) => {
     const authToken = (await cookies()).get('authToken')?.value;
     

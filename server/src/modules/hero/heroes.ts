@@ -13,7 +13,7 @@ const setConn = (_conn:Pool) => { conn = _conn };
 // повертає список героїв
 const getList = async (params:HeroListRequestParams, heroId?:number, admin:false|undefined = false)
     : Promise<HeroListResponse|null> => {
-    return await _getList(params, heroId, admin, conn)
+    return await _getList(params, heroId, admin, conn) 
 }
 
 const create = async (hero:HeroShortType) 

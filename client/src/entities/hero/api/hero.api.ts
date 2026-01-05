@@ -410,10 +410,21 @@ export const apiHeroDeleteSubscription = async (heroId:number): Promise<boolean>
 // Повертає список свічок Героя
 export const apiHeroGetCandles = async (heroId:number): Promise<HeroCandleType[]|null> => {
     try {
-        const r = await iAxios(`/hero/candles/${heroId}`);
+        const r = await iAxios(`/hero/candles/${heroId}`); 
         return r.data.candles || null;
     } catch(e){
         console.error(e);
         return null;
+    }
+}
+
+// Перевіряє чи Герой існує
+export const apiHeroExists = async (search:string, dtBirth:number, dtDeath:number): Promise<boolean> => {
+    try {
+        const r = await iAxios.post(`/hero/exists`, {search, dtBirth, dtDeath});
+        return r.data.exists || false;
+    } catch(e){
+        console.error(e);
+        return false;
     }
 }

@@ -24,7 +24,7 @@ const getByHeroId = async (heroId:number): Promise<HeroCandleType[] | null> => {
         FROM    heroes_candles
         LEFT    JOIN users ON users.ID = heroes_candles.user_id
         WHERE   hero_id = ?
-        AND     candle_expiries >= ? || payment_status = 1
+        AND     (candle_expiries >= ? OR payment_status = 1)
         ORDER   BY dt DESC
         LIMIT   0, 300`;
 

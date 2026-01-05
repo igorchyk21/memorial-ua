@@ -5,16 +5,26 @@ import useCandleList from "../model/useCandleList";
 import BaseSpinner from "@/shared/ui/spinners/BaseSpinner";
 import { DateTime as DT } from "luxon";
 import { CandleShow } from "@/entities/hero";
+import { HeroCandleType } from "@global/types";
+import AlertEmpty from "@/shared/ui/other/AlertEmpty";
+import { useTranslations } from "next-intl";
 
 interface Props {
     heroId:number;
+    startCandles?:HeroCandleType[]|null;
 }
 
-const HeroCandleList = ({heroId}:Props) => {
+const HeroCandleList = ({heroId, startCandles}:Props) => {
 
-    const { candles } = useCandleList(heroId); 
+    const { candles } = useCandleList(heroId, startCandles);    
+    const t = useTranslations();
     return (
         <div>
+            {candles.length === 0 && 
+            (<AlertEmpty
+                title={t('hero.candle.empty')}
+                description={t('hero.candle.emptyDescription')}/>
+            )   }
             {candles
                 ? (<div>
                     {candles.map((candle) => (

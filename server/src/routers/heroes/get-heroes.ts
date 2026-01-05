@@ -85,7 +85,7 @@ router.get('/:heroId', async (req:Request, res:Response) => {
 router.get('/candles/:heroId', async (req:Request, res:Response) => {
     const heroId = safeIntParse(req.params.heroId, null);
     if (!heroId) return res.status(400).send('Incorrect parameter "heroId"');
-    const resCandles = await _heroCandle.getByHeroId(heroId);
+    const resCandles = await _heroCandle.getByHeroId(heroId); 
     res.json({candles:resCandles||[]})
 })
 

@@ -8,3 +8,4 @@ export { default as HeroVideoPage } from "./hero/video/ui/HeroVideoPage";
 export { default as HeroAudioPage } from "./hero/audio/ui/HeroAudioPage";
 export { default as NewHeroPage } from "./newHero/ui/NewHeroPage"
 export { default as NewHeroResultPage } from "./newHero/ui/NewHeroResultPage";
+export { default as HeroCandlesPage } from "./hero/candles/ui/HeroCandlesPage";

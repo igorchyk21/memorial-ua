@@ -48,29 +48,33 @@ const HeroAbout = ({hero, onClickEdit, onClickDelete, onClickStatus}:Props) => {
                 </span>
             </li>)}
 
-            <li className="d-flex align-items-lg-center position-relative pe-4 flex-column flex-lg-row">
+            {Boolean(hero.birth) &&
+            (<li className="d-flex align-items-lg-center position-relative pe-4 flex-column flex-lg-row">
                 <span className="fs-6">{t('hero.about.dtBirth')}</span>
                 <span className="d-block flex-grow-1 border-bottom border-dashed px-lg-1 mt-lg-2 mx-lg-2" />
                 <span className="fs-6 text-dark-emphasis fw-bold text-end">
                     {DT.fromMillis(hero.birth||0).setLocale("uk").toLocaleString(DT.DATE_FULL)}
                 </span>
-            </li>
+            </li>)}
 
-            <li className="d-flex align-items-lg-center position-relative pe-4 flex-column flex-lg-row">
+            {Boolean(hero.mobilization) &&
+            (<li className="d-flex align-items-lg-center position-relative pe-4 flex-column flex-lg-row">
                 <span className="fs-6">{t('hero.about.dtMobilization')}</span>
                 <span className="d-block flex-grow-1 border-bottom border-dashed px-lg-1 mt-lg-2 mx-lg-2" />
                 <span className="fs-6 text-dark-emphasis fw-bold text-end">
                     {DT.fromMillis(hero.mobilization||0).setLocale("uk").toLocaleString(DT.DATE_FULL)}
                 </span>
-            </li>
+            </li>)}
 
-            <li className="d-flex align-items-lg-center position-relative pe-4 flex-column flex-lg-row">
+
+            {Boolean(hero.death) &&
+            (<li className="d-flex align-items-lg-center position-relative pe-4 flex-column flex-lg-row">
                 <span className="fs-6">{t('hero.about.dtDeath')}</span>
                 <span className="d-block flex-grow-1 border-bottom border-dashed px-lg-1 mt-lg-2 mx-lg-2" />
                 <span className="fs-6 text-dark-emphasis fw-bold text-end">
                     {DT.fromMillis(hero.death||0).setLocale("uk").toLocaleString(DT.DATE_FULL)}
                 </span>
-            </li>
+            </li>)}
 
             
             {hero.armyName &&

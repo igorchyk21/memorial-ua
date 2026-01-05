@@ -16,6 +16,7 @@ import _heroAudio from "../../modules/hero/audio.js";
 import _heroCandle from "../../modules/hero/candle.js";
 import _heroSubscription from "../../modules/hero/subscription.js";
 import _wfp from "../../modules/wfp/wfp.js";
+import { DateTime as DT } from "luxon";
 
 const router = express.Router();
 
@@ -211,6 +212,22 @@ router.post('/create', middleRecaptcha, async (req:Request, res:Response)=> {
     if (!resId) return res.sendStatus(500);
     const resSave = await _hero.save({...body.data, ID:resId})
     res.json({id:resSave ? resId : false})
+})
+
+// Перевірка наявності Героя
+router.post('/exists', async (req:Request, res:Response)=>{
+    const search = req.body.search || '';
+    if (!search) return res.status(400).send('Incorrect body parameter "search"');
+    const dtBirtch = safeIntParse(req.body.dtBirth, null);
+    if (dtBirtch === null) return res.status(400).send('Incorrect body parameter "dtBirth"');
+    const dtDeath = safeIntParse(req.body.dtDeath, null);
+    if (dtDeath === null) return res.status(400).send('Incorrect body parameter "dtDeath"');
+    const resHeroes = await _hero.getList({search, onPage:9999999}); 
+    const heroFind = resHeroes?.heroes.find(hero =>
+        DT.fromMillis(hero.birth).startOf("day").toMillis() === DT.fromMillis(dtBirtch).startOf("day").toMillis() &&
+        DT.fromMillis(hero.death).startOf("day").toMillis() === DT.fromMillis(dtDeath).startOf("day").toMillis()
+    );
+    res.json({exists:Boolean(heroFind)});
 })
 
 // Додавання свічки Герою

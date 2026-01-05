@@ -40,7 +40,7 @@ const HeroCardImage = (p:HeroCardImageProps) => {
                 <i className="ci-image position-absolute top-50 start-50 translate-middle fs-1 opacity-40" />
             </Placeholder>)
             
-            :(<div className="position-relative d-flex hover-effect-opacity overflow-hidden rounded-4" >
+            :(<div className="position-relative d-flex hover-effect-opacity overflow-hidden" >
                 <LinkWrapper
                     href={p.href}
                     style={{ maxWidth:'100%'}}
@@ -52,12 +52,12 @@ const HeroCardImage = (p:HeroCardImageProps) => {
                         style={{objectFit:'cover', aspectRatio:500/550, ...p.imageStyle}}
                         src={src}
                         onError={()=>setError(true)}
-                        className="rounded-4 hero-img" 
+                        className=" hero-img" 
                         alt={p?.alt||'photo'}/>)}
 
                     {src === null && 
                         (<div
-                            className="rounded-4 hero-img d-flex bg-primary "   
+                            className="hero-img d-flex bg-primary "   
                             style={{width:p.width, maxWidth:'100%', aspectRatio:500/550, opacity:0.5}}>
                                 
                         </div>
@@ -65,7 +65,7 @@ const HeroCardImage = (p:HeroCardImageProps) => {
 
                     {src === false && 
                         (<div
-                            className="rounded-4 hero-img bg-secondary d-flex"  
+                            className="hero-img bg-primary d-flex"  
                             style={{width:p.width, maxWidth:'100%', aspectRatio:500/550, ...p.imageStyle}}>
                                 <h5 className="m-auto underline-none" style={{textDecoration:'unset'}}>{t('waitPhoto')}</h5>
                         </div>)}

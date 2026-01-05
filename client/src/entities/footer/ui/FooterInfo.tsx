@@ -5,7 +5,7 @@ import { Button, Col, OverlayTrigger, Tooltip } from "react-bootstrap"
 
 const FooterInfo = () => {
     const t = useTranslations();
-    return (
+    return (<>
         <Col lg={3} className="text-center text-lg-start pb-sm-2 pb-md-0 mb-4 mb-md-5 mb-lg-0">
             <h4 className="pb-2 mb-1">
               <Link href="/" className="text-dark-emphasis text-decoration-none">
@@ -15,6 +15,13 @@ const FooterInfo = () => {
             <p className="fs-sm text-body mx-auto" style={{ maxWidth: 480 }}>
                 {t('footer.description')}
             </p>
+
+            <p className="fs-sm  fw-bold text-primary mx-auto" style={{ maxWidth: 480 }}>{t('footer.finDonor')}</p>
+
+            <h5 className="pb-2 mb-1 fs-12">
+            {t('footer.titleContacts')}
+            </h5>
+            <Link className="fs-sm" href="https://idiplomacy.com.ua/" target="_blank">https://idiplomacy.com.ua/</Link>
             <div className="d-flex justify-content-center justify-content-lg-start gap-2 pt-2 pt-md-3">
               {[
                 { name: 'Facebook', icon: 'ci-facebook', href: conf.social.facebook1 },
@@ -44,7 +51,7 @@ const FooterInfo = () => {
               ))}
             </div>
           </Col>
-    )
+    </>)
 }
 
 export default FooterInfo;

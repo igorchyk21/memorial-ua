@@ -1,16 +1,17 @@
 import { useTranslations } from "next-intl";
 
 interface Props {
-    title:string;
+    title?:string;
     description?:string;
+    className?:string;
 }
 
-const AlertEmpty = ({ title, description }:Props) => {
+const AlertEmpty = ({ title, description, className }:Props) => {
     const t = useTranslations();
     return (
-        <div className="text-center mt-5 mb-5">
-            <h4 className="mt-3 text-center">{title}</h4>
-            <p className="text-center">{description}</p>
+        <div className={className ? className : "text-center mt-5 mb-5"}>
+            {title && <h4 className="mt-3 text-center">{title}</h4>}
+            {description && <p className="text-center">{description}</p>}
             <div className="mt-4 pt-3 border-top d-inline-block text-start">
                 <div className="fw-semibold text-body-secondary mb-2 d-flex align-items-center justify-content-center pb-2">
                     <i className="ci-message-circle fs-base me-2"></i>

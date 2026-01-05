@@ -20,8 +20,9 @@ const Herolist = ({heroes, className, showMax = 99999999999, onClickSubscription
                 .filter((_,i) => i<showMax )
                 .map(hero=>{
                 return (
-                    <Col key={hero.ID} 
-                        lg={3} md={6} xs={12}>
+                    <Col className="p-2" 
+                        key={hero.ID} 
+                        lg={4} xl={3} md={6} xs={12}>
                         <HeroCard 
                             hero={hero}
                             onClickSubscription={onClickSubscription}/>  

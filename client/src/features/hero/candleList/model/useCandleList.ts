@@ -4,15 +4,16 @@ import { HeroCandleType } from "@global/types";
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
-const useCandleList = (heroId:number) => {
+const useCandleList = (heroId:number, startCandles?:HeroCandleType[]|null) => {
 
     const t = useTranslations();
     const { showToast } = useToast();
 
-    const [candles, setCandles] = useState<HeroCandleType[]|null>(null);           
+    const [candles, setCandles] = useState<HeroCandleType[]>(startCandles||[]);           
 
 
     useEffect(()=>{
+        if (startCandles) return;
         const fetchCandles = async () => {
             const candles = await heroGetCandles(heroId);
             if (!candles) {
