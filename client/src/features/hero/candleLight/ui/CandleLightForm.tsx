@@ -33,6 +33,8 @@ const CandleLightForm = ({formik, disabled}:Props) => {
                 placeholder={t('hero.candle.youName')} />
         </FloatingLabel>
 
+        
+
         {/* Textarea */}
         <FloatingLabel controlId="fl-textarea" 
             label={t('hero.candle.youMess')}>
@@ -46,6 +48,8 @@ const CandleLightForm = ({formik, disabled}:Props) => {
                 disabled={formik.isSubmitting || disabled}
                 onChange={(e) => formik.setFieldValue('comment', e.target.value)} />
         </FloatingLabel>
+
+        
 
         {/* Model options made of <ToggleButton> */}
         <FormLabel className="pb-1 mt-3 mb-2">{t('hero.candle.offering')}</FormLabel>
@@ -80,6 +84,12 @@ const CandleLightForm = ({formik, disabled}:Props) => {
                     <SpinnerTitle showSpinner={formik.isSubmitting || !!disabled} titleButton={t('hero.candle.light')}/>
             </Button>
         </div>
+
+        <div className="pt-2 fs-14" style={{lineHeight:1.2}}>
+            {t('hero.candle.candleDescription')}
+        </div>
+
+        
 
         </form>
     )

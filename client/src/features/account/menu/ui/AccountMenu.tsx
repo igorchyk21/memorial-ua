@@ -3,6 +3,7 @@ import { Dropdown, Image, Spinner } from "react-bootstrap";
 import useAccountMenu from "../model/useAccountMenu";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
+import { useGlobal } from "@/shared/context/Global/model/useGlobal";
 
 const AccountMenu = () => {
 
@@ -15,6 +16,7 @@ const AccountMenu = () => {
             setUpdate } = useAccountMenu();
     
     const [ spinner, setSpinner ] = useState(false);
+    const { setNotificationShow } = useGlobal();
 
     if (!auth?.user) return null;
     return (
@@ -49,6 +51,12 @@ const AccountMenu = () => {
                 }}>
                     {t('auth.logout')}
                 </Dropdown.Item>
+
+                {auth?.user.admin && (
+                <Dropdown.Item onClick={()=>setNotificationShow(true)}>
+                    {t('buttons.notification')}
+                </Dropdown.Item>
+                )}
             </Dropdown.Menu>
 
         </Dropdown>

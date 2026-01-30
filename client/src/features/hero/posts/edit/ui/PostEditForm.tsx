@@ -59,7 +59,7 @@ const PostEditForm = ({handleSubmit, handleCancel, authorDisabled, post}:Props) 
                         <FormControl 
                             ref={refBody}
                             autoFocus
-                            as="textarea" 
+                            as="textarea"  
                             required 
                             placeholder={t('hero.post.youPost')} 
                             style={{ height: 250 }}

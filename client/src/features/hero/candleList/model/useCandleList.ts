@@ -11,6 +11,10 @@ const useCandleList = (heroId:number, startCandles?:HeroCandleType[]|null) => {
 
     const [candles, setCandles] = useState<HeroCandleType[]>(startCandles||[]);           
 
+    useEffect(()=>{
+        if (startCandles)
+            setCandles(startCandles);
+    },[startCandles]);
 
     useEffect(()=>{
         if (startCandles) return;

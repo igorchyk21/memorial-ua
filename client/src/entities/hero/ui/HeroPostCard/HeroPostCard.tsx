@@ -5,6 +5,7 @@ import PostDropdown from "./PostDropdown";
 import HeroStatus from "../HeroCard/HeroStatus";
 import { Button, Spinner } from "react-bootstrap";
 import { useAuth } from "@/shared/context/Auth";
+import { useMemo } from "react";
 
 interface Props  {
     post:HeroPostType;
@@ -22,6 +23,11 @@ const HeroPostCard = ({post, onClickEdit, onClickDelete, onClickStatus}:Props) =
         (!auth?.user.admin) &&
         ((!auth) || ( auth && (auth.user.ID !== post.userId)))
     ) return null;
+
+     
+    const p = post.body.replace(/<[^>]*>?/g, '');
+    const aBody = p.split('\n').filter(Boolean);
+     
 
     return (
         <div className="posy-item-container">
@@ -63,7 +69,11 @@ const HeroPostCard = ({post, onClickEdit, onClickDelete, onClickStatus}:Props) =
                     
                 </div>
             </div> 
-            <div className="post-body pb-3 border-bottom">{post.body}</div>
+            <div className="post-body pb-3 border-bottom">
+                {aBody.map((item,i)=>(
+                    <p key={i}>{item}</p>
+                ))}
+            </div>
         </div>        
     )
 }

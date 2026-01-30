@@ -11,6 +11,7 @@ import 'swiper/css/pagination'
 import 'swiper/css/effect-fade'
 import { ContentBaseType, HeroShortType } from '@global/types'
 import HeroCard from '../HeroCard/HeroCard'
+import { useTranslations } from 'next-intl'
 
 
 interface Props {
@@ -20,10 +21,13 @@ interface Props {
 
 const HeroSlider = ({hero, onClickSubscription}:Props) => {
 
-
+    const t = useTranslations();
     if (!hero) return null;
-    return (
-        <section className="position-relative" style={{height:500}}>
+    return ( 
+        <section className="position-relative" style={{minHeight:500}}>
+        <h2 
+        className="   fw-bold   text-center w-100 pt-2 position-absolute top-0 left-0 text-white"
+        style={{zIndex:1029, letterSpacing:5, fontSize:12}}>{t('goTitle')}</h2>
         <Swiper
             modules={[EffectFade, Autoplay, Pagination]}
             effect="fade"
@@ -50,7 +54,7 @@ const HeroSlider = ({hero, onClickSubscription}:Props) => {
                     </Col>
                     <Col md={6} className="d-flex align-items-center">
                         <div className='m-auto d-flex align-items-center'>
-                        <HeroCard 
+                        <HeroCard   
                             hero={hero} 
                             showName={false} 
                             onClickSubscription={onClickSubscription}/> 

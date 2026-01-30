@@ -25,11 +25,11 @@ const HeroCard = ({hero, showName=true, onClickSubscription}:Props) => {
     const [ isSubscribed, setIsSubscribed ] = useState(false);
     const t = useTranslations();
     const dt = Date.now();
-    return (  
-        <article className="hero bg-body-tertiary rounded-4 overflow-hidden" style={{maxWidth:350, marginInline:'auto'}}>
+    return (   
+        <article className="hero bg-body-tertiary rounded-4 overflow-hidden" style={{maxWidth:300, marginInline:'auto'}}>
             <div className="animate-underline hover-effect-opacity position-relative">
 
-                <div className="position-relative mb-2 overflow-hidden">
+                <div className="position-relative shadow-sm overflow-hidden">
                     <Badge
                         className="position-absolute top-0 start-0 z-2 mt-2 ms-2 mt-sm-3 ms-sm-3">
                         {hero.callSign}
@@ -89,7 +89,7 @@ const HeroCard = ({hero, showName=true, onClickSubscription}:Props) => {
                     </div>
                 </div>
 
-                
+                  
 
                 {showName &&
                 (<>
@@ -103,8 +103,11 @@ const HeroCard = ({hero, showName=true, onClickSubscription}:Props) => {
                 <div className="px-3 pb-3">
                     <span className="d-block fs-14 fw-bold pt-1">
                         {DT.fromMillis(hero.birth||0).setLocale("uk").toLocaleString(DT.DATE_MED)} - † {DT.fromMillis(hero.death||0).setLocale("uk").toLocaleString(DT.DATE_MED)}
-
                     </span>
+                    <span className="d-block fs-14 fw-bold pt-1 text-start">
+                        {t('hero.prefixAge')} <span>{Math.floor(DT.fromMillis(hero.death||0).diff(DT.fromMillis(hero.birth||0), 'years').years)}</span> {t('hero.age')}
+                    </span>
+                    
                     
                 </div>
                 </>)}

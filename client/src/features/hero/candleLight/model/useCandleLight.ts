@@ -8,6 +8,7 @@ import { useToast } from "@/shared/context/Toast/models/useToast";
 import { useAuth } from "@/shared/context/Auth/model/useAuth";
 import { safeIntParse } from "@/shared/helper/safeParsers";
 import { FormikHelpers, FormikProps } from "formik";
+import { useQueryState } from "@/shared/hooks/query/useQueryState";
 
 const useCandleLight = (heroId:number) => {
     
@@ -19,7 +20,7 @@ const useCandleLight = (heroId:number) => {
     const [ activeTab, setActiveTab ] = useState<'form' | 'candle' | null>(null);
     const [ wfpHtml, setWfpHtml ] = useState<string|null>(null);
     const wfpContainerRef = useRef<HTMLDivElement|null>(null);
-
+    const [ update, setUpdate ] = useQueryState<string>('update');
 
     useEffect(() => {
         
@@ -64,6 +65,8 @@ const useCandleLight = (heroId:number) => {
                 setCandleExpiries(resAddCandle?.expiries||null);
             }
             setActiveTab('candle');
+            setUpdate(Date.now().toString()); 
+
         }
 
         else return showToast(t('error'), 'danger');

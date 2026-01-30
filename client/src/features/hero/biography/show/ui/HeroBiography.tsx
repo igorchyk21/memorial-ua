@@ -2,6 +2,7 @@ import { HeroBiographyItem, HeroBiographyType, HeroShortType } from "@global/typ
 import { Button, Col, Row } from "react-bootstrap";
 import { HeroBioItem } from "@/entities/hero";
 import { useTranslations } from "next-intl";
+import { useAuth } from "@/shared/context/Auth";
 interface Props {
     hero:HeroShortType;
     biography:HeroBiographyType;
@@ -11,6 +12,7 @@ interface Props {
 const HeroBiography = ({hero, biography, onClicEdit, onClickDelete}:Props) => {
 
     const t = useTranslations();
+    const { auth } = useAuth();
    
     return (<>
         <h3 className="text-center">{`${hero.fName} ${hero.lName}`}</h3>
@@ -26,11 +28,13 @@ const HeroBiography = ({hero, biography, onClicEdit, onClickDelete}:Props) => {
                                 right={Boolean(i % 2)}/>)
             })}
         </Row>
+
+        {auth?.user.admin &&
         <div className="text-center  pt-4">
             <Button 
                 className="rounded-pill"
                 onClick={()=>onClicEdit(null)}><i className="ci-plus me-2"/>{t('hero.biography.addButton')}</Button>
-        </div>
+        </div>}
 
         
     </>)

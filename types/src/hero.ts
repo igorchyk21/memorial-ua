@@ -32,6 +32,7 @@ export enum HERO_AUDIO_STAT {
 }
 
 
+
 export type HeroListSortType = 
     | 'name'
     | 'nameDesc'
@@ -183,3 +184,6 @@ export interface HeroCandleDataResponse {
     expiries:number;
     wfp?:string;
 }
+
+
+

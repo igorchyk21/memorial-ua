@@ -12,6 +12,7 @@ import { Container, Navbar } from "react-bootstrap";
 const HeaderWidget = () => {
 
     const  t = useTranslations('map');
+    const  lt = useTranslations();
     const { auth } = useAuth();
     const { stickyElementRef, isStuck } = useStickyElement<HTMLDivElement>()
     const [ searchOpen, setSearchOpen ] = useState(false)
@@ -63,6 +64,8 @@ const HeaderWidget = () => {
                 searchOpen={searchOpen}
                 setSearchOpen={setSearchOpen}/>
         </Navbar>
+
+      
 
         <OffMenu     
             show={menuShow}

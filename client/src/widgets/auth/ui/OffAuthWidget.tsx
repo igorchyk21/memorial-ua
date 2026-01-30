@@ -5,6 +5,7 @@ import { Offcanvas } from "react-bootstrap";
 import ReCaptcha from "@/shared/context/reCaptcha/ReCaptcha";
 import { AuthLoginForm, AuthRecoveryForm, AuthRegisterForm } from "@/features/auth";
 import { Logo } from "@/entities/header";
+import { useTranslations } from "next-intl";
  
 interface Props { 
     show: AuthOpenType;
@@ -12,7 +13,7 @@ interface Props {
 }
 
 const OffAuthWidget = () => {
-
+    const t = useTranslations();
     const { showOffAuth, setShowOffAuth } = useAuth();
     const [ showAction, setShowAction ] = useState<AuthOpenType>(null);
 
@@ -46,7 +47,7 @@ const OffAuthWidget = () => {
                                               
             </Offcanvas.Body>
             <div className="px-3">
-              <p className="fs-xs">&copy; Growth Meet. All rights reserved 2025.</p>
+              <p className="fs-sm fw-bold text-uppercase text-center w-100">{t('footer.titleContacts')}.</p>
             </div>
         </Offcanvas>
     )

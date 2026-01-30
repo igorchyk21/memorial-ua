@@ -33,6 +33,12 @@ const CandleLight = ({heroId, heroName}:Props) => {
             style={{position:'sticky', top:190}}>
         <div className="mb-3">
         <h5 className="mb-0">{activeTab === 'candle' ? t('hero.candle.candleBurning') : t('hero.candle.title')}</h5>
+
+        {!auth?.isLogin && activeTab === 'form' && (
+            <div className="pb-1 fs-14" style={{lineHeight:1.2}}>
+                {t('hero.candle.candleInfo')}
+            </div>
+        )}
         {activeTab === 'candle' && <p>{t('hero.candle.candleExpiries')} {DT.fromMillis(candleExpiries||0).setLocale("uk").toLocaleString(DT.DATETIME_MED)}</p>}
         </div>
         
@@ -49,6 +55,7 @@ const CandleLight = ({heroId, heroName}:Props) => {
         <TabPane
             eventKey="form"
             title="form">
+                
             <Formik<HeroCandleDataType>
                 initialValues={{
                     userId: auth?.user.ID||0,

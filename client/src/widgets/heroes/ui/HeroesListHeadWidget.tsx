@@ -10,7 +10,7 @@ const HeroesListHeadWidget = ({countAllHeroes}:Props) => {
     const t = useTranslations('hero');
     return (
         <>
-        <h1 className="h3 my-4">{t('heroList')}</h1>
+        <h1 className="h3 my-4">{t('allHeroes')}</h1>
         <Row className="mb-1">
             <Col md={9}>
                 <FilterResult count={countAllHeroes}/>

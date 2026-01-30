@@ -10,17 +10,23 @@ import 'swiper/css'
 import 'swiper/css/pagination'
 import 'swiper/css/effect-fade'
 import { ContentBaseType } from '@global/types'
+import { useTranslations } from 'next-intl'
 
 
 interface Props {
     slides:ContentBaseType[],
     href?:string;
     buttonTitle?:string;
-}
+} 
 
 const BigSlider = ({slides, href, buttonTitle}:Props) => {
+    const t = useTranslations();
   return (
-    <section className="position-relative">
+    <section className="position-relative" style={{minHeight:600}}>
+      <h1 
+        className="   fw-bold   text-center w-100 pt-2 position-absolute top-0 left-0 text-white"
+        style={{zIndex:1029, letterSpacing:5, fontSize:14}}>{t('goTitle')}</h1>
+
       <Swiper
         modules={[EffectFade, Autoplay, Pagination]}
         effect="fade"
@@ -43,7 +49,7 @@ const BigSlider = ({slides, href, buttonTitle}:Props) => {
                 <Row>
                   <Col xs={12} sm={10} md={7} lg={6}>
                     <h2 className="display-4 pb-2 pb-md-3 pb-lg-4">{title}</h2>
-                    <p className="fs-22 text-white mb-lg-4">{description}</p>
+                    <p className="fs-22 text-white mb-lg-4" style={{lineHeight:1.2}}>{description}</p>
                     {href &&
                         (<Link href={href} className="btn btn-lg btn-outline-light rounded-pill">
                         {buttonTitle}

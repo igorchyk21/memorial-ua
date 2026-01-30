@@ -15,10 +15,12 @@ const FooterInfo = () => {
             <p className="fs-sm text-body mx-auto" style={{ maxWidth: 480 }}>
                 {t('footer.description')}
             </p>
-
+            <p className="fs-sm text-body mx-auto" style={{ maxWidth: 480 }}>
+                {t('footer.description2')}
+            </p>
             <p className="fs-sm  fw-bold text-primary mx-auto" style={{ maxWidth: 480 }}>{t('footer.finDonor')}</p>
 
-            <h5 className="pb-2 mb-1 fs-12">
+            <h5 className="pb-2 mb-1 fs-12 text-uppercase">
             {t('footer.titleContacts')}
             </h5>
             <Link className="fs-sm" href="https://idiplomacy.com.ua/" target="_blank">https://idiplomacy.com.ua/</Link>

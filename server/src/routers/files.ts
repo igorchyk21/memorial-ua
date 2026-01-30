@@ -4,10 +4,11 @@ import _heroPhoto from "../modules/hero/photo.js";
 import _heroVideo from "../modules/hero/video.js";
 import { middleIdIsAuth } from "../middleware/middleIdIsAuth.js";
 import { safeIntParse } from "../modules/helpers/gim-beckend-helpers.js";
-import { HERO_AUDIO_STAT, HERO_PHOTO_STAT, HERO_VIDEO_STAT } from "@global/types";
+import { HERO_AUDIO_STAT, HERO_PHOTO_STAT, HERO_VIDEO_STAT, NOTIFICATION_TYPE } from "@global/types";
 import { middleRecaptcha } from "../middleware/middleRecaptcha.js";
 import { middleIsAdmin } from "../middleware/middleIdAdmin.js";
 import _heroAudio from "../modules/hero/audio.js";
+import _notification from "../modules/notification/notification.js";
 
 const router = express.Router();
  
@@ -28,12 +29,17 @@ router.post(`/hero/photo/:heroId`, middleRecaptcha, middleUpload, async (req, re
     const filePaths = fileArray.map(f => f.path);
     const photoStatus = req.user?.admin ? HERO_PHOTO_STAT.ACTIVE : HERO_PHOTO_STAT.PENDING;
     const resPhoto = await _heroPhoto.add(heroId, req.user?.ID || 0, filePaths, photoStatus); 
+
+    if (!req.user?.admin)
+        await _notification.createNotification(heroId, req.user?.ID || 0, NOTIFICATION_TYPE.PHOTO_UPLOADED);
+
+
     res.json({stat:resPhoto, files:filePaths});
 });
 
 
  
-// Завантаження фотографій Героя
+// Завантаження відо Героя
 router.post(`/hero/video/:heroId`, middleIsAdmin, middleRecaptcha, middleUpload, async (req, res) => {
     const heroId = safeIntParse(req.params.heroId, null);
     if (!heroId) return res.status(400).send('Incorrect parameter "heroId"');

@@ -22,7 +22,7 @@ const HeroAbout = ({hero, onClickEdit, onClickDelete, onClickStatus}:Props) => {
             <h2>{t('hero.about.title')}</h2>             
             <div>
                 {auth?.user.admin &&
-                (<HeroAboutDropdown
+                (<HeroAboutDropdown 
                     heroStatus={hero.status}
                     onClickDelete={onClickDelete}
                     onClickEdit={onClickEdit}
@@ -75,6 +75,16 @@ const HeroAbout = ({hero, onClickEdit, onClickDelete, onClickStatus}:Props) => {
                     {DT.fromMillis(hero.death||0).setLocale("uk").toLocaleString(DT.DATE_FULL)}
                 </span>
             </li>)}
+
+            {Boolean(hero.death) && Boolean(hero.birth) &&
+            (<li className="d-flex align-items-lg-center position-relative pe-4 flex-column flex-lg-row">
+                <span className="fs-6">{t('hero.about.age')}</span>
+                <span className="d-block flex-grow-1 border-bottom border-dashed px-lg-1 mt-lg-2 mx-lg-2" />
+                <span className="fs-6 text-dark-emphasis fw-bold text-end">
+                {t('hero.prefixAge')} <span>{Math.floor(DT.fromMillis(hero.death||0).diff(DT.fromMillis(hero.birth||0), 'years').years)}</span> {t('hero.age')}
+                </span>
+            </li>)}
+            
 
             
             {hero.armyName &&

@@ -14,7 +14,7 @@ const useUploadPhoto = (heroId:number) => {
     const { showToast } = useToast();
     const [ isConverting, setIsConverting ] = useState(false);
     const refInputFile = useRef<HTMLInputElement>(null)
-    const [ update, setUpdate ] = useQueryState<string>('update');
+    const [ update, setUpdate ] = useQueryState<string>('update'); 
     const { executeRecaptcha } = useGoogleReCaptcha();
 
 

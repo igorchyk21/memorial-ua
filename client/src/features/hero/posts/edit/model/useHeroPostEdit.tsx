@@ -38,7 +38,7 @@ export const useHeroPostEdit = (heroId:number) => {
     const handleSubmit = async (values:HeroPostType) => {
         const reToken  = executeRecaptcha ? await executeRecaptcha('form') : null;
         const l = lengthWords(values.body);
-        if (!((l>=10) && (l<=200))) return showToast(t('hero.post.wordsInfo'),'danger');
+        if (!((l>=10) && (l<=5000))) return showToast(t('hero.post.wordsInfo'),'danger');
         const resSave = await heroSavePost(values.ID, values, reToken);
         if (resSave) showToast(values.ID ? t('hero.messPostSaved') : t('hero.messPostCreated'), 'success') 
             else showToast(t('error'), 'danger')

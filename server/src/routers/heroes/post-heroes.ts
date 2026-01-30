@@ -10,13 +10,14 @@ import { lengthWords } from "../../modules/helpers/stringHelper.js";
 import { zHeroBiographyItemSchema } from "../../modules/hero/schema/biography.js";
 import { wrapAsync } from "../../modules/helpers/functions/wrapAsync.js";
 import { middleRecaptcha } from "../../middleware/middleRecaptcha.js";
-import { HERO_AUDIO_STAT, HERO_POST_STAT, HERO_VIDEO_STAT } from "@global/types";
+import { HERO_AUDIO_STAT, HERO_POST_STAT, HERO_STAT, HERO_VIDEO_STAT, NOTIFICATION_TYPE } from "@global/types";
 import _heroVideo from "../../modules/hero/video.js";
 import _heroAudio from "../../modules/hero/audio.js";
 import _heroCandle from "../../modules/hero/candle.js";
 import _heroSubscription from "../../modules/hero/subscription.js";
 import _wfp from "../../modules/wfp/wfp.js";
 import { DateTime as DT } from "luxon";
+import _notification from "../../modules/notification/notification.js";
 
 const router = express.Router();
 
@@ -37,14 +38,16 @@ router.post('/post/:postId',  wrapAsync(middleRecaptcha),  async (req:Request, r
     let resSave = null;
 
     const l = lengthWords(req.body?.post?.body||'');
-    if (!((l>=10) && (l<=200))) return res.status(400).send('Incorrect parameter "post.body"');
+    if (!((l>=10) && (l<=5000))) return res.status(400).send('Incorrect parameter "post.body"');
 
-    // Свторення
+    // Свторення 
     if (postId === 0) {
         const body = zHeroPostSchema.safeParse(req.body.post);
         if (!body.success) { console.log(body); return res.status(400).send(safeJSONParse(body.error.message));}
         const postStatus = req.user?.admin ? HERO_POST_STAT.ACTIVE : HERO_POST_STAT.PENDING;
-        resSave = await _hero.createPost(body.data, postStatus); 
+        resSave = await _hero.createPost(body.data, postStatus);  
+        if (!req.user?.admin)
+        await _notification.createNotification(body.data.heroId, body.data.userId, NOTIFICATION_TYPE.POST_CREATED);
     } 
     
     // Збереження
@@ -137,6 +140,8 @@ router.post('/video/youtube/:heroId', middleRecaptcha, async (req:Request, res:R
     if (!videoUrl) return res.status(400).send('Incorrect body parameter "videoUrl"');
     const description = req.body.description || '';
     const resVideo = await _heroVideo.add(heroId, req.user?.ID || 0, [videoUrl], description, HERO_VIDEO_STAT.PENDING);
+    if (!req.user?.admin)
+        await _notification.createNotification(heroId, req.user?.ID || 0, NOTIFICATION_TYPE.VIDEO_ADD);
     res.json({stat:resVideo});
 })
 
@@ -168,6 +173,8 @@ router.post('/audio/link/:heroId', middleRecaptcha, async (req:Request, res:Resp
     if (!audioUrl) return res.status(400).send('Incorrect body parameter "audioUrl"');
     const description = req.body.description || '';
     const resAudio = await _heroAudio.add(heroId, req.user?.ID || 0, [audioUrl], description, HERO_AUDIO_STAT.PENDING);
+    if (!req.user?.admin)
+        await _notification.createNotification(heroId, req.user?.ID || 0, NOTIFICATION_TYPE.AUDIO_ADD);
     res.json({stat:resAudio});
 })
 
@@ -211,6 +218,8 @@ router.post('/create', middleRecaptcha, async (req:Request, res:Response)=> {
     const resId = await _hero.create(body.data);
     if (!resId) return res.sendStatus(500);
     const resSave = await _hero.save({...body.data, ID:resId})
+    if (!req.user?.admin)
+        await _notification.createNotification(resId, req.user?.ID || 0, NOTIFICATION_TYPE.HERO_CREATED);
     res.json({id:resSave ? resId : false})
 })
 
@@ -222,7 +231,7 @@ router.post('/exists', async (req:Request, res:Response)=>{
     if (dtBirtch === null) return res.status(400).send('Incorrect body parameter "dtBirth"');
     const dtDeath = safeIntParse(req.body.dtDeath, null);
     if (dtDeath === null) return res.status(400).send('Incorrect body parameter "dtDeath"');
-    const resHeroes = await _hero.getList({search, onPage:9999999}); 
+    const resHeroes = await _hero.getList({search, onPage:9999999, status:[HERO_STAT.ACTIVE, HERO_STAT.PENDING, HERO_STAT.REJECT]}); 
     const heroFind = resHeroes?.heroes.find(hero =>
         DT.fromMillis(hero.birth).startOf("day").toMillis() === DT.fromMillis(dtBirtch).startOf("day").toMillis() &&
         DT.fromMillis(hero.death).startOf("day").toMillis() === DT.fromMillis(dtDeath).startOf("day").toMillis()
@@ -243,11 +252,15 @@ router.post('/candle/:heroId', middleRecaptcha, async (req:Request, res:Response
     if (body.data.price === 0) {
         const resCandle = await _heroCandle.add(heroId, body.data);
         res.json({stat:Boolean(resCandle), expiries:resCandle?.expiries||0});
+        if (!req.user?.admin)
+            await _notification.createNotification(heroId, req.user?.ID || 0, NOTIFICATION_TYPE.CANDLE_FREE);
     } else {
         const resCandle = await _heroCandle.add(heroId, {...body.data, days:1});
         if (!resCandle) return res.status(500).send('Error add candle');
         const wfp = await _wfp.createWfpForm4Candle(resCandle?.id, body.data.price, body.data.days, req.body.url||'');
         res.json({stat:Boolean(resCandle), expiries:resCandle, wfp:wfp});
+        if (!req.user?.admin)
+            await _notification.createNotification(heroId, req.user?.ID || 0, NOTIFICATION_TYPE.CANDLE_PAID);
     }
 })      
 

@@ -27,7 +27,7 @@ const FooterWidget = () => {
                 
             </Container>
             
-            <p className="fs-14 text-center fw-bold text-white"> © {DateTime.now().year} {t('footer.bottomInfo')}</p>
+            <p className="fs-14 text-center fw-bold text-white text-uppercase"> © {DateTime.now().year} {t('footer.bottomInfo')}</p>
         </footer>
     )
 }

@@ -13,6 +13,7 @@ import _heroCandle from "./hero/candle.js"
 import _heroSubscription from "./hero/subscription.js";
 import _wfp from "./wfp/wfp.js";
 import _eventer from "./eventer/eventer.js";
+import _notification from "./notification/notification.js";
 
 import cors from "cors";
  
@@ -27,6 +28,7 @@ import routerFiles from "../routers/files.js";
 import routerWfp from "../routers/wfp.js";
 import routerUser from "../routers/user.js";
 import { wrapAsync } from "./helpers/functions/wrapAsync.js";
+import routerNotification from "../routers/notification.js";
 
 export const startPoint = (app: Application): void => {
 
@@ -60,6 +62,7 @@ export const initRoutes = (app: Application): void => {
     app.use('/api/v1/hero', wrapAsync(middleAuthToken), routerDeleteHero);
     app.use('/api/v1/files', wrapAsync(middleAuthToken), routerFiles );
     app.use('/api/v1/user', wrapAsync(middleAuthToken), routerUser);
+    app.use('/api/v1/notification', wrapAsync(middleAuthToken), routerNotification);
     app.use('/wfp', routerWfp);
 
 };
@@ -83,6 +86,7 @@ export const initDataBase = (): void => {
     _heroSubscription.setConn(conn)
     _wfp.setConn(conn)
     _eventer.setConn(conn)
+    _notification.setConn(conn)
 }
 
 

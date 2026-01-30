@@ -17,7 +17,7 @@ const HomePage = async ({pageContent, heroes}:Props) => {
         {pageContent?.slides &&
         (<BigSlider  
             href="/heroes"
-            buttonTitle={t('buttons.allHeroes2')}
+            buttonTitle={t('buttons.allHeroes')} 
             slides={pageContent.slides}/>)}
         
        
