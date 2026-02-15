@@ -208,19 +208,30 @@ router.post('/audio/status/:audioId', middleIsAdmin, async (req:Request, res:Res
     res.json({stat:resStat});
 })
 
-// Створення Героя
+// Створення Героя  
 router.post('/create', middleRecaptcha, async (req:Request, res:Response)=> {
+
     const body = zHeroShortSchema.safeParse(req.body.hero);
     if (!body.success) {
         console.log(body)
         return res.status(400).send(safeJSONParse(body.error.message));
-    }
-    const resId = await _hero.create(body.data);
+    } 
+
+    const search = `${body.data.fName?.trim()} ${body.data.lName.trim()}`;
+
+    const resHeroes = await _hero.getList({search, onPage:9999999, status:[HERO_STAT.ACTIVE, HERO_STAT.PENDING, HERO_STAT.REJECT]});  
+    const heroFind = resHeroes?.heroes.find(hero =>
+        DT.fromMillis(hero.birth).startOf("day").toMillis() === DT.fromMillis(body.data.birth).startOf("day").toMillis() &&
+        DT.fromMillis(hero.death).startOf("day").toMillis() === DT.fromMillis(body.data.death).startOf("day").toMillis()
+    );
+    if (heroFind) return res.json({id:heroFind?.ID, heroExists:true});
+
+    const resId = await _hero.create(body.data); 
     if (!resId) return res.sendStatus(500);
-    const resSave = await _hero.save({...body.data, ID:resId})
+    const resSave = await _hero.save({...body.data, ID:resId}) 
     if (!req.user?.admin)
         await _notification.createNotification(resId, req.user?.ID || 0, NOTIFICATION_TYPE.HERO_CREATED);
-    res.json({id:resSave ? resId : false})
+    res.json({id:resSave ? resId : 0})
 })
 
 // Перевірка наявності Героя
@@ -230,8 +241,8 @@ router.post('/exists', async (req:Request, res:Response)=>{
     const dtBirtch = safeIntParse(req.body.dtBirth, null);
     if (dtBirtch === null) return res.status(400).send('Incorrect body parameter "dtBirth"');
     const dtDeath = safeIntParse(req.body.dtDeath, null);
-    if (dtDeath === null) return res.status(400).send('Incorrect body parameter "dtDeath"');
-    const resHeroes = await _hero.getList({search, onPage:9999999, status:[HERO_STAT.ACTIVE, HERO_STAT.PENDING, HERO_STAT.REJECT]}); 
+    if (dtDeath === null) return res.status(400).send('Incorrect body parameter "dtDeath"'); 
+    const resHeroes = await _hero.getList({search, onPage:9999999, status:[HERO_STAT.ACTIVE, HERO_STAT.PENDING, HERO_STAT.REJECT]});  
     const heroFind = resHeroes?.heroes.find(hero =>
         DT.fromMillis(hero.birth).startOf("day").toMillis() === DT.fromMillis(dtBirtch).startOf("day").toMillis() &&
         DT.fromMillis(hero.death).startOf("day").toMillis() === DT.fromMillis(dtDeath).startOf("day").toMillis()

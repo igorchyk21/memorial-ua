@@ -149,7 +149,7 @@ export const payment2Base = async (wfpData:any): Promise<boolean> => {
     ];
 
     try {
-        await conn.execute(sql, params);
+        await conn.query(sql, params);
         return true;
     } catch (e) {
         console.error(e);

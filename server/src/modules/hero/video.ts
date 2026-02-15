@@ -28,7 +28,7 @@ const get = async (heroId: number | null, videoId?: number)
         ORDER   BY video_ord, ID DESC`;
 
     try {
-        const [r] = await conn.execute<(RowDataPacket & HeroVideoItem)[]>(sql, [videoId ? videoId : heroId]);
+        const [r] = await conn.query<(RowDataPacket & HeroVideoItem)[]>(sql, [videoId ? videoId : heroId]);
         return r;
     } catch (e) {
         console.error(e);
@@ -50,7 +50,7 @@ const add = async (heroId: number, userId: number, videos: string[], description
     try {
         for (const video of videos) {
             const params = [heroId, userId, Date.now(), video, description, videoStatus];
-            const [r] = await conn.execute<ResultSetHeader>(sql, params);
+            const [r] = await conn.query<ResultSetHeader>(sql, params);
             if (r.affectedRows !== 1) res = false;
         }
         return res;
@@ -66,7 +66,7 @@ const setDescription = async (videoId: number, description: string)
     const sql = `
         UPDATE heroes_videos SET video_description = ? WHERE ID = ?`;
     try {
-        const [r] = await conn.execute<ResultSetHeader>(sql, [description, videoId]);
+        const [r] = await conn.query<ResultSetHeader>(sql, [description, videoId]);
         return r.affectedRows === 1;
     } catch (e) {
         console.error(e);
@@ -81,7 +81,7 @@ const sorted = async (heroId: number, sortedIds: number[]) => {
 
     try {
         for (let i = 0; i < sortedIds.length; i++) {
-            await conn.execute(sql, [i, sortedIds[i], heroId]);
+            await conn.query(sql, [i, sortedIds[i], heroId]);
         }
         return true;
     } catch (e) {
@@ -100,7 +100,7 @@ const setStatus = async (videoId: number, videoStatus: HERO_VIDEO_STAT)
     `;
 
     try {
-        const [r] = await conn.execute<ResultSetHeader>(sql, [videoStatus, videoId]);
+        const [r] = await conn.query<ResultSetHeader>(sql, [videoStatus, videoId]);
         return r.affectedRows === 1;
     } catch (e) {
         console.error(e);
@@ -121,7 +121,7 @@ export const deleteVideo = async (videoId: number, userId: number)
     const sql = `DELETE FROM heroes_videos ${where}`;
 
     try {
-        const [r] = await conn.execute<ResultSetHeader>(sql);
+        const [r] = await conn.query<ResultSetHeader>(sql);
         await deleteFile(video?.[0].url);
         return r.affectedRows === 1;
     } catch (e) {

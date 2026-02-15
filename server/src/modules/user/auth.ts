@@ -29,7 +29,7 @@ const login = async (email:string|undefined, password:string|null, passwordNotRe
 
 
 	try {
-		const [r] = await conn.execute<(RowDataPacket & UserData)[]>(sql, passwordNotRequired ?  [email] : [email, password||'']);
+		const [r] = await conn.query<(RowDataPacket & UserData)[]>(sql, passwordNotRequired ?  [email] : [email, password||'']);
 		if (!r?.[0]) return null;
 		return row2UserData(r?.[0]);
 	} catch(e){
@@ -58,7 +58,7 @@ const loginByJWT = async (token:string)
 		AND		users_jwt.lasttime >= ?`;
  
 	try {
-		const [r] = await conn.execute<(RowDataPacket & UserData)[]>(sql, [token, jwtValid]);
+		const [r] = await conn.query<(RowDataPacket & UserData)[]>(sql, [token, jwtValid]);
 		if (r.length > 0) await updateJWT(token); 
 			else return null;	
 			
@@ -75,7 +75,7 @@ const updateJWT = async (token:string)
 	const validDt = Date.now()+ conf.jwtvalid * 1000;
 	const sql = `UPDATE users_jwt SET lasttime = ${validDt} WHERE jwt = ?`;
 	try { 
-		const [r] = await conn.execute<ResultSetHeader>(sql, [token])
+		const [r] = await conn.query<ResultSetHeader>(sql, [token])
 		return r.affectedRows === 1
 	} catch(e){
 		console.error(e);
@@ -104,7 +104,7 @@ const removeJWT = async (token: string)
 	const sql = `DELETE FROM users_jwt WHERE jwt = ?`;
 	try {
 		await clearOlderJWT();
-		await conn.execute(sql, [token]);
+		await conn.query(sql, [token]);
 		return true;
 	} catch (error) {
 		console.error(error)
@@ -126,7 +126,7 @@ const JWT2User = async (ID:number, jwt:string)
     const params = [ID, jwt, validDt];
 
     try {
-        const [r,f] = await conn.execute<ResultSetHeader>(sql, params);
+        const [r,f] = await conn.query<ResultSetHeader>(sql, params);
         return r.affectedRows == 1;
     } catch(e) {
         console.error(e);
@@ -143,7 +143,7 @@ const clearOlderJWT = async ()
         WHERE   users_jwt.lasttime < ?`;  
         
     try {
-        await conn.execute(sql,[jwtValid]);
+        await conn.query(sql,[jwtValid]);
         return true;
     } catch(e) {
         console.error(e);
@@ -166,7 +166,7 @@ const otpCreate = async (email: string)
 		AND		ban = 0`;
 
 	try {
-		const [result] = await conn.execute<ResultSetHeader>(sql, [otp, otpExpiries, email]);
+		const [result] = await conn.query<ResultSetHeader>(sql, [otp, otpExpiries, email]);
 		if (result.affectedRows)
 			return await sendOtp(email, otp); 
 		return false;
@@ -195,10 +195,10 @@ const otpVerify = async (email: string, otp: string)
 		AND 	otp_retry >= 0`;
 
 	try {
-		const [resultRetry] = await conn.execute<ResultSetHeader>(sqlRetry, [email]);
+		const [resultRetry] = await conn.query<ResultSetHeader>(sqlRetry, [email]);
 		if (resultRetry.affectedRows !== 1) return false;
 
-		const [rows] = await conn.execute<RowDataPacket[]>(sqlOtp, [email, otp, otpExpiries]);
+		const [rows] = await conn.query<RowDataPacket[]>(sqlOtp, [email, otp, otpExpiries]);
 		return rows?.[0]?.CNT || false;
 	} catch (error) {
 		console.error(error);
@@ -224,7 +224,7 @@ const setPassword = async (email: string,password: string,otp: string)
 		AND 	otp_expiries > ?`;
 
 	try {
-		const [result] = await conn.execute<ResultSetHeader>(sqlPass, [password, email, otp, otpExpiries]);
+		const [result] = await conn.query<ResultSetHeader>(sqlPass, [password, email, otp, otpExpiries]);
 		return result.affectedRows === 1;
 	} catch (error) {
 		console.error(error);

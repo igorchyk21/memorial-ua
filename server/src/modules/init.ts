@@ -29,6 +29,7 @@ import routerWfp from "../routers/wfp.js";
 import routerUser from "../routers/user.js";
 import { wrapAsync } from "./helpers/functions/wrapAsync.js";
 import routerNotification from "../routers/notification.js";
+import conf from "../config/conf.js";
 
 export const startPoint = (app: Application): void => {
 
@@ -50,10 +51,11 @@ export const startPoint = (app: Application): void => {
 
 export const initRoutes = (app: Application): void => {
       
-    app.get(/.*/, ( (req:Request,res:Response,next:NextFunction)=>{ console.log('\x1b[32m GET    \x1b[0m', req.path); setTimeout(() => { next() }, 0); }))
-    app.post(/.*/, ( (req:Request,res:Response,next:NextFunction)=>{ console.log('\x1b[33m POST   \x1b[0m', req.path); setTimeout(() => { next() }, 0); }))
-    app.delete(/.*/, ( (req:Request,res:Response,next:NextFunction)=>{ console.log('\x1b[31m DELETE \x1b[0m', req.path); setTimeout(() => { next() }, 0); }))
-
+    if (conf.devMode) {
+        app.get(/.*/, ( (req:Request,res:Response,next:NextFunction)=>{ console.log('\x1b[32m GET    \x1b[0m', req.path); setTimeout(() => { next() }, 0); }))
+        app.post(/.*/, ( (req:Request,res:Response,next:NextFunction)=>{ console.log('\x1b[33m POST   \x1b[0m', req.path); setTimeout(() => { next() }, 0); }))
+        app.delete(/.*/, ( (req:Request,res:Response,next:NextFunction)=>{ console.log('\x1b[31m DELETE \x1b[0m', req.path); setTimeout(() => { next() }, 0); }))
+    }
 
     app.use('/api/v1/auth',  wrapAsync(middleAuthToken), routerAuth);
     app.use('/api/v1/content', wrapAsync(middleAuthToken), routerContent);

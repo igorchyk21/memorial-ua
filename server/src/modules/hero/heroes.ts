@@ -13,23 +13,26 @@ const setConn = (_conn:Pool) => { conn = _conn };
 // повертає список героїв
 const getList = async (params:HeroListRequestParams, heroId?:number, admin:false|undefined = false)
     : Promise<HeroListResponse|null> => {
-    return await _getList(params, heroId, admin, conn) 
+    return await _getList(params, heroId, admin, conn)  
 }
 
 const create = async (hero:HeroShortType) 
     : Promise<number|false> => {
-
+ 
     const sql = `
         INSERT  INTO heroes 
-                (hero_fname, hero_lname, hero_mname, hero_url, public_phone)
-        VALUES  (?,?,?,?,?)`;
+                (hero_fname, hero_lname, hero_mname, hero_url, public_phone, hero_birth, hero_death, all_create_data)
+        VALUES  (?,?,?,?,?,?,?,?)`;
 
     const params = [
         hero.fName || '',
         hero.lName || '',
         hero.mName || '',
         transliterateAndSanitize(`${hero.fName}-${hero.lName}`),
-        hero.publicPhone || ''
+        hero.publicPhone || '',
+        hero.birth || 0,
+        hero.death || 0,
+        JSON.stringify(hero)
     ]
  
     try { 

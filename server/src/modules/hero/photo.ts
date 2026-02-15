@@ -35,7 +35,7 @@ const get = async (heroId:number|null, photoId?:number)
         ORDER   BY photo_ord, ID DESC`;
 
     try { 
-        const [r] = await conn.execute<(RowDataPacket & HeroPhotoItem)[]>(sql, [photoId ? photoId : heroId])
+        const [r] = await conn.query<(RowDataPacket & HeroPhotoItem)[]>(sql, [photoId ? photoId : heroId])
         return r;
     } catch(e){
         console.error(e);
@@ -49,7 +49,7 @@ const getAboutPhoto = async (heroId:number)
 
     const sql = `SELECT hero_photo FROM heroes WHERE ID = ?`;
     try {
-        const [r]:any = await conn.execute(sql,[heroId]);
+        const [r]:any = await conn.query(sql,[heroId]);
         return r?.[0]?.hero_photo || null;
     } catch(e){
         console.error(e);
@@ -70,7 +70,7 @@ const add = async (heroId: number, userId:number, photos:string[], photoStatus=H
     try {
         for (const photo of photos) {
             const params = [heroId, userId, Date.now(), photo, photoStatus];
-            const [r] = await conn.execute<ResultSetHeader>(sql, params);
+            const [r] = await conn.query<ResultSetHeader>(sql, params);
             if (r.affectedRows !== 1) res = false;
         }
         return res;
@@ -87,7 +87,7 @@ const sorted = async (heroId:number, sortedIds:number[]) => {
 
     try {
         for(let i=0; i<sortedIds.length; i++) {
-            await conn.execute(sql, [i, sortedIds[i], heroId]);
+            await conn.query(sql, [i, sortedIds[i], heroId]);
         }
         return true;
     } catch(e){
@@ -107,7 +107,7 @@ const setStatus = async (photoId:number, photoStatus:HERO_PHOTO_STAT)
     `;
 
     try {
-        const [r] = await conn.execute<ResultSetHeader>(sql,[photoStatus, photoId]);
+        const [r] = await conn.query<ResultSetHeader>(sql,[photoStatus, photoId]);
         return r.affectedRows === 1;
     }  catch(e) {
         console.error(e);
@@ -129,7 +129,7 @@ export const deletePhoto = async (photoId:number, userId:number)
     const sql = `DELETE FROM heroes_photos ${where}`;
 
     try {
-        const [r] = await conn.execute<ResultSetHeader>(sql);
+        const [r] = await conn.query<ResultSetHeader>(sql);
         await deleteFile(photo?.[0].url);
         return r.affectedRows  === 1;
     } catch(e){
@@ -166,7 +166,7 @@ const setMainPhoto = async (heroId:number, imgData:string): Promise<boolean> => 
         // Зберыгаэмо назву файлу в таблиці
         const sql = `UPDATE heroes SET hero_photo = ? WHERE ID = ?`;
         const params = [path4file, heroId];
-        await conn.execute(sql, params);
+        await conn.query(sql, params);
 
         return true;
         // Видалємо старі файли

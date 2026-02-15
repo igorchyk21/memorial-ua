@@ -3,14 +3,14 @@ import { NextFunction } from "express";
 import conf from "../config/conf.js";
 import axios from "axios";
 
- 
+  
 
 export const middleRecaptcha = async (req: Request, res: Response, next: NextFunction) => {
     const RECAPTCHA_SECRET_KEY = conf.captchaSecret || '';
     const reTokenHeader = req.headers?.retoken;
 
     const token = req?.body?.reToken||reTokenHeader||'';
- 
+
     if (!token)  
         return res.status(403).json({ message: 'reCAPTCHA токен не наданий.' });
 

@@ -5,6 +5,8 @@ dotenv.config();
 const conf = {
     port: safeIntParse(process.env.PORT || "3333", 3333),
 
+    devMode: process.env.MODE === 'dev',
+
     mysql_host: process.env.MYSQL_HOST,
     mysql_data: process.env.MYSQL_DATA,
     mysql_user: process.env.MYSQL_USER,

@@ -26,9 +26,9 @@ export const ToastProvider = ({ children }:CommonComponentChildren) => {
                                 onClose={() => closeToast(toast.id)}
                                 show={true}
                                 autohide
-                                delay={7000}>
+                                delay={8000}>
 
-                                <Toast.Body className="d-flex justify-content-between">
+                                <Toast.Body className="d-flex justify-content-between" style={{fontSize:18}}>
                                     <div>
                                         {toast.icon}
                                         {toast.message}

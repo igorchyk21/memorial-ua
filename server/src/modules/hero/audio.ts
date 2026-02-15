@@ -28,7 +28,7 @@ const get = async (heroId: number | null, audioId?: number)
         ORDER   BY audio_ord, ID DESC`;
 
     try {
-        const [r] = await conn.execute<(RowDataPacket & HeroAudioItem)[]>(sql, [audioId ? audioId : heroId]);
+        const [r] = await conn.query<(RowDataPacket & HeroAudioItem)[]>(sql, [audioId ? audioId : heroId]);
         return r;
     } catch (e) {
         console.error(e);
@@ -50,7 +50,7 @@ const add = async (heroId: number, userId: number, audios: string[], description
     try {
         for (const audio of audios) {
             const params = [heroId, userId, Date.now(), audio, description, audioStatus];
-            const [r] = await conn.execute<ResultSetHeader>(sql, params);
+            const [r] = await conn.query<ResultSetHeader>(sql, params);
             if (r.affectedRows !== 1) res = false;
         }
         return res;
@@ -66,7 +66,7 @@ const setDescription = async (audioId: number, description: string)
     const sql = `
         UPDATE heroes_audios SET audio_description = ? WHERE ID = ?`;
     try {
-        const [r] = await conn.execute<ResultSetHeader>(sql, [description, audioId]);
+        const [r] = await conn.query<ResultSetHeader>(sql, [description, audioId]);
         return r.affectedRows === 1;
     } catch (e) {
         console.error(e);
@@ -81,7 +81,7 @@ const sorted = async (heroId: number, sortedIds: number[]) => {
 
     try {
         for (let i = 0; i < sortedIds.length; i++) {
-            await conn.execute(sql, [i, sortedIds[i], heroId]);
+            await conn.query(sql, [i, sortedIds[i], heroId]);
         }
         return true;
     } catch (e) {
@@ -100,7 +100,7 @@ const setStatus = async (audioId: number, audioStatus: HERO_AUDIO_STAT)
     `;
 
     try {
-        const [r] = await conn.execute<ResultSetHeader>(sql, [audioStatus, audioId]);
+        const [r] = await conn.query<ResultSetHeader>(sql, [audioStatus, audioId]);
         return r.affectedRows === 1;
     } catch (e) {
         console.error(e);
@@ -121,7 +121,7 @@ export const deleteAudio = async (audioId: number, userId: number)
     const sql = `DELETE FROM heroes_audios ${where}`;
 
     try {
-        const [r] = await conn.execute<ResultSetHeader>(sql);
+        const [r] = await conn.query<ResultSetHeader>(sql);
         await deleteFile(audio?.[0].url);
         return r.affectedRows === 1;
     } catch (e) {

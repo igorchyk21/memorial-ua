@@ -29,7 +29,7 @@ const getByHeroId = async (heroId:number): Promise<HeroCandleType[] | null> => {
         LIMIT   0, 300`;
 
     try {
-        const [r] = await conn.execute<(RowDataPacket & HeroCandleType & {userName1:string, userName2:string})[]>(sql, [heroId, dt]);
+        const [r] = await conn.query<(RowDataPacket & HeroCandleType & {userName1:string, userName2:string})[]>(sql, [heroId, dt]);
         return r.map(row=>({
             ...row,
             userName: row.userId ? row.userName2 :row.userName1
@@ -69,9 +69,9 @@ const add = async (heroId:number, candle:HeroCandleDataType)
     ];
 
     try {
-        const [r] = await conn.execute<ResultSetHeader>(sql, params);
+        const [r] = await conn.query<ResultSetHeader>(sql, params);
         const maxExpiries = await getMaxExpiries(heroId);
-        await conn.execute(sqlHeroUpdate, [maxExpiries, heroId]);
+        await conn.query(sqlHeroUpdate, [maxExpiries, heroId]);
         return {id:r.insertId, expiries:expiries};
     } catch(e) {
         console.error(e);
@@ -87,7 +87,7 @@ const getMaxExpiries = async (heroId: number): Promise<number|null> => {
         FROM    heroes_candles
         WHERE   hero_id = ?`;
     try {
-        const [r] = await conn.execute<(RowDataPacket & CandleType)[]>(sql, [heroId]);
+        const [r] = await conn.query<(RowDataPacket & CandleType)[]>(sql, [heroId]);
         return r?.[0]?.expiries || null;
     } catch (e) {
         console.error(e);
@@ -107,7 +107,7 @@ const getByUserId = async (userId: number): Promise<CandleType[] | null> => {
 
     try {
         const dt = Date.now();
-        const [r] = await conn.execute<(RowDataPacket & CandleType)[]>(sql, [userId, dt]);
+        const [r] = await conn.query<(RowDataPacket & CandleType)[]>(sql, [userId, dt]);
         return r;
     } catch (e) {
         console.error(e);
@@ -128,7 +128,7 @@ const payment2Candle = async (candleId:number, paymentStatus:number, days:number
         WHERE   ID = ?`;
 
     try {
-        const [r] = await conn.execute<ResultSetHeader>(sql, [paymentStatus, JSON.stringify(paymentData), expiries, candleId]);
+        const [r] = await conn.query<ResultSetHeader>(sql, [paymentStatus, JSON.stringify(paymentData), expiries, candleId]);
         return r.affectedRows === 1;
     } catch (e) {
         console.error(e);

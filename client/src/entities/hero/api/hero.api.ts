@@ -27,10 +27,10 @@ export const apiHeroGet = async (heroId:number, heroUrl:string, authToken?:strin
 }
 
 // Створення Героя
-export const apiHeroCreate = async (hero:HeroShortType, reToken?:string|null): Promise<number|null> => {  
+export const apiHeroCreate = async (hero:HeroShortType, reToken?:string|null): Promise<{id:number, heroExists?:boolean}|null> => {  
     try {
         const r = await iAxios.post('/hero/create', {hero, reToken});
-        return r.data.id || null;
+        return r.data || null;
     } catch(e){
         console.error(e);
         return null;

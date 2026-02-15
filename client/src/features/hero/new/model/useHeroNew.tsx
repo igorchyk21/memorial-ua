@@ -22,17 +22,19 @@ export const useHeroNew = () => {
         if ((!auth?.user.admin) && ((values?.publicPhone?.length || 0)<13)) 
             return showToast(t('hero.errors.phone'),'danger');
   
- 
+        
         // Перевіряємо чи герой існує
         const resExists = await heroExists(`${values.fName} ${values.lName}`, values.birth, values.death); 
         if (resExists) return showToast(t('hero.errors.exists'), 'danger'); 
-         
+          
         // Ствоорення героя
         const reToken  = executeRecaptcha ? await executeRecaptcha('form') : null; 
         const { publicPhotos, ...hero } = values;
         hero.url = transliterateAndSanitize(`${hero.fName}-${hero.lName}`)
-        const resCreateId = await heroCreate(hero, reToken);
-        if (!resCreateId) return showToast(t('hero.errors.create'), 'danger')
+        const resCreate = await heroCreate(hero, reToken);
+        if (!resCreate) return showToast(t('hero.errors.create'), 'danger');
+
+        if (resCreate.heroExists) return showToast(t('hero.errors.exists'), 'danger');
         
         // Завантаження фото
         if ((publicPhotos) && (publicPhotos.length > 0)) {
@@ -44,11 +46,13 @@ export const useHeroNew = () => {
                 const _file = (file.type.startsWith('image/')) ? await fileToWebpFile(file) : file; 
                 uFiles.push(_file || file);
             }
-            const resUpload = await uploadFiles(uFiles, null, `hero/photo/${resCreateId}`, reToken) 
+ 
+            const resUpload = await uploadFiles(uFiles, null, `hero/photo/${resCreate.id}`, '',  reToken)  
             if (!resUpload) return showToast(t('hero.errors.upload'), 'danger')
         }
 
-        await router.push(`/new/${resCreateId}`);
+        await router.push(`/new/${resCreate.id}`);
+        
         
     }
 

@@ -6,7 +6,7 @@ import { safeIntParse } from "../../helpers/gim-beckend-helpers.js";
 import { sortMethod } from "./sortMethod.js";
 import { rowHeroShortType } from "../types/hero.types.js";
 import _content from "../../content/content.js";
-
+ 
 export const _getList = async ({
         search='',
         page=1,
@@ -37,7 +37,7 @@ export const _getList = async ({
         `)
         .join(' AND ')
     : '';
-
+ 
     const whereStatus = status.length>0 ? ` AND hero_status in (${status.map(stat=>safeIntParse(stat)).join(',')}) ` : ''
     const whereCandle = onlyCandle ? ` AND hero_candle_expiries >= ${dt}` : '';
     const whereRegion = region ? ` AND hero_region = '${sanitizeForSQL(region)}'` : '';
@@ -77,7 +77,7 @@ export const _getList = async ({
                 ${where}
                 ${order}
         LIMIT   ${from}, ${cntOnPage}`;
-    
+ 
     const sqlPaginator = `
         SELECT  COUNT(ID) as CNT
         FROM    heroes

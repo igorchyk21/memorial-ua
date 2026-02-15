@@ -14,7 +14,7 @@ export const heroSave = async (heroId:number, hero:HeroShortType): Promise<boole
     return await apiHeroSaveAbout(heroId, hero);
 }
 
-export const heroCreate = async (hero:HeroShortType, reToken?:string|null): Promise<number|null> => { 
+export const heroCreate = async (hero:HeroShortType, reToken?:string|null): Promise<{id:number, heroExists?:boolean}|null> => { 
     return await apiHeroCreate(hero, reToken);
 } 
 

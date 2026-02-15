@@ -53,7 +53,7 @@ const storage: StorageEngine = multer.diskStorage({
     filename: (req: UploadRequest, file:any, cb:any) => {
         //if (!req.user?.ID) return cb('Not Authorization');
         try {
-            console.log(file);
+             
             const path4file = getPAth4File(req);
             // Перекодовуємо ім’я
             file.originalname = Buffer.from(file.originalname, "latin1").toString("utf8");
