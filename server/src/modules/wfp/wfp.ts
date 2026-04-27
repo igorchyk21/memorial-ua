@@ -22,10 +22,11 @@ const processing = async (wfpData:any) => {
     // Розбираємо референс
     const dRef = decodeReference(wfpData?.orderReference||'');
     if (!dRef) return false;
-    const { days, candleId } = dRef;
+    const { days, candleId } = dRef; 
     if (!candleId || !days) return false;
-    const paymentStatus = ['Approved', 'Pending'].includes(wfpData?.transactionStatus||'') ? 1 : 0;
-    const resPayment = await _heroCandle.payment2Candle(candleId, paymentStatus, days, wfpData); 
+    //const paymentStatus = ['Approved', 'Pending'].includes(wfpData?.transactionStatus||'') ? 1 : 0;
+    const paymentStatus = ['Approved'].includes(wfpData?.transactionStatus||'') ? 1 : 0;
+    const resPayment = await _heroCandle.payment2Candle(candleId, paymentStatus, days, wfpData);       
     if (!resPayment) return false;
     return true;
 }

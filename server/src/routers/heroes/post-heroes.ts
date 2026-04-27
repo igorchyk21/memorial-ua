@@ -264,9 +264,9 @@ router.post('/candle/:heroId', middleRecaptcha, async (req:Request, res:Response
         const resCandle = await _heroCandle.add(heroId, body.data);
         res.json({stat:Boolean(resCandle), expiries:resCandle?.expiries||0});
         if (!req.user?.admin)
-            await _notification.createNotification(heroId, req.user?.ID || 0, NOTIFICATION_TYPE.CANDLE_FREE);
+            await _notification.createNotification(heroId, req.user?.ID || 0, NOTIFICATION_TYPE.CANDLE_FREE); 
     } else {
-        const resCandle = await _heroCandle.add(heroId, {...body.data, days:1});
+        const resCandle = await _heroCandle.add(heroId, {...body.data, days:1}); 
         if (!resCandle) return res.status(500).send('Error add candle');
         const wfp = await _wfp.createWfpForm4Candle(resCandle?.id, body.data.price, body.data.days, req.body.url||'');
         res.json({stat:Boolean(resCandle), expiries:resCandle, wfp:wfp});

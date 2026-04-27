@@ -115,21 +115,47 @@ const getByUserId = async (userId: number): Promise<CandleType[] | null> => {
     }
 };
 
+// Отримуємо ID Героя за ID свічки
+const getHeroIdByCandleId = async (candleId:number): Promise<number|null> => {
+    const sql = `
+        SELECT  hero_id AS heroId
+        FROM    heroes_candles
+        WHERE   ID = ?`;
+    try {
+        const [r] = await conn.query<(RowDataPacket & {heroId:number})[]>(sql, [candleId]);
+        return r?.[0]?.heroId || null;
+    }   
+    catch (e) {
+        console.error(e);
+        return null;
+    }
+}
+
 // Обробляємо платіж для свічки
 const payment2Candle = async (candleId:number, paymentStatus:number, days:number, paymentData:any) => {
 
     const dt = Date.now();
-    const expiries = DT.fromMillis(dt).plus({ days: days }).toMillis();
+    const expiries = DT.fromMillis(dt).plus({ days: paymentStatus ? days : 1 }).toMillis();
     const sql = `
         UPDATE  heroes_candles
         SET     payment_status = ?,
                 payment_data = ?,
-                candle_expiries = ?
+                candle_expiries = ?,
+                candle_days = ?
         WHERE   ID = ?`;
 
+    const sqlHeroUpdate = `
+        UPDATE  heroes
+        SET     hero_candle_expiries = GREATEST(hero_candle_expiries, ?)
+        WHERE   ID = ?`;
+
+    const heroId = await getHeroIdByCandleId(candleId);
+    if (!heroId) return false;
+
     try {
-        const [r] = await conn.query<ResultSetHeader>(sql, [paymentStatus, JSON.stringify(paymentData), expiries, candleId]);
-        return r.affectedRows === 1;
+        const [r] = await conn.query<ResultSetHeader>(sql, [paymentStatus, JSON.stringify(paymentData), expiries, paymentStatus ? days : 1, candleId]);
+        const [rHero] = await conn.query<ResultSetHeader>(sqlHeroUpdate, [expiries, heroId]);
+        return r.affectedRows === 1 && rHero.affectedRows === 1;
     } catch (e) {
         console.error(e);
         return false;

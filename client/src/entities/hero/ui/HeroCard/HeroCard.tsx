@@ -2,6 +2,7 @@
 import Link from "next/link"
 import { Badge, Button, OverlayTrigger, Tooltip } from "react-bootstrap"
 import HeroCardImage from "./HeroCardImage"
+import HeroCardFlower from "@/entities/hero/ui/HeroCard/HeroCardFlower"
 import { HeroShortType } from "@global/types"
 import conf from "@/shared/config/conf";
 import { DateTime as DT } from "luxon";
@@ -62,9 +63,10 @@ const HeroCard = ({hero, showName=true, onClickSubscription}:Props) => {
                                 />
                         </Button>
                     </OverlayTrigger>)}
-                    <div className="cr cr-bottom cr-left cr-sticky cr-black fs-12">
+                    <div className="cr cr-bottom cr-left cr-sticky cr-black fs-12" style={{zIndex: 3}}>
                         {DT.fromMillis(hero.death||0).setLocale("uk").toLocaleString(DT.DATE_MED)}
                     </div> 
+                    <HeroCardFlower heroId={hero.ID} />
                     <Link
                         href={`/hero/${hero.url ? `${hero.url}-` : ''}${hero.ID}`}
                         className={`d-flex rounded p-0 underline-none`}>

@@ -13,7 +13,7 @@ const AccountMenu = () => {
             srcError,
             handleError,
             handleLoad,
-            setUpdate } = useAccountMenu();
+            setUpdate } = useAccountMenu(); 
     
     const [ spinner, setSpinner ] = useState(false);
     const { setNotificationShow } = useGlobal();
