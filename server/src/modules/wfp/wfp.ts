@@ -48,11 +48,17 @@ const createSignature =(wpData:WayForPayRequestData, dRef:DecodedReference, docS
 }
 
 // Стоврення форми для бікунг оплати
-const createWfpForm4Candle = async (candleId:number, price:number, days:number, returnUrl:string) => {
+const createWfpForm4Candle = async (
+    candleId:number,
+    price:number,
+    days:number,
+    returnUrl:string,
+    payType: "candle" | "flower" = "candle",
+) => {
 
     // Отримуємо базові дані та генеруємо референс платежу на основі міту
     const dt = Date.now();
-    const reference = `candle-${candleId}-${days}-${Date.now()}`;
+    const reference = `${payType}-${candleId}-${days}-${Date.now()}`;
     const dRef = decodeReference(reference);
     if (!dRef) return null;
 

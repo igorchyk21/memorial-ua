@@ -27,6 +27,10 @@ const getNotificationTitleKey = (typeValue: number): string => {
             return "hero.notification.candleFree";
         case 7:
             return "hero.notification.candlePaid";
+        case 8:
+            return "hero.notification.flowerFree";
+        case 9:
+            return "hero.notification.flowerPaid";
         default:
             return "hero.notification.heroCreated";
     }

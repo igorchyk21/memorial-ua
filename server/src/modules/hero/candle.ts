@@ -12,6 +12,7 @@ const getByHeroId = async (heroId:number): Promise<HeroCandleType[] | null> => {
         SELECT  heroes_candles.ID   as ID,
                 hero_id             as heroId,
                 user_id             as userId,
+                flower              as flower,
                 heroes_candles.user_name  as userName1,
                 dt                  as dt,
                 candle_days         as days,
@@ -32,6 +33,7 @@ const getByHeroId = async (heroId:number): Promise<HeroCandleType[] | null> => {
         const [r] = await conn.query<(RowDataPacket & HeroCandleType & {userName1:string, userName2:string})[]>(sql, [heroId, dt]);
         return r.map(row=>({
             ...row,
+            flower: Boolean(row.flower),
             userName: row.userId ? row.userName2 :row.userName1
         }));
         
@@ -49,8 +51,8 @@ const add = async (heroId:number, candle:HeroCandleDataType)
     const expiries = DT.fromMillis(dt).plus({ days: candle.days }).toMillis();
     const sql = `
         INSERT  INTO heroes_candles
-                (dt, hero_id, user_id, user_name, candle_days, candle_price, candle_expiries, candle_comment)
-        VALUES  (?,?,?,?,?,?,?,?)`;
+                (dt, hero_id, user_id, user_name, flower, candle_days, candle_price, candle_expiries, candle_comment)
+        VALUES  (?,?,?,?,?,?,?,?,?)`;
 
     const sqlHeroUpdate = `
         UPDATE  heroes
@@ -62,6 +64,7 @@ const add = async (heroId:number, candle:HeroCandleDataType)
         heroId,
         candle.userId,
         candle.userName,
+        candle.flower ? 1 : 0,
         candle.days,
         candle.price,
         expiries,
@@ -99,16 +102,20 @@ const getMaxExpiries = async (heroId: number): Promise<number|null> => {
 const getByUserId = async (userId: number): Promise<CandleType[] | null> => {
     const sql = `
         SELECT  hero_id AS heroId,
+                flower AS flower,
                 MAX(candle_expiries) AS expiries
         FROM    heroes_candles
         WHERE   user_id = ?
-        GROUP BY hero_id
+        GROUP BY hero_id, flower
         HAVING  MAX(candle_expiries) >= ?`;
 
     try {
         const dt = Date.now();
         const [r] = await conn.query<(RowDataPacket & CandleType)[]>(sql, [userId, dt]);
-        return r;
+        return r.map(c => ({
+            ...c,
+            flower: Boolean(c.flower),
+        }));
     } catch (e) {
         console.error(e);
         return null;

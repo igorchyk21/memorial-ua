@@ -1,6 +1,6 @@
 "use client"
 import { HeroSlider } from "@/entities/hero";
-import { HeroAbout, HeroNavigate, useHeroDelete, useHeroEdit, useHeroSubscription, } from "@/features/hero";
+import { HeroAbout, HeroNavigate, HeroSubsription, useHeroDelete, useHeroEdit, useHeroSubscription, } from "@/features/hero";
 import ReCaptcha from "@/shared/context/reCaptcha/ReCaptcha";
 import { HeroLayoutWidget, HeroPostsListWidget } from "@/widgets";
 import { HeroPostType, HeroShortType } from "@global/types"
@@ -23,7 +23,8 @@ const HeroAboutPage = ({hero,posts}:Props) => {
             <main className="container mx-auto p-4">
                 <HeroLayoutWidget 
                     hero={hero}>
-                    <HeroAbout    
+                    <HeroAbout  
+                        HeroSubsription={HeroSubsription}   
                         hero={hero}
                         onClickEdit={handleClickEdit}
                         onClickStatus={handleClickStatus}

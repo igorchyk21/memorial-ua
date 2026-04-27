@@ -8,13 +8,15 @@ import { useAuth } from "@/shared/context/Auth";
 import conf from "@/shared/config/conf";
 import { safeIntParse } from "@/shared/helper/safeParsers";
 import SpinnerTitle from "@/shared/ui/spinners/SpinnerTitle";
+import { OfferingKind } from "./CandleLightHeader";
 
 interface Props {
     formik: FormikProps<HeroCandleDataType>;
+    offeringType: OfferingKind;
     disabled?: boolean;
 }   
 
-const CandleLightForm = ({formik, disabled}:Props) => {
+const CandleLightForm = ({formik, offeringType, disabled}:Props) => {
 
     const { auth } = useAuth();
     const t = useTranslations();
@@ -81,12 +83,15 @@ const CandleLightForm = ({formik, disabled}:Props) => {
                 type="submit"
                 disabled={formik.isSubmitting || disabled}
                 className="d-block w-100">                    
-                    <SpinnerTitle showSpinner={formik.isSubmitting || !!disabled} titleButton={t('hero.candle.light')}/>
+                    <SpinnerTitle
+                        showSpinner={formik.isSubmitting || !!disabled}
+                        titleButton={offeringType === "flower" ? t("hero.candle.lightFlower") : t("hero.candle.light")}
+                    />
             </Button>
         </div>
 
         <div className="pt-2 fs-14" style={{lineHeight:1.2}}>
-            {t('hero.candle.candleDescription')}
+            {offeringType === "flower" ? t("hero.candle.flowerFormDescription") : t("hero.candle.candleDescription")}
         </div>
 
         

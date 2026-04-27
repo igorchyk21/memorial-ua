@@ -7,6 +7,8 @@ export enum NOTIFICATION_TYPE {
     AUDIO_ADD = 5,
     CANDLE_FREE = 6,
     CANDLE_PAID = 7,
+    FLOWER_FREE = 8,
+    FLOWER_PAID = 9,
 }
 
 export interface NotificationItemType {

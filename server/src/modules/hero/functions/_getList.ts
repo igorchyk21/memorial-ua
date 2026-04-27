@@ -71,7 +71,18 @@ export const _getList = async ({
                 hero_photo              as photo,
                 hero_army_name          as armyName,
                 hero_status             as status,
-                hero_candle_expiries    as candleExpiries
+                (
+                    SELECT MAX(hc.candle_expiries)
+                    FROM heroes_candles hc
+                    WHERE hc.hero_id = heroes.ID
+                    AND hc.flower = 0
+                ) as candleExpiries,
+                (
+                    SELECT MAX(hf.candle_expiries)
+                    FROM heroes_candles hf
+                    WHERE hf.hero_id = heroes.ID
+                    AND hf.flower = 1
+                ) as flowerExpiries
                 ${admin ? ', public_phone as publicPhone' : ''}
         FROM    heroes
                 ${where}

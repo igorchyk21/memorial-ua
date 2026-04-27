@@ -6,6 +6,7 @@ import { useTheme } from "next-themes";
 import { useQueryState } from "@/shared/hooks/query/useQueryState";
 import { heroSave, heroSetStatus } from "@/entities/hero";
 import { useToast } from "@/shared/context/Toast/models/useToast";
+import { safeIntParse } from "@/shared/helper/safeParsers";
 
 export const useHeroEdit = (hero:HeroShortType) => {
 
@@ -16,7 +17,7 @@ export const useHeroEdit = (hero:HeroShortType) => {
     const [ update, setUpdate ] = useQueryState<string>('update');
 
     const handleSubmit = async (values:HeroShortType)=> {
-        const resSave = await heroSave(hero.ID, values);
+        const resSave = await heroSave(hero.ID, {...values, candleExpiries:safeIntParse(values.candleExpiries, null)});
         if (resSave) showToast(t('hero.messSavedSuccess'), 'success');
             else showToast(t('error'),'danger');
         setUpdate(Date.now().toString())

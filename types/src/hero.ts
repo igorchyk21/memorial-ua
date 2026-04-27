@@ -44,7 +44,8 @@ export type HeroListSortType =
 
 export interface  CandleType {
     heroId:number;
-    expiries:number;    
+    expiries:number;
+    flower:boolean;
 };
     
 export interface HeroListRequestParams {
@@ -78,6 +79,7 @@ export interface HeroShortType {
     url:string;
     status:HERO_STAT
     candleExpiries?:number;
+    flowerExpiries?:number;
     slides?:string[];
     about?:string|null;
 
@@ -165,6 +167,7 @@ export interface HeroCandleType {
     userId:number;
     dt:number;
     expiries:number;
+    flower:boolean;
     comment:string;
     userName?:string;
     userPicture?:string;
@@ -174,6 +177,7 @@ export interface HeroCandleType {
 export interface HeroCandleDataType {
     userId:number;
     userName?:string;
+    flower:boolean;
     days:number;
     price:number;
     comment:string;

@@ -17,6 +17,7 @@ export const zHeroPostSchema = z.object({
 export const zHeroCandleSchema = z.object({
   userId: z.number(),
   userName: z.string(),
+  flower: z.boolean().optional().default(false),
   days: z.number(),
   price: z.number(),
   comment: z.string(),

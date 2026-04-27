@@ -10,9 +10,10 @@ interface Props {
     onClickEdit:()=>void;
     onClickDelete:()=>void;
     onClickStatus:(newStatus:HERO_STAT)=>void;
-}
+    HeroSubsription:React.ComponentType<{heroId:number}>;
+} 
 
-const HeroAbout = ({hero, onClickEdit, onClickDelete, onClickStatus}:Props) => { 
+const HeroAbout = ({hero, onClickEdit, onClickDelete, onClickStatus, HeroSubsription}:Props) => { 
 
     const t = useTranslations();
     const { auth } = useAuth();
@@ -96,7 +97,8 @@ const HeroAbout = ({hero, onClickEdit, onClickDelete, onClickStatus}:Props) => {
 
         </ul> 
 
-
+        <HeroSubsription heroId={hero.ID} />
+        
         {hero.about &&
         (<div dangerouslySetInnerHTML={{__html:hero.about}}></div>)}
     </>)

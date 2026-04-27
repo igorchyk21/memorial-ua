@@ -1,6 +1,6 @@
 "use client"
 import { useState } from "react";
-import { Nav, TabPane, Tabs } from "react-bootstrap";
+import { TabPane, Tabs } from "react-bootstrap";
 import { useAuth } from "@/shared/context/Auth/model/useAuth";
 import { Formik } from "formik";
 import { HeroCandleDataType } from "@global/types";
@@ -19,19 +19,22 @@ const CandleLight = ({ heroId, heroName }: Props) => {
     const { auth } = useAuth();
     const [offeringType, setOfferingType] = useState<OfferingKind>("candle");
     const { setHeroCandlesListShow } = useGlobal();
-    const { handleSubmit, activeTab, setActiveTab, candleExpiries, wfpHtml, wfpContainerRef } = useCandleLight(heroId);
+    const { handleSubmit, activeTab, setActiveTab, candleExpiries, wfpHtml, wfpContainerRef } = useCandleLight(heroId, offeringType);
 
     return (
         <div
             className="border rounded-4 py-4 px-4 mb-4"
             style={{ position: "sticky", top: 190 }}
         >
-            <CandleLightHeader
-                offeringType={offeringType}
-                onOfferingTypeChange={setOfferingType}
-                activeTab={activeTab}
-                candleExpiries={candleExpiries}
-            />
+            {activeTab !== null && (
+                <CandleLightHeader
+                    offeringType={offeringType}
+                    onOfferingTypeChange={setOfferingType}
+                    activeTab={activeTab}
+                    candleExpiries={candleExpiries}
+                    showTitleBlock={activeTab === "form"}
+                />
+            )}
 
             {wfpHtml && <div ref={wfpContainerRef} className="w-100 d-block" />}
 
@@ -43,21 +46,30 @@ const CandleLight = ({ heroId, heroName }: Props) => {
                 >
                     <TabPane eventKey="form" title="form">
                         <Formik<HeroCandleDataType>
+                            key={offeringType}
                             initialValues={{
                                 userId: auth?.user.ID || 0,
                                 userName: auth?.user.userName || "",
+                                flower: offeringType === "flower",
                                 days: 1,
                                 price: 0,
                                 comment: ""
                             }}
                             onSubmit={handleSubmit}
                         >
-                            {(formik) => <CandleLightForm disabled={!!wfpHtml} formik={formik} />}
+                            {(formik) => (
+                                <CandleLightForm
+                                    offeringType={offeringType}
+                                    disabled={!!wfpHtml}
+                                    formik={formik}
+                                />
+                            )}
                         </Formik>
                     </TabPane>
 
                     <TabPane className="py-4" eventKey="candle" title="candle">
                         <CandleShow
+                            offeringType={offeringType}
                             maxWidth={200}
                             onClick={() => setHeroCandlesListShow({ id: heroId, name: heroName })}
                         />

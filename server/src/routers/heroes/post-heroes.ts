@@ -260,18 +260,31 @@ router.post('/candle/:heroId', middleRecaptcha, async (req:Request, res:Response
         return res.status(400).send(safeJSONParse(body.error.message));
     }
 
+    const freeNotificationType = body.data.flower
+        ? NOTIFICATION_TYPE.FLOWER_FREE
+        : NOTIFICATION_TYPE.CANDLE_FREE;
+    const paidNotificationType = body.data.flower
+        ? NOTIFICATION_TYPE.FLOWER_PAID
+        : NOTIFICATION_TYPE.CANDLE_PAID;
+
     if (body.data.price === 0) {
         const resCandle = await _heroCandle.add(heroId, body.data);
         res.json({stat:Boolean(resCandle), expiries:resCandle?.expiries||0});
         if (!req.user?.admin)
-            await _notification.createNotification(heroId, req.user?.ID || 0, NOTIFICATION_TYPE.CANDLE_FREE); 
+            await _notification.createNotification(heroId, req.user?.ID || 0, freeNotificationType); 
     } else {
         const resCandle = await _heroCandle.add(heroId, {...body.data, days:1}); 
         if (!resCandle) return res.status(500).send('Error add candle');
-        const wfp = await _wfp.createWfpForm4Candle(resCandle?.id, body.data.price, body.data.days, req.body.url||'');
+        const wfp = await _wfp.createWfpForm4Candle(
+            resCandle?.id,
+            body.data.price,
+            body.data.days,
+            req.body.url||'',
+            body.data.flower ? "flower" : "candle",
+        );
         res.json({stat:Boolean(resCandle), expiries:resCandle, wfp:wfp});
         if (!req.user?.admin)
-            await _notification.createNotification(heroId, req.user?.ID || 0, NOTIFICATION_TYPE.CANDLE_PAID);
+            await _notification.createNotification(heroId, req.user?.ID || 0, paidNotificationType);
     }
 })      
 
@@ -283,7 +296,7 @@ router.post('/subscription/:heroId', async (req:Request, res:Response)=>{
     res.json({stat:Boolean(resSubscription), id:resSubscription});
 })
 
-// Збереження Героя
+// Збереження Героя 
 router.post('/:heroId', middleIsAdmin, async (req:Request, res:Response)=>{
     const heroId = safeIntParse(req.params.heroId, null);
     if (!heroId) return res.status(400).send('Incorrect parameter "heroId"');

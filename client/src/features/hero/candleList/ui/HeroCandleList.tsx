@@ -36,6 +36,7 @@ const HeroCandleList = ({heroId, startCandles}:Props) => {
                                     description={DT.fromMillis(candle.dt||0).setLocale("uk").toLocaleString(DT.DATETIME_MED)}/>
                                 
                                 <CandleShow 
+                                    offeringType={candle.flower ? "flower" : "candle"}
                                     expiries={candle.expiries<Date.now()}
                                     maxWidth={20}/> 
                             </div>

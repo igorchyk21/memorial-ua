@@ -7,10 +7,11 @@ import { useTranslations } from "next-intl";
 import { useToast } from "@/shared/context/Toast/models/useToast";
 import { useAuth } from "@/shared/context/Auth/model/useAuth";
 import { safeIntParse } from "@/shared/helper/safeParsers";
-import { FormikHelpers, FormikProps } from "formik";
+import { FormikHelpers } from "formik";
 import { useQueryState } from "@/shared/hooks/query/useQueryState";
+import { OfferingKind } from "../ui/CandleLightHeader";
 
-const useCandleLight = (heroId:number) => {
+const useCandleLight = (heroId:number, offeringType: OfferingKind) => {
     
     const t = useTranslations();
     const { auth, reFetchUser } = useAuth();
@@ -28,12 +29,13 @@ const useCandleLight = (heroId:number) => {
             const dt = Date.now();
             if (auth?.isLogin) {
                 const active = auth?.user?.candles?.find(
-                    c => c.heroId === heroId && c.expiries > dt
+                    c => c.heroId === heroId && c.expiries > dt && Boolean(c.flower) === (offeringType === "flower")
                 )?.expiries || null;
                 setCandleExpiries(prev => (prev !== active ? active : prev));
                 setActiveTab(prev => (active ? 'candle' : 'form'));
             } else {
-                const candleExpiries = safeIntParse(sessionStorage.getItem(`candle_${heroId}`));
+                const storageKey = `candle_${heroId}_${offeringType}`;
+                const candleExpiries = safeIntParse(sessionStorage.getItem(storageKey));
                 setCandleExpiries(candleExpiries>=dt ? Number(candleExpiries) : null);
                 setActiveTab(candleExpiries>=dt ? 'candle' : 'form');
             }
@@ -43,12 +45,18 @@ const useCandleLight = (heroId:number) => {
     
         const interval = setInterval(updateCandleState,  60*1000);
         return () => clearInterval(interval);
-    }, [auth?.user?.candles, heroId]);
+    }, [auth?.user?.candles, heroId, offeringType]);
     
 
     const handleSubmit = async (values: HeroCandleDataType, formik: FormikHelpers<HeroCandleDataType>) => {
+        const candleData: HeroCandleDataType = {
+            ...values,
+            flower: offeringType === "flower",
+            userId: auth?.user.ID||0,
+            userName: auth?.user.userName||values.userName||'',
+        };
         const reToken = executeRecaptcha ? await executeRecaptcha('form') : null;
-        const resAddCandle = await heroAddCandle(heroId, {...values, userId: auth?.user.ID||0, userName: auth?.user.userName||values.userName||''}, window.location.href, reToken);
+        const resAddCandle = await heroAddCandle(heroId, candleData, window.location.href, reToken);
         
         if (resAddCandle?.wfp) {
             setWfpHtml(resAddCandle.wfp);
@@ -60,8 +68,8 @@ const useCandleLight = (heroId:number) => {
             if (auth?.isLogin) 
                 await reFetchUser();
             else {
-                console.log(resAddCandle?.expiries);
-                sessionStorage.setItem(`candle_${heroId}`, resAddCandle?.expiries?.toString()||'');
+                const storageKey = `candle_${heroId}_${offeringType}`;
+                sessionStorage.setItem(storageKey, resAddCandle?.expiries?.toString()||'');
                 setCandleExpiries(resAddCandle?.expiries||null);
             }
             setActiveTab('candle');

@@ -6,9 +6,9 @@ interface Props {
 
 const HeroCardFlower = ({heroId}:Props) => {
     const flowerTrack = heroId % 3;
-    const flowerDuration = 5.8 + (heroId % 5) * 0.5;
+    const flowerDuration = 7.2 + (heroId % 5) * 0.65;
     const flowerDelay = -((heroId % 7) * 0.6);
-    const flowerGustDuration = 11.5 + (heroId % 4) * 1.2;
+    const flowerGustDuration = 14.5 + (heroId % 4) * 1.4;
     const flowerGustDelay = -((heroId % 9) * 0.75);
     const flowerAnimationName = ["flowerWindA", "flowerWindB", "flowerWindC"][flowerTrack];
 
@@ -17,12 +17,12 @@ const HeroCardFlower = ({heroId}:Props) => {
             <div
                 className="position-absolute hero-card-flower-wrap"
                 style={{
-                    bottom: -30,
-                    left: 50,
-                    zIndex: 2,
+                    bottom: -5,
+                    left: 0,
+                    zIndex: 4,
                     width: "auto",
                     height: "150px",
-                    animation: `flowerGust ${flowerGustDuration}s cubic-bezier(0.35, 0, 0.2, 1) ${flowerGustDelay}s infinite`
+                    animation: `flowerGust ${flowerGustDuration}s cubic-bezier(0.45, 0.02, 0.2, 1) ${flowerGustDelay}s infinite`
                 }}
             >
                 <div className="hero-card-flower-hover">
@@ -34,7 +34,7 @@ const HeroCardFlower = ({heroId}:Props) => {
                         style={{
                             width: "auto",
                             height: "150px",
-                            animation: `${flowerAnimationName} ${flowerDuration}s cubic-bezier(0.42, 0, 0.2, 1) ${flowerDelay}s infinite, flowerGlow ${flowerDuration * 0.9}s ease-in-out ${flowerDelay}s infinite`
+                            animation: `${flowerAnimationName} ${flowerDuration}s cubic-bezier(0.45, 0.02, 0.2, 1) ${flowerDelay}s infinite, flowerGlow ${flowerDuration * 0.9}s ease-in-out ${flowerDelay}s infinite`
                         }}
                     />
                     <span className="hero-card-petal hero-card-petal-a" />
@@ -45,7 +45,7 @@ const HeroCardFlower = ({heroId}:Props) => {
             <style jsx>{`
                 .hero-card-flower {
                     pointer-events: none;
-                    transform-origin: 45% 95%;
+                    transform-origin: 50% 100%;
                     will-change: transform, filter;
                 }
 
@@ -58,13 +58,12 @@ const HeroCardFlower = ({heroId}:Props) => {
                     position: relative;
                     width: fit-content;
                     height: fit-content;
-                    transform: rotate(25deg);
                     transition: transform 260ms cubic-bezier(0.22, 1, 0.36, 1), filter 260ms ease;
                     will-change: transform, filter;
                 }
 
                 :global(.hero:hover) .hero-card-flower-hover {
-                    transform: rotate(25deg) translate3d(0, -1px, 0) scale(1.014);
+                    transform: scale(1.02);
                     filter: brightness(1.03);
                 }
 
@@ -178,88 +177,88 @@ const HeroCardFlower = ({heroId}:Props) => {
                     0%,
                     52%,
                     100% {
-                        transform: translate3d(0, 0, 0) rotate(0deg);
+                        transform: rotate(0deg);
                     }
                     61% {
-                        transform: translate3d(1px, -1px, 0) rotate(0.5deg);
+                        transform: rotate(0.55deg);
                     }
                     69% {
-                        transform: translate3d(-1.5px, -2px, 0) rotate(-0.8deg);
+                        transform: rotate(-0.8deg);
                     }
                     76% {
-                        transform: translate3d(0.6px, -1px, 0) rotate(0.35deg);
+                        transform: rotate(0.35deg);
                     }
                 }
 
                 @keyframes flowerWindA {
                     0% {
-                        transform: translate3d(0, 0, 0) rotate(-3.4deg) scale(1);
+                        transform: rotate(-1.1deg) scale(1);
                         filter: brightness(1);
                     }
                     20% {
-                        transform: translate3d(1.5px, -4px, 0) rotate(2.2deg) scale(1.024);
-                        filter: brightness(1.05);
-                    }
-                    45% {
-                        transform: translate3d(-1.4px, -3px, 0) rotate(3.5deg) scale(1.04);
-                        filter: brightness(1.08);
-                    }
-                    70% {
-                        transform: translate3d(1.5px, -5px, 0) rotate(-1.3deg) scale(1.03);
+                        transform: rotate(1.3deg) scale(1.038);
                         filter: brightness(1.06);
                     }
+                    45% {
+                        transform: rotate(1.8deg) scale(1.055);
+                        filter: brightness(1.1);
+                    }
+                    70% {
+                        transform: rotate(-0.9deg) scale(1.042);
+                        filter: brightness(1.07);
+                    }
                     100% {
-                        transform: translate3d(0, 0, 0) rotate(-3.4deg) scale(1);
+                        transform: rotate(-1.1deg) scale(1);
                         filter: brightness(1);
                     }
                 }
 
                 @keyframes flowerWindB {
                     0% {
-                        transform: translate3d(0, 0, 0) rotate(2.8deg) scale(1);
+                        transform: rotate(0.9deg) scale(1);
                         filter: brightness(1);
                     }
                     18% {
-                        transform: translate3d(-1.5px, -4px, 0) rotate(-1.9deg) scale(1.024);
-                        filter: brightness(1.05);
+                        transform: rotate(-1.1deg) scale(1.038);
+                        filter: brightness(1.06);
                     }
                     36% {
-                        transform: translate3d(1.4px, -5px, 0) rotate(4.1deg) scale(1.046);
-                        filter: brightness(1.09);
+                        transform: rotate(2deg) scale(1.06);
+                        filter: brightness(1.11);
                     }
                     62% {
-                        transform: translate3d(-1.4px, -3px, 0) rotate(0deg) scale(1.024);
-                        filter: brightness(1.05);
+                        transform: rotate(0deg) scale(1.038);
+                        filter: brightness(1.06);
                     }
                     83% {
-                        transform: translate3d(1.5px, -4px, 0) rotate(-2.4deg) scale(1.035);
-                        filter: brightness(1.07);
+                        transform: rotate(-1.5deg) scale(1.048);
+                        filter: brightness(1.08);
                     }
                     100% {
-                        transform: translate3d(0, 0, 0) rotate(2.8deg) scale(1);
+                        transform: rotate(0.9deg) scale(1);
                         filter: brightness(1);
                     }
                 }
 
                 @keyframes flowerWindC {
                     0% {
-                        transform: translate3d(0, 0, 0) rotate(-2.4deg) scale(1);
+                        transform: rotate(-0.8deg) scale(1);
                         filter: brightness(1);
                     }
                     22% {
-                        transform: translate3d(1.4px, -3px, 0) rotate(1.1deg) scale(1.022);
-                        filter: brightness(1.04);
+                        transform: rotate(0.8deg) scale(1.034);
+                        filter: brightness(1.05);
                     }
                     47% {
-                        transform: translate3d(-1.6px, -6px, 0) rotate(3.8deg) scale(1.048);
-                        filter: brightness(1.09);
+                        transform: rotate(1.7deg) scale(1.058);
+                        filter: brightness(1.1);
                     }
                     68% {
-                        transform: translate3d(1.4px, -4px, 0) rotate(-1.1deg) scale(1.03);
-                        filter: brightness(1.06);
+                        transform: rotate(-0.8deg) scale(1.042);
+                        filter: brightness(1.07);
                     }
                     100% {
-                        transform: translate3d(0, 0, 0) rotate(-2.4deg) scale(1);
+                        transform: rotate(-0.8deg) scale(1);
                         filter: brightness(1);
                     }
                 }

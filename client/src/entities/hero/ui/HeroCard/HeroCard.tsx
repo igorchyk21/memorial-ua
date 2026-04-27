@@ -26,6 +26,8 @@ const HeroCard = ({hero, showName=true, onClickSubscription}:Props) => {
     const [ isSubscribed, setIsSubscribed ] = useState(false);
     const t = useTranslations();
     const dt = Date.now();
+    const hasActiveCandle = (hero.candleExpiries || 0) >= dt;
+    const hasActiveFlower = (hero.flowerExpiries || 0) >= dt;
     return (   
         <article className="hero bg-body-tertiary rounded-4 overflow-hidden" style={{maxWidth:300, marginInline:'auto'}}>
             <div className="animate-underline hover-effect-opacity position-relative">
@@ -66,7 +68,7 @@ const HeroCard = ({hero, showName=true, onClickSubscription}:Props) => {
                     <div className="cr cr-bottom cr-left cr-sticky cr-black fs-12" style={{zIndex: 3}}>
                         {DT.fromMillis(hero.death||0).setLocale("uk").toLocaleString(DT.DATE_MED)}
                     </div> 
-                    <HeroCardFlower heroId={hero.ID} />
+                    {hasActiveFlower && <HeroCardFlower heroId={hero.ID} />}
                     <Link
                         href={`/hero/${hero.url ? `${hero.url}-` : ''}${hero.ID}`}
                         className={`d-flex rounded p-0 underline-none`}>
@@ -79,9 +81,13 @@ const HeroCard = ({hero, showName=true, onClickSubscription}:Props) => {
                             height={0}/> 
                     </Link>
 
-                    {(hero.candleExpiries||0) >= dt &&
+                    {hasActiveCandle &&
                     (<div className="position-absolute" style={{bottom:-15, right:20, zIndex:999}}>
-                        <CandleShow maxWidth={70} onClick={()=>setHeroCandlesListShow({id:hero.ID, name:hero.lName+' '+hero.fName})}/>
+                        <CandleShow
+                            offeringType="candle"
+                            maxWidth={52}
+                            onClick={()=>setHeroCandlesListShow({id:hero.ID, name:hero.lName+' '+hero.fName})}
+                        />
                     </div>)}
 
                     
