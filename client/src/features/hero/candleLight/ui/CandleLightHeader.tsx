@@ -132,15 +132,15 @@ const CandleLightHeader = ({
                         ) : (
                             <Image
                                 className="flex-shrink-0"
-                                width={1005}
-                                height={1104}
-                                src="/memorial/flower.webp"
+                                width={474}
+                                height={526}
+                                src="/memorial/flower-2.webp"
                                 style={{
                                     height: HEADER_OFFERING_IMG_PX,
                                     width: "auto"
                                 }}
                                 alt=""
-                                sizes={`${Math.round(HEADER_OFFERING_IMG_PX * (1005 / 1104))}px`}
+                                sizes={`${Math.round(HEADER_OFFERING_IMG_PX * (474 / 526))}px`}
                             />
                         )}
                     </div>

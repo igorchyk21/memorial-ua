@@ -13,6 +13,7 @@ import CandleShow from "../CandleShow/CandleShow"
 import { useState } from "react";
 import SpinnerTitle from "@/shared/ui/spinners/SpinnerTitle"
 import { useGlobal } from "@/shared/context/Global/model/useGlobal";
+import HeroCardFlower2 from "./HeroCardFlower2"
  
 interface Props {
     hero:HeroShortType;
@@ -68,7 +69,7 @@ const HeroCard = ({hero, showName=true, onClickSubscription}:Props) => {
                     <div className="cr cr-bottom cr-left cr-sticky cr-black fs-12" style={{zIndex: 3}}>
                         {DT.fromMillis(hero.death||0).setLocale("uk").toLocaleString(DT.DATE_MED)}
                     </div> 
-                    {hasActiveFlower && <HeroCardFlower heroId={hero.ID} />}
+                    {hasActiveFlower && <HeroCardFlower2 />}
                     <Link
                         href={`/hero/${hero.url ? `${hero.url}-` : ''}${hero.ID}`}
                         className={`d-flex rounded p-0 underline-none`}>

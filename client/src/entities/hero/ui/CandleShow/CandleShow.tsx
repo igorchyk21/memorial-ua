@@ -20,7 +20,7 @@ const CandleShow = memo(({ maxWidth = 999, onClick, expiries = false, offeringTy
     return (
         <div className="d-flex justify-content-center" style={style} onClick={onClick}>
         <Image
-            src={offeringType === "flower" ? "/memorial/flower.webp" : `/memorial/candle-${isSmall ? "small" : "trans"}.gif`}
+            src={offeringType === "flower" ? "/memorial/flower-2.webp" : `/memorial/candle-${isSmall ? "small" : "trans"}.gif`}
             alt={offeringType}
             width={maxWidth > 0 ? maxWidth : undefined}
             height={maxWidth > 0 ? maxWidth : undefined}
