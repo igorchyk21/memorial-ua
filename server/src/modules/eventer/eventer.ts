@@ -73,7 +73,7 @@ const execute  = async () => {
         if (!hero) continue;
         heroes.push(hero);
         // отримуємо біографію та додаємо базові події
-        const biography = await _heroBiography.get(heroId) || []; 
+        const biography = await _heroBiography.get(heroId) || [];  
         addBaseDt(hero, biography);
 
         // крутимось по всіх подіях і збираємо всі сьогднішній події
@@ -85,7 +85,7 @@ const execute  = async () => {
         }
             
     } 
-    
+ 
     // Крутимось по всіх підписках і надсилаємо події підписниами користувачам з попередньою перевіркою на дублікат
     for (const subscribe  of subscriptions){
 
@@ -98,7 +98,7 @@ const execute  = async () => {
         const hero = heroes.find(hero=>hero.ID === subscribe.heroId);
         
         if (!hero) continue;  
-
+ 
         // стурюємо подію
         const event:HeroBiographyItem = {
             ..._event,
@@ -113,8 +113,8 @@ const execute  = async () => {
    
         
         // перевіряє чи можна надсилати подію (чи вже надіслали в цьому році)
-        const allow = await allowSendEvent(subscribe.userId, event.heroId, event.dt); 
-
+        const allow = await allowSendEvent(subscribe.userId, event.heroId, event.dt);  
+ 
         if (allow) {  
 
             /** 
@@ -158,11 +158,12 @@ const allowSendEvent = async (userId:number, heroId:number, heroDt:number)
         SELECT  COUNT(*) as CNT
         FROM    event_history
         WHERE   user_id = ? 
+        AND     hero_dt = ?
         AND     hero_id = ? 
         AND     year = ?`;
 
     try {
-        const [r] = await conn.execute<RowDataPacket[]>(sql, [userId, heroId, year]);
+        const [r] = await conn.execute<RowDataPacket[]>(sql, [userId, heroDt, heroId, year]);
         return r[0]?.CNT === 0;
     } catch (e) {
         console.error(e);

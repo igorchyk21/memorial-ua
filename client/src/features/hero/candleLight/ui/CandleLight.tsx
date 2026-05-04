@@ -10,6 +10,7 @@ import BaseSpinner from "@/shared/ui/spinners/BaseSpinner";
 import { CandleShow } from "@/entities/hero";
 import { useGlobal } from "@/shared/context/Global/model/useGlobal";
 import CandleLightHeader, { type OfferingKind } from "./CandleLightHeader";
+import conf from "@/shared/config/conf";
 
 interface Props {
     heroId: number;
@@ -40,7 +41,7 @@ const CandleLight = ({ heroId, heroName }: Props) => {
 
             {activeTab !== null ? (
                 <Tabs
-                    activeKey={activeTab}
+                    activeKey={activeTab} 
                     className="d-none"
                     onSelect={(key) => setActiveTab(key as "form" | "candle")}
                 >
@@ -51,8 +52,8 @@ const CandleLight = ({ heroId, heroName }: Props) => {
                                 userId: auth?.user.ID || 0,
                                 userName: auth?.user.userName || "",
                                 flower: offeringType === "flower",
-                                days: 1,
-                                price: 0,
+                                days: conf.candleDays[0],
+                                price: conf.candlePrice[0],
                                 comment: ""
                             }}
                             onSubmit={handleSubmit}

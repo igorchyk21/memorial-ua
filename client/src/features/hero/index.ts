@@ -16,6 +16,7 @@ export { default as HeroAudiosHeader } from "./audio/list/ui/HeroAudiosHeader";
 export { default as HeroAudios } from "./audio/list/ui/HeroAudios";
 export { default as HeroCandleList } from "./candleList/ui/HeroCandleList";
 export { default as HeroSubsription } from "./subscription/ui/HeroSubsription";
+export { default as HeroComment } from "./comment/ui/HeroComment";
 export * from "./posts/edit/model/useHeroPostEdit";
 export * from "./posts/delete/model/useHeroPostDelete";
 export * from "./about/edit/model/useHeroEdit";

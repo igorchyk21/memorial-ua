@@ -52,7 +52,8 @@ export const _getList = async ({
 
     const heroAddFields = heroId 
         ? ` hero_slides,
-            hero_about as about,`
+            hero_about as about,
+            hero_comment as comment,`
         : '';
 
     const sql = `

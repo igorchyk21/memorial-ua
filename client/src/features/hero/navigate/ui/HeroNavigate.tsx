@@ -37,7 +37,7 @@ const HeroNavigate = () => {
                             </NavLink>
                     </NavItem>
                     
-                    <NavItem className="d-none d-md-block" style={{maxWidth:150}}>
+                    <NavItem className="d-none d-lg-block" style={{maxWidth:150}}>
                         <NavLink as={Link}
                             className={`px-1 ${aPathName?.[3] === 'photo' && 'active'}`}
                             href={`/hero/${heroUrl}/photo`}>
@@ -46,7 +46,7 @@ const HeroNavigate = () => {
                             </NavLink>
                     </NavItem>
 
-                    <NavItem className="d-none d-md-block" style={{maxWidth:100}}>
+                    <NavItem className="d-none d-lg-block" style={{maxWidth:100}}>
                         <NavLink as={Link}
                             className={`px-1 ${aPathName?.[3] === 'video' && 'active'}`}
                             href={`/hero/${heroUrl}/video`}>
@@ -55,7 +55,7 @@ const HeroNavigate = () => {
                             </NavLink>
                     </NavItem>
 
-                    <NavItem className="d-none d-md-block" style={{maxWidth:100}}>
+                    <NavItem className="d-none d-lg-block" style={{maxWidth:100}}>
                         <NavLink as={Link}
                             className={`px-1 ${aPathName?.[3] === 'audio' && 'active'}`}
                             href={`/hero/${heroUrl}/audio`}>
@@ -64,7 +64,7 @@ const HeroNavigate = () => {
                             </NavLink>
                     </NavItem>
 
-                    <NavItem className="d-none d-md-block" style={{maxWidth:100}}>
+                    <NavItem className="d-none d-lg-block" style={{maxWidth:200}}>
                         <NavLink as={Link}
                             className={`px-1 ${aPathName?.[3] === 'candles' && 'active'}`}
                             href={`/hero/${heroUrl}/candles`}>
@@ -74,7 +74,7 @@ const HeroNavigate = () => {
                     </NavItem>
                     
  
-                    <DropdownMore aPathName={aPathName}/> 
+                    <DropdownMore aPathName={aPathName}/>  
 
                 </Container>
                 </Nav>

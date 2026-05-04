@@ -78,7 +78,13 @@ router.get('/:heroId', async (req:Request, res:Response) => {
     if (!heroId) return res.status(400).send('Incorrect parameter "heroId"');
     const resHero = await _hero.getList({status}, heroId, req?.user?.admin || false); 
     if (!resHero?.heroes?.[0]) return res.status(404).send('Hero Not Found');
-    res.json(resHero?.heroes?.[0])
+    const hero = resHero.heroes[0];
+    if (!req.user?.admin) {
+        const { comment: _c, ...heroPublic } = hero;
+        res.json(heroPublic);
+    } else {
+        res.json(hero);
+    }
 })  
 
 // Повертає свічки Героя

@@ -22,3 +22,7 @@ export const zHeroShortSchema = z.object({
   about: z.string().nullable().optional(),
   publicPhone: z.string().nullable().optional(),
 });
+
+export const zHeroAdminCommentSchema = z.object({
+  comment: z.string().max(2500),
+});

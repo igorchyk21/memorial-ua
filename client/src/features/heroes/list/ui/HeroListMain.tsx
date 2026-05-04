@@ -27,7 +27,7 @@ const HeroListMain = ({heroes, title, linkTitle, linkHref, onClickSubscription}:
 
             <Herolist 
                 heroes={heroes}
-                showMax={8}
+                //showMax={8}
                 onClickSubscription={onClickSubscription}/>
 
             {heroes.length > 8 && 

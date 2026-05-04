@@ -226,6 +226,24 @@ const deletePost = async (postId:number, userId?:number)
     }
 }
 
+const saveComment = async (heroId:number, comment:string)
+    : Promise<boolean> => {
+
+    const sql = `
+        UPDATE  heroes
+        SET     hero_comment = ?
+        WHERE   ID = ?
+        AND     deleted = 0`;
+
+    try {
+        const [r] = await conn.execute<ResultSetHeader>(sql, [cleanHTML(comment), heroId]);
+        return r.affectedRows === 1;
+    } catch(e){
+        console.error(e);
+        return false;
+    }
+}
+
 export default {
     setConn,
     getList,
@@ -238,6 +256,7 @@ export default {
     savePost,
     createPost,
     setStatusPost,
-    deletePost
+    deletePost,
+    saveComment
 
 }

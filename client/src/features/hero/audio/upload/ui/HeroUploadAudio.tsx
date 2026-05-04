@@ -10,28 +10,26 @@ interface Props {
 
 const HeroUploadAudio = ({heroId}:Props) => {
     const t = useTranslations();
-    const { auth } = useAuth();
+    const { auth, setShowOffAuth } = useAuth();
     const { refInputFile, handleChange, handleAddAudio, isUploading } = useUploadAudio(heroId);
 
     return (
         <div className="d-flex justify-content-end flex-wrap gap-1">
-            <Button 
-                className="rounded-pill"
-                style={{height:40}}
-                disabled={isUploading}
-                onClick={()=>handleAddAudio()}>
-                <i className="ci-volume-2 me-2"/>{t('hero.audio.addAudio')}                
-            </Button>
-
-            {Boolean(auth?.user.admin) &&
-            (<Button
+             
+            <Button
                 style={{height:40}}
                 title={t('hero.audio.uploadAudio')}
                     className="rounded-pill px-3 text-center ms-2"
                     disabled={isUploading}
-                    onClick={() => refInputFile.current?.click()}>
-                        <i className="ci-upload"/>
-                </Button>)}
+                    onClick={() => {
+                        if (Boolean(auth?.user.admin))
+                            refInputFile.current?.click();
+                        else
+                            setShowOffAuth('login');
+                        
+                    }}>
+                        <i className="ci-volume-2 me-2"/>{t('hero.audio.addAudio')}        
+                </Button> 
             <input
                 className="d-none"
                 type="file"

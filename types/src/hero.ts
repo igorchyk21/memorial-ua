@@ -84,7 +84,8 @@ export interface HeroShortType {
     about?:string|null;
 
     publicPhone?:string|null;
-    publicPhotos?:File[]
+    publicPhotos?:File[];
+    comment?:string|null;
 }
 
 export interface HeroType extends HeroShortType { 

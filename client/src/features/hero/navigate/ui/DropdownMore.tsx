@@ -10,7 +10,7 @@ const DropdownMore = ({aPathName}:Props) => {
     const heroUrl = aPathName?.[2]||'';
     const t = useTranslations();
     return ( 
-        <Dropdown className="d-block d-md-none" placement="bottom-end">
+        <Dropdown className="d-block d-lg-none" placement="bottom-end">
             <Dropdown.Toggle 
                 className={`nav-link px-2 ${['photo','video','audio'].includes(aPathName?.[3]||'-') && 'active'}`}>{t('hero.navigate.more')}</Dropdown.Toggle>
             <Dropdown.Menu style={{zIndex:9999}}>

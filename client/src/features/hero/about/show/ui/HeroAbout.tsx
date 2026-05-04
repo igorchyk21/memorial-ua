@@ -11,13 +11,14 @@ interface Props {
     onClickDelete:()=>void;
     onClickStatus:(newStatus:HERO_STAT)=>void;
     HeroSubsription:React.ComponentType<{heroId:number}>;
+    HeroComment:React.ComponentType<{heroId:number; comment?:string|null}>;
 } 
 
-const HeroAbout = ({hero, onClickEdit, onClickDelete, onClickStatus, HeroSubsription}:Props) => { 
+const HeroAbout = ({hero, onClickEdit, onClickDelete, onClickStatus, HeroSubsription, HeroComment}:Props) => { 
 
     const t = useTranslations();
     const { auth } = useAuth();
-
+ 
     return (<> 
         <div className="d-flex justify-content-between">
             <h2>{t('hero.about.title')}</h2>             
@@ -97,7 +98,11 @@ const HeroAbout = ({hero, onClickEdit, onClickDelete, onClickStatus, HeroSubsrip
 
         </ul> 
 
+        <HeroComment heroId={hero.ID} comment={hero.comment} />
+
         <HeroSubsription heroId={hero.ID} />
+
+        
         
         {hero.about &&
         (<div dangerouslySetInnerHTML={{__html:hero.about}}></div>)}

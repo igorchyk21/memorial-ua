@@ -4,7 +4,7 @@ import _heroBio from "../../modules/hero/biography.js";
 import _heroPhoto from "../../modules/hero/photo.js";
 import { middleIsAdmin } from "../../middleware/middleIdAdmin.js";
 import { safeIntParse, safeJSONParse } from "../../modules/helpers/gim-beckend-helpers.js";
-import { zHeroShortSchema } from "../../modules/hero/schema/hero.js";
+import { zHeroAdminCommentSchema, zHeroShortSchema } from "../../modules/hero/schema/hero.js";
 import { zHeroCandleSchema, zHeroPostSchema } from "../../modules/hero/schema/post.js";
 import { lengthWords } from "../../modules/helpers/stringHelper.js";
 import { zHeroBiographyItemSchema } from "../../modules/hero/schema/biography.js";
@@ -295,6 +295,19 @@ router.post('/subscription/:heroId', async (req:Request, res:Response)=>{
     const resSubscription = await _heroSubscription.addSubscription(heroId, req.user?.ID || 0);
     res.json({stat:Boolean(resSubscription), id:resSubscription});
 })
+
+// Внутрішній коментар модератора (лише для адміністраторів)
+router.post('/comment/:heroId', middleIsAdmin, async (req:Request, res:Response) => {
+    const heroId = safeIntParse(req.params.heroId, null);
+    if (!heroId) return res.status(400).send('Incorrect parameter "heroId"');
+    const body = zHeroAdminCommentSchema.safeParse(req.body);
+    if (!body.success) {
+        console.log(body);
+        return res.status(400).send(safeJSONParse(body.error.message));
+    }
+    const resSave = await _hero.saveComment(heroId, body.data.comment);
+    res.json({ stat: resSave });
+});
 
 // Збереження Героя 
 router.post('/:heroId', middleIsAdmin, async (req:Request, res:Response)=>{

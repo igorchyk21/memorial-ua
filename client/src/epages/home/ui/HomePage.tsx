@@ -22,7 +22,7 @@ const HomePage = async ({pageContent, heroes}:Props) => {
         
        
         <Container> 
-            <HeroesMainWidget heroes={heroes}/>
+            <HeroesMainWidget heroes={heroes}/> 
         </Container>
 
         

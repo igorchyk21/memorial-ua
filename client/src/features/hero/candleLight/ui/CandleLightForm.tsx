@@ -73,7 +73,8 @@ const CandleLightForm = ({formik, offeringType, disabled}:Props) => {
                     formik.setFieldValue('price', safeIntParse(e.currentTarget.value))
                     formik.setFieldValue('days', days)
                 }}>
-                {`${value ? `${value} ${t('uah')} - ${conf.candleDays[index]} ${t('hero.candle.days')}` : t('hero.candle.noPay')}`}
+                {`${value ? `${value} ${t('uah')} - ${conf.candleDays[index]} ${t('hero.candle.days')}` : t('hero.candle.noPay')}`} 
+              
             </ToggleButton>
             ))}
         </Stack>

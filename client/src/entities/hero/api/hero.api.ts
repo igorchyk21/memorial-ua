@@ -384,7 +384,18 @@ export const apiHeroAddCandle = async (heroId:number, candle:HeroCandleDataType,
     }
 }
 
-// Додаємо підпискуу на Героя
+// Внутрішній коментар адміністратора до Героя
+export const apiHeroSaveAdminComment = async (heroId: number, comment: string): Promise<boolean> => {
+    try {
+        const r = await iAxios.post(`/hero/comment/${heroId}`, { comment });
+        return r.data.stat || false;
+    } catch (e) {
+        console.error(e);
+        return false;
+    }
+}
+
+// Додаємо підпискuu на Героя
 export const apiHeroAddSubscription = async (heroId:number): Promise<boolean> => {
     try {
         const r = await iAxios.post(`/hero/subscription/${heroId}`);
